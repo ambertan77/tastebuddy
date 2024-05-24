@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <SafeAreaView style={styles.container}> 
       <Text style={tw `text-white text-3xl font-bold`}>
-        home page HEHE :D
+        Home Page 
       </Text>  
     </SafeAreaView>
   );
