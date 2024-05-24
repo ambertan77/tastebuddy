@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <SafeAreaView style={styles.container}> 
-      <Text style={tw `text-white text-3xl font-bold`}>
+      <Text style={tw `text-black text-3xl font-bold`}>
         Build home page here.
       </Text>  
     </SafeAreaView>
@@ -23,7 +23,7 @@ const Spacer = ({ size }) => <View style={{ height: size, width: size }} />;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e4a781',
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
