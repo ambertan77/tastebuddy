@@ -15,37 +15,38 @@ export default function Signup() {
 
   return (
     <SafeAreaView style={styles.container}> 
-      <Text style={tw `text-white text-3xl font-bold`}>
+      <Text style={tw `text-black text-xl font-bold`}>
         Create a new account!
       </Text>
       <Spacer size={20} />
       <Image
         source={require('../assets/images/logo.png')}
-        style={{width: 400, height: 300}}
+        style={{width: 250, height: 250}}
       />  
-      <Spacer size={40} />
+      <Spacer size={10} />
       <TextInput
-        style={tw`w-4/5 p-4 bg-white rounded-lg mb-3`}
+        style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
         placeholder="Enter your email address"
         onChangeText={setEmail}
         value={email}
       />
       <TextInput
-        style={tw`w-4/5 p-4 bg-white rounded-lg mb-3`}
+        style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
         placeholder="Enter your username"
         onChangeText={setUsername}
         value={username}
       />
       <TextInput
-        style={tw`w-4/5 p-4 bg-white rounded-lg mb-3`}
+        style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
         placeholder="Enter your password"
         secureTextEntry
         onChangeText={setPassword}
         value={password}
       />
+      <Spacer size={10} />
       <TouchableOpacity onPress={() => navigation.navigate('home')} 
         style={tw`w-4/5 bg-green-700 p-3 rounded-lg`}>
-          <Text style={tw`text-white text-2xl text-center font-bold`}>
+          <Text style={tw`text-white text-xl text-center font-bold`}>
             Sign Up!
           </Text>
       </TouchableOpacity>
@@ -72,7 +73,7 @@ const Spacer = ({ size }) => <View style={{ height: size, width: size }} />;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e4a781',
+    backgroundColor: '#f4f2d8',
     alignItems: 'center',
     justifyContent: 'center',
   },
