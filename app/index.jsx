@@ -16,7 +16,7 @@ export default function Index() {
     <SafeAreaView style={styles.container}> 
       <Image
         source={require('../assets/images/logo.png')}
-        style={{width: 400, height: 300}}
+        style={{width: 250, height: 250}}
       />  
       <Spacer size={10} />
       <TouchableOpacity onPress={() => navigation.navigate('login')} 
@@ -43,7 +43,7 @@ const Spacer = ({ size }) => <View style={{ height: size, width: size }} />;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e4a781',
+    backgroundColor: '#f4f2d8',
     alignItems: 'center',
     justifyContent: 'center',
   },
