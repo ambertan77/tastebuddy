@@ -8,6 +8,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
 
 import tw, { create } from 'twrnc';
+import { KeyboardAvoidingView } from 'react-native-web';
 export default function Signup() {
 
   const [email, setEmail] = useState('')  
