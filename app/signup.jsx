@@ -4,14 +4,26 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Image, View, TextInput } from 'react-native';
 import { useNavigation } from 'expo-router';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../firebase';
 
-import tw from 'twrnc';
+import tw, { create } from 'twrnc';
 export default function Signup() {
 
   const [email, setEmail] = useState('')  
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const navigation = useNavigation()
+
+  const handleSignUp = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+    .then(userCredentials => {
+      const user = userCredentials.user;
+      console.log('Registered with: ', user.email);
+      navigation.navigate('home');
+    })
+    .catch(error => alert(error.message))
+  }
 
   return (
     <SafeAreaView style={styles.container}> 
@@ -27,13 +39,13 @@ export default function Signup() {
       <TextInput
         style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
         placeholder="Enter your email address"
-        onChangeText={setEmail}
+        onChangeText={text => setEmail(text)}
         value={email}
       />
       <TextInput
         style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
         placeholder="Enter your username"
-        onChangeText={setUsername}
+        onChangeText={text => setUsername(text)}
         value={username}
       />
       <TextInput
@@ -44,7 +56,7 @@ export default function Signup() {
         value={password}
       />
       <Spacer size={10} />
-      <TouchableOpacity onPress={() => navigation.navigate('home')} 
+      <TouchableOpacity onPress={handleSignUp} 
         style={tw`w-4/5 bg-green-700 p-3 rounded-lg`}>
           <Text style={tw`text-white text-xl text-center font-bold`}>
             Sign Up!
