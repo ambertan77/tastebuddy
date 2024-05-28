@@ -21,7 +21,7 @@ export default function Login() {
       console.log('Logged in with: ', user.email);
       navigation.navigate('home');
     })
-    .catch(error => alert(error.message))
+    .catch(error => alert('Login failed. ' + error.message))
   }
 
   return (
@@ -38,12 +38,14 @@ export default function Login() {
       <TextInput
         style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
         placeholder="Enter your email"
+        autoCapitalize="none"
         onChangeText={text => setEmail(text)}
         value={email}
       />
       <TextInput
         style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
         placeholder="Enter your password"
+        autoCapitalize="none"
         secureTextEntry
         onChangeText={text => setPassword(text)}
         value={password}

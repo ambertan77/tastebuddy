@@ -22,7 +22,7 @@ export default function Signup() {
       console.log('Registered with: ', user.email);
       navigation.navigate('home');
     })
-    .catch(error => alert(error.message))
+    .catch(error => alert('Failed to create new account. ' + error.message))
   }
 
   return (
@@ -39,18 +39,21 @@ export default function Signup() {
       <TextInput
         style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
         placeholder="Enter your email address"
+        autoCapitalize="none"
         onChangeText={text => setEmail(text)}
         value={email}
       />
       <TextInput
         style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
         placeholder="Enter your username"
+        autoCapitalize="none"
         onChangeText={text => setUsername(text)}
         value={username}
       />
       <TextInput
         style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
         placeholder="Enter your password"
+        autoCapitalize="none"
         secureTextEntry
         onChangeText={setPassword}
         value={password}
