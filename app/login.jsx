@@ -4,13 +4,25 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Image, View, TextInput } from 'react-native';
 import { useNavigation } from 'expo-router';
-
+import { auth } from '../firebase';
 import tw from 'twrnc';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
 export default function Login() {
 
   const [password, setPassword] = useState('')
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const navigation = useNavigation()
+
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+    .then(userCredentials => {
+      const user = userCredentials.user;
+      console.log('Logged in with: ', user.email);
+      navigation.navigate('home');
+    })
+    .catch(error => alert(error.message))
+  }
 
   return (
     <SafeAreaView style={styles.container}> 
@@ -25,19 +37,19 @@ export default function Login() {
       <Spacer size={10} />
       <TextInput
         style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
-        placeholder="Enter your username"
-        onChangeText={setUsername}
-        value={username}
+        placeholder="Enter your email"
+        onChangeText={text => setEmail(text)}
+        value={email}
       />
       <TextInput
         style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
         placeholder="Enter your password"
         secureTextEntry
-        onChangeText={setPassword}
+        onChangeText={text => setPassword(text)}
         value={password}
       />
       <Spacer size={10} />
-      <TouchableOpacity onPress={() => navigation.navigate('home')} 
+      <TouchableOpacity onPress={handleLogin} 
         style={tw`w-4/5 bg-green-700 p-3 rounded-lg`}>
           <Text style={tw`text-white text-2xl text-center font-bold`}>
             Log In
