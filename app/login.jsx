@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { Image, View, TextInput } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { auth } from '../firebase';
@@ -25,7 +25,16 @@ export default function Login() {
   }
 
   return (
-    <SafeAreaView style={styles.container}> 
+
+    <KeyboardAvoidingView
+      style={tw`flex-1`}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      contentContainerStyle={tw`flex-1 flex-grow`}
+    >
+    
+    <ScrollView contentContainerStyle={tw`flex-1 flex-grow`}>
+    
+    <SafeAreaView style={styles.container}>
       <Text style={tw `text-black text-xl font-bold`}>
         Welcome back!
       </Text>
@@ -71,6 +80,8 @@ export default function Login() {
       </View>
       <StatusBar style="dark" />
     </SafeAreaView>
+    </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
