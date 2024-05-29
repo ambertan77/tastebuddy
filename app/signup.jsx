@@ -1,14 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { Image, View, TextInput } from 'react-native';
 import { useNavigation } from 'expo-router';
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
-
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import tw, { create } from 'twrnc';
-import { KeyboardAvoidingView } from 'react-native-web';
+
 export default function Signup() {
 
   const [email, setEmail] = useState('')  
@@ -27,6 +26,13 @@ export default function Signup() {
   }
 
   return (
+    <KeyboardAvoidingView
+      style={tw`flex-1`}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      contentContainerStyle={tw`flex-1 flex-grow`}
+    >
+    
+    <ScrollView contentContainerStyle={tw`flex-1 flex-grow`}>
     <SafeAreaView style={styles.container}> 
       <Text style={tw `text-black text-xl font-bold`}>
         Create a new account!
@@ -80,6 +86,8 @@ export default function Signup() {
       </View>
       <StatusBar style="dark" />
     </SafeAreaView>
+    </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
