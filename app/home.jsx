@@ -11,9 +11,18 @@ export default function Home() {
 
   return (
     <SafeAreaView style={styles.container}> 
-      <Text style={tw `text-white text-3xl font-bold`}>
-        Build home page here.
-      </Text>  
+      <View style={tw`justify-start items-end pr-4`}>
+        <TouchableOpacity onPress={() => navigation.navigate('index')}>
+          <Text style={tw`text-green-900 text-center font-bold text-lg`}>
+            Log out
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <View style={tw `flex-1 justify-center items-center`}>
+        <Text style={tw `text-black text-3xl font-bold`}>
+          Build home page here.
+        </Text>  
+      </View>
     </SafeAreaView>
   );
 };
@@ -23,8 +32,6 @@ const Spacer = ({ size }) => <View style={{ height: size, width: size }} />;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e4a781',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
 });

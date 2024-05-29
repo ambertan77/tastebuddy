@@ -5,7 +5,7 @@ import { StyleSheet, Text, TouchableOpacity, ScrollView, SafeAreaView, KeyboardA
 import { Image, View, TextInput } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { auth } from '../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import tw, { create } from 'twrnc';
 
 export default function Signup() {
