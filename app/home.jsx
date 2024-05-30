@@ -6,6 +6,7 @@ import { Image, View, TextInput } from 'react-native';
 import { useNavigation } from 'expo-router';
 import NavigationTab from "@/components/navigation/navigationBar";
 
+
 import tw from 'twrnc';
 export default function Home() {
   const navigation = useNavigation()
@@ -21,7 +22,7 @@ export default function Home() {
       </View>
       <View style={tw `flex-1 justify-center items-center`}>
         <Text style={tw `text-black text-3xl font-bold`}>
-          Build home page here.
+          home page.
         </Text>  
       </View>
       <NavigationTab/>

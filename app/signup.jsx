@@ -4,9 +4,11 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TouchableOpacity, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { Image, View, TextInput } from 'react-native';
 import { useNavigation } from 'expo-router';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import tw, { create } from 'twrnc';
+import { collection, doc, setDoc, addDoc } from "firebase/firestore"; 
+
 
 export default function Signup() {
 
@@ -21,6 +23,16 @@ export default function Signup() {
       const user = userCredentials.user;
       console.log('Registered with: ', user.email);
       navigation.navigate('home');
+      
+      addDoc(collection(db, "Users"), {
+        username: username,
+        email: email,
+        password: password
+      }).then(() => {
+        console.log('data saved');
+      }).catch((error) => {
+        console.log(error);
+      });;
     })
     .catch(error => alert('Failed to create new account. ' + error.message))
   }
