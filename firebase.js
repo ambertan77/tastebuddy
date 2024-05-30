@@ -27,4 +27,8 @@ const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage)
 });
 
-export { auth, getAuth, getFirestore, getStorage };
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
+
+export { auth, getAuth, db, getStorage };
+
