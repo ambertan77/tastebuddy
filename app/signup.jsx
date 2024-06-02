@@ -18,13 +18,21 @@ export default function Signup() {
   const navigation = useNavigation()
 
   const handleSignUp = () => {
+    const usernameExists = checkUsernameAvailability(username);
+  
+    if (usernameExists) {
+      alert('Username has already been taken. Please use a different username.');
+      return;
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
     .then(userCredentials => {
       const user = userCredentials.user;
+      const uid = user.uid;
       console.log('Registered with: ', user.email);
       navigation.navigate('home');
       
-      addDoc(collection(db, "Users"), {
+      setDoc(doc(db, "Users", uid), {
         username: username,
         email: email,
         password: password
@@ -105,6 +113,11 @@ export default function Signup() {
 
 const WordSpace = ({ size }) => <View style={{ height: 0, width: size }} />;
 const Spacer = ({ size }) => <View style={{ height: size, width: size }} />;
+
+const checkUsernameAvailability = async (username) => {
+  const q = getDocs(collection(db, "Users"), where("username", "==", username));
+  return !q.empty;
+};
 
 const styles = StyleSheet.create({
   container: {
