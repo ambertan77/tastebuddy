@@ -7,7 +7,7 @@ import { useNavigation } from 'expo-router';
 import { auth, db } from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import tw, { create } from 'twrnc';
-import { collection, doc, setDoc, addDoc } from "firebase/firestore"; 
+import { collection, doc, setDoc, addDoc, getDocs, where, query } from "firebase/firestore"; 
 
 
 export default function Signup() {
@@ -17,8 +17,8 @@ export default function Signup() {
   const [username, setUsername] = useState('')
   const navigation = useNavigation()
 
-  const handleSignUp = () => {
-    const usernameExists = checkUsernameAvailability(username);
+  const handleSignUp = async () => {
+    const usernameExists = await checkUsernameAvailability(username);
   
     if (usernameExists) {
       alert('Username has already been taken. Please use a different username.');
@@ -115,8 +115,9 @@ const WordSpace = ({ size }) => <View style={{ height: 0, width: size }} />;
 const Spacer = ({ size }) => <View style={{ height: size, width: size }} />;
 
 const checkUsernameAvailability = async (username) => {
-  const q = getDocs(collection(db, "Users"), where("username", "==", username));
-  return !q.empty;
+  const q = query(collection(db, "Users"), where("username", "==", username));
+  const querySnapshot = await getDocs(q);
+  return !querySnapshot.empty;
 };
 
 const styles = StyleSheet.create({
