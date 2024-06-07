@@ -33,14 +33,14 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack initialRouteName="Index">
         <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="login" options={{ headerShown: false}} />
-        <Stack.Screen name="signup" options={{ headerShown: false}} />
-        <Stack.Screen name="home" options={{ headerShown: false }} />
-        <Stack.Screen name="map" options={{ headerShown: false }} />
-        <Stack.Screen name="calendar" options={{ headerShown: false }} />
-        <Stack.Screen name="search" options={{ headerShown: false }} />
-        <Stack.Screen name="feed" options={{ headerShown: false }} />
-        <Stack.Screen name="profile" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/login/index" options={{ headerShown: false}} />
+        <Stack.Screen name="screens/signup/index" options={{ headerShown: false}} />
+        <Stack.Screen name="screens/home/index" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/map/index" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/calendar/index" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/search/index" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/feed/index" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/profile/index" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>

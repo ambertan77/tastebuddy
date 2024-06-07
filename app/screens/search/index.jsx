@@ -7,7 +7,7 @@ import { useNavigation } from 'expo-router';
 import NavigationTab from "@/components/navigation/navigationBar";
 
 import tw from 'twrnc';
-export default function Search() {
+export default function Index() {
   const navigation = useNavigation()
 
   return (
