@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Image, View, TextInput } from 'react-native';
 import { useNavigation } from 'expo-router';
+import {} from '../app'
 
 import tw from 'twrnc';
 export default function Index() {
@@ -15,7 +16,7 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.container}> 
       <Image
-        source={require('../assets/images/logo.png')}
+        source={require('../app/assets/images/logo.png')} 
         style={{width: 250, height: 250}}
       />  
       <Spacer size={10} />

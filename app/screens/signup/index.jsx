@@ -4,13 +4,13 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TouchableOpacity, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { Image, View, TextInput } from 'react-native';
 import { useNavigation } from 'expo-router';
-import { auth, db } from '../firebase';
+import { auth, db } from '../../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import tw, { create } from 'twrnc';
 import { collection, doc, setDoc, addDoc, getDocs, where, query } from "firebase/firestore"; 
 
 
-export default function Signup() {
+export default function Index() {
 
   const [email, setEmail] = useState('')  
   const [password, setPassword] = useState('')
@@ -59,7 +59,7 @@ export default function Signup() {
       </Text>
       <Spacer size={20} />
       <Image
-        source={require('../assets/images/logo.png')}
+        source={require('../../assets/images/logo.png')}
         style={{width: 250, height: 250}}
       />  
       <Spacer size={10} />

@@ -5,9 +5,11 @@ import { StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Image, View, TextInput } from 'react-native';
 import { useNavigation } from 'expo-router';
 import NavigationTab from "@/components/navigation/navigationBar";
+import UserProfile from "@/components/userProfile";
+
 
 import tw from 'twrnc';
-export default function Calendar() {
+export default function Index() {
   const navigation = useNavigation()
 
   return (
@@ -21,8 +23,9 @@ export default function Calendar() {
       </View>
       <View style={tw `flex-1 justify-center items-center`}>
         <Text style={tw `text-black text-3xl font-bold`}>
-          Build calendar page here.
+          Welcome,
         </Text>  
+        <UserProfile />
       </View>
       <NavigationTab/>
     </SafeAreaView>

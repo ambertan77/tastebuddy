@@ -7,7 +7,7 @@ import { useNavigation } from 'expo-router';
 import NavigationTab from "@/components/navigation/navigationBar";
 
 import tw from 'twrnc';
-export default function Feed() {
+export default function Index() {
   const navigation = useNavigation()
 
   return (
@@ -21,7 +21,7 @@ export default function Feed() {
       </View>
       <View style={tw `flex-1 justify-center items-center`}>
         <Text style={tw `text-black text-3xl font-bold`}>
-          Build feed page here.
+          Build map page here.
         </Text>  
       </View>
       <NavigationTab/>
