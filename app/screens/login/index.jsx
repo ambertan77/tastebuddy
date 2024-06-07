@@ -19,7 +19,7 @@ export default function Index() {
     .then(userCredentials => {
       const user = userCredentials.user;
       console.log('Logged in with: ', user.email);
-      navigation.navigate('home');
+      navigation.navigate('screens/home/index');
     })
     .catch(error => alert('Login failed. ' + error.message))
   }
@@ -72,7 +72,7 @@ export default function Index() {
             Don't have an account yet? 
         </Text>
         <WordSpace size={4} />
-        <TouchableOpacity onPress={() => navigation.navigate('signup')}>
+        <TouchableOpacity onPress={() => navigation.navigate('screens/signup/index')}>
           <Text style={tw`text-green-900 text-center`}>
             Sign up!
           </Text>

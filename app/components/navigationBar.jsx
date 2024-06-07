@@ -5,11 +5,11 @@ import tw from 'twrnc';
 
 const NavigationTab = () => {
     const tabs = [
-        { icon: "map", path: "/map" },
-        { icon: "calendar-check", path: "/calendar" },
-        { icon: "search", path: "/search" },
-        { icon: "bell", path: "/feed" },
-        { icon: "user", path: "/profile" },
+        { icon: "map", path: "/screens/map" },
+        { icon: "calendar-check", path: "screens/calendar" },
+        { icon: "search", path: "screens/search" },
+        { icon: "bell", path: "screens/feed" },
+        { icon: "user", path: "screens/profile" },
     ];
 
     return (
