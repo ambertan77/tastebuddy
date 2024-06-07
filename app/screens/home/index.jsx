@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Image, View, TextInput } from 'react-native';
 import { useNavigation } from 'expo-router';
-import NavigationTab from "@/components/navigation/navigationBar";
+import NavigationTab from "../../components/navigationBar";
 import UserProfile from "@/components/userProfile";
 
 

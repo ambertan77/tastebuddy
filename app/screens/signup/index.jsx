@@ -30,7 +30,7 @@ export default function Index() {
       const user = userCredentials.user;
       const uid = user.uid;
       console.log('Registered with: ', user.email);
-      navigation.navigate('home');
+      navigation.navigate('screens/home/index');
       
       setDoc(doc(db, "Users", uid), {
         username: username,
@@ -98,7 +98,7 @@ export default function Index() {
             Have an existing account?
         </Text>
         <WordSpace size={4} />
-        <TouchableOpacity onPress={() => navigation.navigate('login')}>
+        <TouchableOpacity onPress={() => navigation.navigate('screens/login/index')}>
           <Text style={tw`text-green-900 text-center`}>
             Log in!
           </Text>
