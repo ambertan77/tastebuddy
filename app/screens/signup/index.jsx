@@ -8,6 +8,7 @@ import { auth, db } from '../../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import tw, { create } from 'twrnc';
 import { collection, doc, setDoc, addDoc, getDocs, where, query } from "firebase/firestore"; 
+import ButtonTemplate from '../../components/buttonTemplate';
 
 
 export default function Index() {
@@ -85,14 +86,16 @@ export default function Index() {
         onChangeText={setPassword}
         value={password}
       />
-      <Spacer size={10} />
-      <TouchableOpacity onPress={handleSignUp} 
-        style={tw`w-4/5 bg-green-700 p-3 rounded-lg`}>
-          <Text style={tw`text-white text-xl text-center font-bold`}>
-            Sign Up!
-          </Text>
-      </TouchableOpacity>
-      <Spacer size={10} />
+      
+      <View style={tw`flex-row`}>
+        <ButtonTemplate
+        type = 'green' 
+        size = 'big' 
+        text = 'Sign Up' 
+        onPress = {handleSignUp}
+        />
+      </View>
+
       <View style={tw`flex-row justify-center`}>
         <Text style={tw`text-black text-center`}>
             Have an existing account?
@@ -104,6 +107,7 @@ export default function Index() {
           </Text>
         </TouchableOpacity>
       </View>
+
       <StatusBar style="dark" />
     </SafeAreaView>
     </ScrollView>

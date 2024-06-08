@@ -6,16 +6,16 @@ import { Image, View, TextInput } from 'react-native';
 import { useNavigation } from 'expo-router';
 import NavigationTab from "../../components/navigationBar";
 import UserProfile from "@/components/userProfile";
-import LogoutButton from "../../components/logoutButton";
-
-
+import ButtonTemplate from '../../components/buttonTemplate';
+import LogoutButton from '../../components/logoutButton';
 import tw from 'twrnc';
+
 export default function Index() {
   const navigation = useNavigation()
 
   return (
     <SafeAreaView style={styles.container}> 
-    
+
       <View style={tw`items-end pr-4`}>
         <LogoutButton/>
       </View>
