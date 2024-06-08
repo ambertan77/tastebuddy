@@ -5,8 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import Index from '.';
-import Home from '.';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -31,7 +29,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack initialRouteName="Index">
+      <Stack initialRouteName="index">
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="screens/login/index" options={{ headerShown: false}} />
         <Stack.Screen name="screens/signup/index" options={{ headerShown: false}} />

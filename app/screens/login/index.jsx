@@ -7,6 +7,7 @@ import { useNavigation } from 'expo-router';
 import { auth } from '../../../firebase';
 import tw from 'twrnc';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import ButtonTemplate from '../../components/buttonTemplate';
 
 export default function Index() {
 
@@ -38,12 +39,14 @@ export default function Index() {
       <Text style={tw `text-black text-xl font-bold`}>
         Welcome back!
       </Text>
+
       <Spacer size = {20} />
       <Image
         source={require('../../assets/images/logo.png')}
         style={{width: 250, height: 250}}
       />  
       <Spacer size={10} />
+
       <TextInput
         style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
         placeholder="Enter your email"
@@ -51,6 +54,7 @@ export default function Index() {
         onChangeText={text => setEmail(text)}
         value={email}
       />
+
       <TextInput
         style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
         placeholder="Enter your password"
@@ -59,24 +63,29 @@ export default function Index() {
         onChangeText={text => setPassword(text)}
         value={password}
       />
-      <Spacer size={10} />
-      <TouchableOpacity onPress={handleLogin} 
-        style={tw`w-4/5 bg-green-700 p-3 rounded-lg`}>
-          <Text style={tw`text-white text-2xl text-center font-bold`}>
-            Log In
-          </Text>
-      </TouchableOpacity>
-      <Spacer size={10} />
+
+      <View style={tw`flex-row`}>
+        <ButtonTemplate
+        type = 'green' 
+        size = 'big' 
+        text = 'Login' 
+        onPress = {handleLogin}
+        />
+      </View>
+
       <View style={tw`flex-row justify-center`}>
         <Text style={tw`text-black text-center`}>
             Don't have an account yet? 
         </Text>
+
         <WordSpace size={4} />
+
         <TouchableOpacity onPress={() => navigation.navigate('screens/signup/index')}>
           <Text style={tw`text-green-900 text-center`}>
             Sign up!
           </Text>
         </TouchableOpacity>
+        
       </View>
       <StatusBar style="dark" />
     </SafeAreaView>
