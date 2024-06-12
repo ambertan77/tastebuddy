@@ -9,8 +9,13 @@ import tw from 'twrnc';
 export default function Index() {
 
   const navigation = useNavigation()
+
   const handlePressLogin = () => {
     navigation.navigate("screens/login/index")
+  }
+
+  const handlePressSignup = () => {
+    navigation.navigate("screens/signup/index")
   }
 
   return (
@@ -21,23 +26,24 @@ export default function Index() {
         style={{width: 250, height: 250}}
       />  
 
-      <Spacer size={10} />
-      <TouchableOpacity onPress={() => navigation.navigate('screens/login/index')} 
-        style={tw`w-4/5 bg-green-700 p-3 rounded-lg`}>
-          <Text style={tw`text-white text-2xl text-center font-bold`}>
-            Log In
-          </Text>
-      </TouchableOpacity>
-
-      <Spacer size={10} />
-
-      <TouchableOpacity onPress={() => navigation.navigate('screens/signup/index')} 
-        style={tw`w-4/5 bg-green-700 p-3 rounded-lg`}>
-          <Text style={tw`text-white text-2xl text-center font-bold`}>
-            Sign Up
-          </Text>
-      </TouchableOpacity>
+      <View style={tw`flex-row`}>
+        <ButtonTemplate
+        type = 'green' 
+        size = 'big' 
+        text = 'Login' 
+        onPress = {handlePressLogin}
+        />
+      </View>
       
+      <View style={tw`flex-row`}>
+        <ButtonTemplate
+        type = 'green' 
+        size = 'big' 
+        text = 'Sign up' 
+        onPress = {handlePressSignup}
+        />
+      </View>
+
       <StatusBar style="dark" />
     </SafeAreaView>
   );
