@@ -1,25 +1,24 @@
 import React from 'react';
-import { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-import { Image, View, TextInput } from 'react-native';
-import { useNavigation } from 'expo-router';
+import { StyleSheet, Text, SafeAreaView } from 'react-native';
+import { Image, View } from 'react-native';
 import NavigationTab from "../../components/navigationBar";
 import UserProfile from "@/components/userProfile";
 import ButtonTemplate from '../../components/buttonTemplate';
 import tw from 'twrnc';
 
 export default function Index() {
-  const navigation = useNavigation()
 
   return (
     <SafeAreaView style={styles.container}> 
 
       <View style={tw `flex-1 justify-center items-center`}>
+
         <Text style={tw `text-black text-3xl font-bold`}>
           Welcome,
         </Text>  
+
         <UserProfile />
+        
       </View>
 
       <NavigationTab/>

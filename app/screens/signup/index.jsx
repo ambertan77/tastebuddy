@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TouchableOpacity, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { Image, View, TextInput } from 'react-native';
 import { useNavigation } from 'expo-router';
@@ -108,7 +107,6 @@ export default function Index() {
         </TouchableOpacity>
       </View>
 
-      <StatusBar style="dark" />
     </SafeAreaView>
     </ScrollView>
     </KeyboardAvoidingView>
