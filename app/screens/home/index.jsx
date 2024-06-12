@@ -7,7 +7,6 @@ import { useNavigation } from 'expo-router';
 import NavigationTab from "../../components/navigationBar";
 import UserProfile from "@/components/userProfile";
 import ButtonTemplate from '../../components/buttonTemplate';
-import LogoutButton from '../../components/logoutButton';
 import tw from 'twrnc';
 
 export default function Index() {
@@ -15,10 +14,6 @@ export default function Index() {
 
   return (
     <SafeAreaView style={styles.container}> 
-
-      <View style={tw`items-end pr-4`}>
-        <LogoutButton/>
-      </View>
 
       <View style={tw `flex-1 justify-center items-center`}>
         <Text style={tw `text-black text-3xl font-bold`}>
