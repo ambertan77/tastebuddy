@@ -1,7 +1,6 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-import { Image, View, TextInput } from 'react-native';
+import { StyleSheet, Text, SafeAreaView } from 'react-native';
+import { Image, View } from 'react-native';
 import { useNavigation } from 'expo-router';
 import ButtonTemplate from '../app/components/buttonTemplate';
 
@@ -21,12 +20,14 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.container}> 
       
-      <Image
-        source={require('../app/assets/images/logo.png')} 
-        style={{width: 250, height: 250}}
-      />  
+      <View style={tw`items-center pt-50`}>
+        <Image
+          source={require('../app/assets/images/logo.png')} 
+          style={{width: 250, height: 250}}
+        />
+      </View>  
 
-      <View style={tw`flex-row`}>
+      <View style={tw`items-center`}>
         <ButtonTemplate
         type = 'green' 
         size = 'big' 
@@ -35,7 +36,7 @@ export default function Index() {
         />
       </View>
       
-      <View style={tw`flex-row`}>
+      <View style={tw`items-center`}>
         <ButtonTemplate
         type = 'green' 
         size = 'big' 
@@ -44,19 +45,13 @@ export default function Index() {
         />
       </View>
 
-      <StatusBar style="dark" />
     </SafeAreaView>
   );
 };
 
-const WordSpace = ({ size }) => <View style={{ height: 0, width: size }} />;
-const Spacer = ({ size }) => <View style={{ height: size, width: size }} />;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f4f2d8',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#f4f2d8'
   },
 });
