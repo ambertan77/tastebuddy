@@ -4,7 +4,7 @@ import tw from 'twrnc';
 const NewAccText = () => {
     return (
         <View>
-            <Text style={tw `text-black text-xl font-bold mt-40`}>
+            <Text style={tw `text-black text-xl font-bold mt-30`}>
                 Create a new account!
             </Text>
         </View>

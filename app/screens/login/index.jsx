@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Image, View, StyleSheet, Text, ScrollView, SafeAreaView, KeyboardAvoidingView, TouchableOpacity, Platform, Keyboard } from 'react-native';
+import { Image, View, StyleSheet, Text, ScrollView, SafeAreaView, keyboardVerticalOffset, TouchableWithoutFeedback, KeyboardAvoidingView, TouchableOpacity, Platform, Keyboard } from 'react-native';
 import { auth } from '../../../firebase';
 import tw from 'twrnc';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -29,49 +29,52 @@ export default function Index() {
   return (
 
     <KeyboardAvoidingView
-      style={tw`flex-1`}
+      style={[tw`flex-1 flex-grow`, styles.container]}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      contentContainerStyle={tw`flex-1 flex-grow`}
     >
-    
-      <ScrollView contentContainerStyle={tw`flex-1 flex-grow`}>
-    
-        <SafeAreaView style={styles.container}>
-
-          <View style={tw`items-center`}>
-            <WelcText/>
-            <TBLogo/> 
-
-            <TextInputTemplate 
-              style={tw`items-center`}
-              type='2'
-              text= 'Enter your email'
-              setText = {text => setEmail(text)}
-              value={email}
-            />
-
-            <TextInputTemplate 
-              type='1'
-              text= 'Enter your password'
-              setText = {text => setPassword(text)}
-              value={password}
-            />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        
+        <ScrollView>
       
-            <ButtonTemplate
-              type = 'green' 
-              size = 'big' 
-              text = 'Login' 
-              onPress = {handleLogin}
-            />
+          <SafeAreaView style={styles.container}>
 
-            <SignUpText/>
-          </View>
+            <View style={tw`items-center`}>
+              <WelcText/>
+              <TBLogo/> 
 
-        </SafeAreaView>
+              <TextInputTemplate 
+                style={tw`items-center`}
+                type='2'
+                text= 'Enter your email'
+                setText = {text => setEmail(text)}
+                value={email}
+              />
 
-      </ScrollView>
+              <TextInputTemplate 
+                type='1'
+                text= 'Enter your password'
+                setText = {text => setPassword(text)}
+                value={password}
+              />
+        
+              <ButtonTemplate
+                type = 'green' 
+                size = 'big' 
+                text = 'Login' 
+                onPress = {handleLogin}
+              />
+
+              <SignUpText/>
+            </View>
+
+          </SafeAreaView>
+
+        </ScrollView>
+
+      </TouchableWithoutFeedback>
 
     </KeyboardAvoidingView>
+    
   );
 };
 
