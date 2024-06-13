@@ -20,7 +20,7 @@ export default function Index() {
       <View style={tw`items-end pr-4`}>
         <ButtonTemplate
         type = 'orange' 
-        size = 'sm' 
+        size = 'med' 
         text = 'Log out' 
         onPress = {handleLogOut}
         />

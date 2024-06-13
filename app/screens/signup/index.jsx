@@ -1,14 +1,16 @@
 import React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
-import { Image, View, TextInput } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard, Image, View, TextInput } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { auth, db } from '../../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import tw, { create } from 'twrnc';
+import tw from 'twrnc';
 import { collection, doc, setDoc, addDoc, getDocs, where, query } from "firebase/firestore"; 
 import ButtonTemplate from '../../components/buttonTemplate';
-
+import NewAccText from './components/newAccText';
+import TextInputTemplate from '../../components/textInputTemplate';
+import TBLogo from '../../components/logo';
+import LoginText from '../signup/components/loginButton'
 
 export default function Index() {
 
@@ -18,6 +20,7 @@ export default function Index() {
   const navigation = useNavigation()
 
   const handleSignUp = async () => {
+
     const usernameExists = await checkUsernameAvailability(username);
   
     if (usernameExists) {
@@ -46,75 +49,60 @@ export default function Index() {
   }
 
   return (
+
     <KeyboardAvoidingView
       style={tw`flex-1`}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       contentContainerStyle={tw`flex-1 flex-grow`}
     >
     
-    <ScrollView contentContainerStyle={tw`flex-1 flex-grow`}>
-    <SafeAreaView style={styles.container}> 
-      <Text style={tw `text-black text-xl font-bold`}>
-        Create a new account!
-      </Text>
-      <Spacer size={20} />
-      <Image
-        source={require('../../assets/images/logo.png')}
-        style={{width: 250, height: 250}}
-      />  
-      <Spacer size={10} />
-      <TextInput
-        style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
-        placeholder="Enter your email address"
-        autoCapitalize="none"
-        onChangeText={text => setEmail(text)}
-        value={email}
-      />
-      <TextInput
-        style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
-        placeholder="Enter your username"
-        autoCapitalize="none"
-        onChangeText={text => setUsername(text)}
-        value={username}
-      />
-      <TextInput
-        style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
-        placeholder="Enter your password"
-        autoCapitalize="none"
-        secureTextEntry
-        onChangeText={setPassword}
-        value={password}
-      />
+      <ScrollView contentContainerStyle={tw`flex-1 flex-grow`}>
+
+        <SafeAreaView style={styles.container}> 
       
-      <View style={tw`flex-row`}>
-        <ButtonTemplate
-        type = 'green' 
-        size = 'big' 
-        text = 'Sign Up' 
-        onPress = {handleSignUp}
-        />
-      </View>
+          <View style={tw`items-center`}>
+            <NewAccText/>
+            <TBLogo/>
 
-      <View style={tw`flex-row justify-center`}>
-        <Text style={tw`text-black text-center`}>
-            Have an existing account?
-        </Text>
-        <WordSpace size={4} />
-        <TouchableOpacity onPress={() => navigation.navigate('screens/login/index')}>
-          <Text style={tw`text-green-900 text-center`}>
-            Log in!
-          </Text>
-        </TouchableOpacity>
-      </View>
+            <TextInputTemplate 
+              style={tw`items-center`}
+              type='2'
+              text= 'Enter your email'
+              setText = {text => setEmail(text)}
+              value={email}
+            />
 
-    </SafeAreaView>
-    </ScrollView>
+            <TextInputTemplate 
+              type='2'
+              text= 'Enter your username'
+              setText = {text => setUsername(text)}
+              value={username}
+            />
+
+            <TextInputTemplate 
+              type='1'
+              text= 'Enter your password'
+              setText = {text => setPassword(text)}
+              value={password}
+            />
+      
+            <ButtonTemplate
+              type = 'green' 
+              size = 'big' 
+              text = 'Sign Up' 
+              onPress = {handleSignUp}
+            />
+
+            <LoginText/>
+          </View>
+
+        </SafeAreaView>
+
+      </ScrollView>
+
     </KeyboardAvoidingView>
   );
 };
-
-const WordSpace = ({ size }) => <View style={{ height: 0, width: size }} />;
-const Spacer = ({ size }) => <View style={{ height: size, width: size }} />;
 
 const checkUsernameAvailability = async (username) => {
   const q = query(collection(db, "Users"), where("username", "==", username));
@@ -125,8 +113,6 @@ const checkUsernameAvailability = async (username) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f4f2d8',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#f4f2d8'
   },
 });

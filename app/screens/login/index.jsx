@@ -1,13 +1,14 @@
-import React from 'react';
 import { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
-import { Image, View, TextInput } from 'react-native';
-import { useNavigation } from 'expo-router';
+import { Image, View, StyleSheet, Text, ScrollView, SafeAreaView, KeyboardAvoidingView, TouchableOpacity, Platform, Keyboard } from 'react-native';
 import { auth } from '../../../firebase';
 import tw from 'twrnc';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigation } from 'expo-router';
 import ButtonTemplate from '../../components/buttonTemplate';
+import TextInputTemplate from '../../components/textInputTemplate';
+import TBLogo from '../../components/logo';
+import WelcText from '../login/components/welcText';
+import SignUpText from '../login/components/signupButton';
 
 export default function Index() {
 
@@ -33,75 +34,50 @@ export default function Index() {
       contentContainerStyle={tw`flex-1 flex-grow`}
     >
     
-    <ScrollView contentContainerStyle={tw`flex-1 flex-grow`}>
+      <ScrollView contentContainerStyle={tw`flex-1 flex-grow`}>
     
-    <SafeAreaView style={styles.container}>
-      <Text style={tw `text-black text-xl font-bold`}>
-        Welcome back!
-      </Text>
+        <SafeAreaView style={styles.container}>
 
-      <Spacer size = {20} />
-      <Image
-        source={require('../../assets/images/logo.png')}
-        style={{width: 250, height: 250}}
-      />  
-      <Spacer size={10} />
+          <View style={tw`items-center`}>
+            <WelcText/>
+            <TBLogo/> 
 
-      <TextInput
-        style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
-        placeholder="Enter your email"
-        autoCapitalize="none"
-        onChangeText={text => setEmail(text)}
-        value={email}
-      />
+            <TextInputTemplate 
+              style={tw`items-center`}
+              type='2'
+              text= 'Enter your email'
+              setText = {text => setEmail(text)}
+              value={email}
+            />
 
-      <TextInput
-        style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
-        placeholder="Enter your password"
-        autoCapitalize="none"
-        secureTextEntry
-        onChangeText={text => setPassword(text)}
-        value={password}
-      />
+            <TextInputTemplate 
+              type='1'
+              text= 'Enter your password'
+              setText = {text => setPassword(text)}
+              value={password}
+            />
+      
+            <ButtonTemplate
+              type = 'green' 
+              size = 'big' 
+              text = 'Login' 
+              onPress = {handleLogin}
+            />
 
-      <View style={tw`flex-row`}>
-        <ButtonTemplate
-        type = 'green' 
-        size = 'big' 
-        text = 'Login' 
-        onPress = {handleLogin}
-        />
-      </View>
+            <SignUpText/>
+          </View>
 
-      <View style={tw`flex-row justify-center`}>
-        <Text style={tw`text-black text-center`}>
-            Don't have an account yet? 
-        </Text>
+        </SafeAreaView>
 
-        <WordSpace size={4} />
+      </ScrollView>
 
-        <TouchableOpacity onPress={() => navigation.navigate('screens/signup/index')}>
-          <Text style={tw`text-green-900 text-center`}>
-            Sign up!
-          </Text>
-        </TouchableOpacity>
-        
-      </View>
-      <StatusBar style="dark" />
-    </SafeAreaView>
-    </ScrollView>
     </KeyboardAvoidingView>
   );
 };
 
-const WordSpace = ({ size }) => <View style={{ height: 0, width: size }} />;
-const Spacer = ({ size }) => <View style={{ height: size, width: size }} />;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f4f2d8',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#f4f2d8'
   },
 });
