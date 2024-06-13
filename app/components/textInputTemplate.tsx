@@ -11,6 +11,7 @@ type TextProps = {
 const TextInputTemplate = ({ type, text, setText, value }: TextProps) => {
     const secure = type === "1" ? true : false;
     return (
+        
         <TextInput
             style={tw`w-4/5 p-4 bg-white rounded-lg mb-3 border border-gray-400`}
             placeholder={text}

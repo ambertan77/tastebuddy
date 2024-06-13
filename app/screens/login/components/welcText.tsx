@@ -4,7 +4,7 @@ import tw from 'twrnc';
 const WelcText = () => {
     return (
         <View>
-            <Text style={tw `text-black text-xl font-bold mt-40`}>
+            <Text style={tw `text-black text-xl font-bold mt-30`}>
                 Welcome back!
             </Text>
         </View>
