@@ -4,6 +4,7 @@ import { Image, View } from 'react-native';
 import { useNavigation } from 'expo-router';
 import NavigationTab from "../../components/navigationBar";
 import ButtonTemplate from '../../components/buttonTemplate';
+import UserDetails from "../profile/components/UserDetails";
 import tw from 'twrnc';
 
 export default function Index() {
@@ -29,11 +30,7 @@ export default function Index() {
       </View>
 
 
-      <View style={tw `flex-1 justify-center items-center`}>
-        <Text style={tw `text-black text-3xl font-bold`}>
-          Build profile page here.
-        </Text>  
-      </View>
+      <UserDetails />
 
     </SafeAreaView>
 
