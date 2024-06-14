@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, SafeAreaView } from 'react-native';
 import { Image, View } from 'react-native';
 import NavigationTab from "../../components/navigationBar";
-import UsernameText from "../home/components/username";
+import UsernameText from "../../components/username";
 import ButtonTemplate from '../../components/buttonTemplate';
 import tw from 'twrnc';
 

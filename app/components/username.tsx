@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from '../../../../firebase';
+import { auth, db } from '../../firebase';
 import { View, Text } from 'react-native';
 import { useState, useEffect } from 'react';
 import { doc, getDoc, getDocs, query, collection, where } from "firebase/firestore";
@@ -32,7 +32,7 @@ const UsernameText = () => {
 
   return (
       <View>
-          <Text style={tw `text-black text-xl font-bold`}>
+          <Text style={tw `text-black text-3xl font-bold`}>
               {username}
           </Text>
       </View>
