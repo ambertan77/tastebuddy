@@ -7,6 +7,8 @@ import tw from 'twrnc';
 export default function Index() {
 
   return (
+    <View style={tw`flex-1`}>
+
     <SafeAreaView style={styles.container}> 
 
       <View style={tw `flex-1 justify-center items-center`}>
@@ -15,9 +17,10 @@ export default function Index() {
         </Text>  
       </View>
 
-      <NavigationTab/>
-
     </SafeAreaView>
+    <NavigationTab />
+
+    </View>
   );
 };
 

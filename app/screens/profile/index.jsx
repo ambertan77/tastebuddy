@@ -15,6 +15,8 @@ export default function Index() {
   }
 
   return (
+    <View style={tw`flex-1`}>
+
     <SafeAreaView style={styles.container}> 
 
       <View style={tw`items-end pr-4`}>
@@ -33,9 +35,11 @@ export default function Index() {
         </Text>  
       </View>
 
-      <NavigationTab/>
-
     </SafeAreaView>
+
+    <NavigationTab />
+    
+    </View>
   );
 };
 

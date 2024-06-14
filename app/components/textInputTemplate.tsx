@@ -17,6 +17,7 @@ const TextInputTemplate = ({ type, text, setText, value }: TextProps) => {
             placeholder={text}
             secureTextEntry={secure}
             onChangeText={setText}
+            autoCapitalize="none"
             value={value}
         />
     );

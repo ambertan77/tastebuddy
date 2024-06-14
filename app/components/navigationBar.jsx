@@ -13,12 +13,11 @@ const NavigationTab = () => {
     ];
 
     return (
-        <View style={tw`flex flex-row justify-between items-center pl-8 pr-8 `}>
+        <View style={tw`bg-green-700 flex flex-row justify-between items-center pl-8 pr-8 border border-green-700`}>
             {tabs.map((tab) => (
                 <Link href={tab.path} className="flex flex-col">
-                    <View>
-                        <Icon name={tab.icon} size={30} />
-                        <Text>{tab.name}</Text>
+                    <View style={tw`pt-5 pb-5`}>
+                        <Icon name={tab.icon} size={30} color="#f4f2d8" />
                     </View>
                 </Link>
             ))}
