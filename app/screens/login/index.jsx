@@ -20,10 +20,12 @@ export default function Index() {
     signInWithEmailAndPassword(auth, email, password)
     .then(userCredentials => {
       const user = userCredentials.user;
+
       console.log('Logged in with: ', user.email);
+
       navigation.navigate('screens/home/index');
-    })
-    .catch(error => alert('Login failed. ' + error.message))
+
+    }).catch(error => alert('Login failed. ' + error.message))
   }
 
   return (

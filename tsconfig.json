@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/index.tsx", "app/_layout.jsx", "app/components/buttonTemplate.jsx", "app/screens/signup/components/loginButton.jsx", "app/screens/login/components/signupButton.jsx"  ]
+, "app/index.tsx", "app/_layout.jsx", "app/components/buttonTemplate.jsx", "app/screens/signup/components/loginButton.jsx", "app/screens/login/components/signupButton.jsx", "app/screens/home/components/getUsername.jsx", "app/screens/home/components/getUserID.tsx", "app/screens/home/components/usernameDisplay.tsx"  ]
 }
