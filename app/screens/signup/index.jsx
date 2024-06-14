@@ -18,33 +18,22 @@ export default function Index() {
   const [username, setUsername] = useState('')
   const navigation = useNavigation()
 
-  const handleSignUp = async () => {
-
-    const usernameExists = await checkUsernameAvailability(username);
-  
-    if (usernameExists) {
-      alert('Username has already been taken. Please use a different username.');
-      return;
-    }
-
+  const handleSignUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
     .then(userCredentials => {
       const user = userCredentials.user;
       const uid = user.uid;
-      console.log('Registered with: ', user.email);
+
+      console.log('Signed up with: ', user.email);
+
       navigation.navigate('screens/home/index');
       
       setDoc(doc(db, "Users", uid), {
         username: username,
         email: email,
         password: password
-      }).then(() => {
-        console.log('data saved');
-      }).catch((error) => {
-        console.log(error);
-      });;
-    })
-    .catch(error => alert('Failed to create new account. ' + error.message))
+      });
+    }).catch(error => alert('Failed to create new account. ' + error.message))
   }
 
   return (
@@ -103,12 +92,6 @@ export default function Index() {
 
     </KeyboardAvoidingView>
   );
-};
-
-const checkUsernameAvailability = async (username) => {
-  const q = query(collection(db, "Users"), where("username", "==", username));
-  const querySnapshot = await getDocs(q);
-  return !querySnapshot.empty;
 };
 
 const styles = StyleSheet.create({
