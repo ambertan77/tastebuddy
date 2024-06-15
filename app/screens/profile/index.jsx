@@ -1,40 +1,27 @@
 import React from 'react';
 import { StyleSheet, Text, SafeAreaView } from 'react-native';
 import { Image, View } from 'react-native';
-import { useNavigation } from 'expo-router';
 import NavigationTab from "../../components/navigationBar";
-import ButtonTemplate from '../../components/buttonTemplate';
 import UserDetails from "../profile/components/UserDetails";
+import Header from "../../screens/profile/components/header";
+import LogoutButton from "../../screens/profile/components/logoutButton";
+import AddFriends from "../../screens/profile/components/addFriends";
 import tw from 'twrnc';
 
 export default function Index() {
 
-  const navigation = useNavigation()
-
-  const handleLogOut = () => {
-    navigation.navigate("index")
-  }
-
   return (
     <View style={tw`flex-1`}>
 
-    <SafeAreaView style={styles.container}> 
+      <Header/>
 
-      <View style={tw`items-end pr-4`}>
-        <ButtonTemplate
-        type = 'orange' 
-        size = 'med' 
-        text = 'Log out' 
-        onPress = {handleLogOut}
-        />
-      </View>
+      <SafeAreaView style={styles.container}> 
+        <LogoutButton />
+        <UserDetails />
+        <AddFriends />
+      </SafeAreaView>
 
-
-      <UserDetails />
-
-    </SafeAreaView>
-
-    <NavigationTab />
+      <NavigationTab />
     
     </View>
   );
