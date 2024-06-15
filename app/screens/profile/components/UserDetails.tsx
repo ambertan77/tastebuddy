@@ -11,18 +11,42 @@ const UserDetails = () => {
     const navigation = useNavigation()
 
     const followers = () => {
-        navigation.navigate("index" as never)
+        navigation.navigate("screens/followers/index" as never)
     }
 
+    const following = () => {
+        navigation.navigate("screens/following/index" as never)
+    }
+    
     return (
-        <View style={tw`flex-row p-5`}>
+        <View style={tw`flex flex-row p-5`}>
             <ProfilePic />
 
-            <View style={tw`p-5`}>
+            <View style={tw`px-5 justify-center`}>
                 <UsernameText />
+
+                <View style={tw`flex-row`}>
+                    <View style={tw`pr-3`}>
+                        <ButtonTemplate
+                            type = 'no-bg' 
+                            size = 'sm' 
+                            text = 'followers' 
+                            onPress = {followers}
+                        />
+                    </View>
+                    <View>
+                        <ButtonTemplate
+                            type = 'no-bg' 
+                            size = 'sm' 
+                            text = 'following' 
+                            onPress = {following}
+                        />
+                    </View>
+                </View>
             </View>
             
         </View>
+    
     );
 };
 

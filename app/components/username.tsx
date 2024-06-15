@@ -32,7 +32,7 @@ const UsernameText = () => {
 
   return (
       <View>
-          <Text style={tw `text-black text-3xl font-bold`}>
+          <Text style={tw `text-black text-2xl font-bold`}>
               {username}
           </Text>
       </View>
