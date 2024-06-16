@@ -3,20 +3,20 @@ import { StyleSheet, Text, SafeAreaView } from 'react-native';
 import { Image, View } from 'react-native';
 import NavigationTab from "../../components/navigationBar";
 import tw from 'twrnc';
+import CalendarComponent from './components/calendar';
+import Header from './components/header';
 
 export default function Index() {
 
   return (
     <View style={tw`flex-1`}>
 
-    <SafeAreaView style={styles.container}> 
+      <Header />
+      
+      <SafeAreaView style={styles.container}> 
 
-      <View style={tw `flex-1 justify-center items-center`}>
-        <Text style={tw `text-black text-3xl font-bold`}>
-          Build calendar page here.
-        </Text>  
-      </View>
-
+        <CalendarComponent />  
+      
     </SafeAreaView>
     <NavigationTab />
 
