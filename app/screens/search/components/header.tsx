@@ -20,7 +20,7 @@ const Header = () => {
             <Filter />
         </View>
 
-        <ScrollView horizontal={true} style={tw`bg-white h-15 flex flex-row`}>
+        <ScrollView horizontal={true} style={tw`h-15 flex flex-row`}>
             <View style={tw`justify-center pl-2 pr-1.5`}>
             <ButtonTemplate
                     type = 'filter' 
