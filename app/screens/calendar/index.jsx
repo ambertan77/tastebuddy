@@ -6,6 +6,7 @@ import tw from 'twrnc';
 import CalendarComponent from './components/calendar';
 import AgendaComponent from './components/agenda';
 import Header from './components/header';
+import AddHabit from './components/addHabits';
 
 export default function Index() {
 
@@ -13,6 +14,8 @@ export default function Index() {
     <View style={tw`flex-1`}>
 
       <Header />
+
+      <AddHabit />
 
       <SafeAreaView style={styles.container}> 
    
