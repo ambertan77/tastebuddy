@@ -4,6 +4,7 @@ import { Image, View } from 'react-native';
 import NavigationTab from "../../components/navigationBar";
 import tw from 'twrnc';
 import CalendarComponent from './components/calendar';
+import AgendaComponent from './components/agenda';
 import Header from './components/header';
 
 export default function Index() {
@@ -12,12 +13,13 @@ export default function Index() {
     <View style={tw`flex-1`}>
 
       <Header />
-      
-      <SafeAreaView style={styles.container}> 
 
-        <CalendarComponent />  
+      <SafeAreaView style={styles.container}> 
+   
+        <AgendaComponent />
       
-    </SafeAreaView>
+      </SafeAreaView>
+  
     <NavigationTab />
 
     </View>
