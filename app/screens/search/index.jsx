@@ -5,22 +5,19 @@ import NavigationTab from "../../components/navigationBar";
 import tw from 'twrnc';
 import Filter from "../../screens/search/components/filter";
 import Header from "../../screens/search/components/header";
+import Food from "../../screens/search/components/food";
 
 export default function Index() {
 
   return (
-    <View style={tw`flex-1`}>
+    <View style={tw`flex-1 flex`}>
 
       <Header /> 
       
     <SafeAreaView style={styles.container}> 
 
       <ScrollView>
-        <Text>
-          food items here
-        </Text>
-
-
+        <Food />
       </ScrollView>
       
     </SafeAreaView>
@@ -34,6 +31,6 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1 ,
-    backgroundColor: '#fff',
+    backgroundColor: '#f5f5f5',
   },
 });
