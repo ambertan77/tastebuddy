@@ -1,24 +1,107 @@
-import React from 'react';
-import { StyleSheet, Text, SafeAreaView, ScrollView } from 'react-native';
-import { Image, View } from 'react-native';
+import { useState, useEffect, React } from "react";
+import { Image, View, StyleSheet, Text, SafeAreaView, ScrollView, TextInput } from 'react-native';
 import NavigationTab from "../../components/navigationBar";
+import { useNavigation } from 'expo-router';
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from '../../../firebase';
+import { doc, getDoc, getDocs, query, collection, where } from "firebase/firestore";
 import tw from 'twrnc';
-import Filter from "../../screens/search/components/filter";
-import Header from "../../screens/search/components/header";
 import Food from "../../screens/search/components/food";
+import ButtonTemplate from "../../components/buttonTemplate";
+import Filter from "../search/components/filtered";
 
 export default function Index() {
+
+  const navigation = useNavigation()
+
+  const filter = () => {
+        navigation.navigate("index")
+  }
+
+  const [searchText, setSearchText] = useState("");
+    
+  const handleSearchTextChange = (text) => {
+        setSearchText(text);
+        console.log(searchText);
+  }
+
+  
+  const [food, setFood] = useState([])
+
+  const fetchFood = async () => {
+        const querySnapshot = await getDocs(collection(db, "Food"));
+        const foodList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setFood(foodList);
+  };
+
+  useEffect(() => {
+      fetchFood();
+  }, [])
 
   return (
     <View style={tw`flex-1 flex`}>
 
-      <Header /> 
+      <View>
+            <View style={tw`bg-green-700 h-40`}>
+                <Text style={tw`text-white text-xl mt-15 text-center font-bold mb-2`}>
+                    search
+                </Text>
+
+                <View style={tw`flex justify-between flex-row px-4 py-1 bg-whitesmoke`}>
+                    <TextInput
+                        onChangeText={handleSearchTextChange}
+                        style={tw`w-full p-3 bg-white rounded-xl mb-3`}
+                        placeholder="I want to eat ... "
+                        clearButtonMode="always"
+                        autoCapitalize="none"
+                        value={searchText}
+                    />
+                </View>
+            </View>
+
+            <ScrollView horizontal={true} style={tw`h-15 flex flex-row`}>
+                <View style={tw`justify-center pl-2 pr-1.5`}>
+                <ButtonTemplate
+                        type = 'filter' 
+                        size = 'med' 
+                        text = 'Protein-rich' 
+                        onPress = {filter}
+                />
+                </View>
+
+                <View style={tw`justify-center p-1.5`}>
+                <ButtonTemplate
+                        type = 'filter' 
+                        size = 'med' 
+                        text = 'Carbohydrate-rich' 
+                        onPress = {filter}
+                />
+                </View>
+
+                <View style={tw`justify-center p-1.5`}>
+                <ButtonTemplate
+                        type = 'filter' 
+                        size = 'med' 
+                        text = 'Low in Sugar' 
+                        onPress = {filter}
+                />
+                </View>
+
+                <View style={tw`justify-center p-1.5`}>
+                <ButtonTemplate
+                        type = 'filter' 
+                        size = 'med' 
+                        text = 'Low Fat' 
+                        onPress = {filter}
+                />
+                </View>
+            </ScrollView>
+
+      </View>
       
     <SafeAreaView style={styles.container}> 
 
-      <ScrollView>
-        <Food />
-      </ScrollView>
+        <Filter data={food} input={searchText} setSearchText={setSearchText} />
       
     </SafeAreaView>
 

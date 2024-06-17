@@ -1,6 +1,6 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from '../../../../firebase';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { useState, useEffect } from 'react';
 import { doc, getDoc, getDocs, query, collection, where } from "firebase/firestore";
 import tw from 'twrnc';
@@ -21,9 +21,9 @@ const FoodList = () => {
  
 
   return (
-    <View>
+    <ScrollView>
       {food.map(food => (
-        <View style={tw`h-20 m-3 flex flex-column rounded-lg bg-white shadow`}> 
+        <View style={tw`h-20 m-3 flex rounded-lg bg-white shadow`}> 
           <Text style={tw`px-3 pt-2 font-bold text-xl`}>
             {food.Name}
           </Text>
@@ -33,7 +33,7 @@ const FoodList = () => {
         </View> 
           
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
