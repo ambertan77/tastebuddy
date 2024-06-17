@@ -8,8 +8,9 @@ import { useNavigation } from 'expo-router';
 import ButtonTemplate from '../../components/buttonTemplate';
 import TextInputTemplate from '../../components/textInputTemplate';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import RNDateTimePicker from '@react-native-community/datetimepicker';
-import { TouchableOpacity } from 'react-native';
+import { auth, db } from '../../../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, doc, setDoc, addDoc, getDocs, where, query } from "firebase/firestore"; 
 
 export default function Index() {
 
@@ -21,8 +22,20 @@ export default function Index() {
   const [show, setShow] = useState(false)
   const navigation = useNavigation()
 
-  const handleCreation = () => {
-    navigation.navigate('screens/calendar/index');
+  const handleCreation = async () => {
+    try {
+      const docRef = await addDoc(collection(db, 'Habits'), {
+        title: name,
+        frequency: frequency,
+        period: period, 
+        date: date.toLocaleDateString,
+        uid: auth.currentUser.uid
+      });
+      navigation.navigate('screens/calendar/index')
+      console.log('Document written with ID: ', docRef.id);
+    } catch (error) {
+      console.error('Error creating new habit: ', error);
+    }
   }
 
   const onChange = (event, selectedDate) => {
