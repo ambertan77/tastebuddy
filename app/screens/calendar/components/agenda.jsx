@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { SafeAreaView, TouchableOpacity, StyleSheet, Text, View } from 'react-native';
 import { Agenda, Calendar } from 'react-native-calendars';
 import tw from 'twrnc';
 
@@ -19,6 +19,13 @@ export default function AgendaComponent() {
                         <Text style={tw `text-black`}>{item.period}</Text>
                     </TouchableOpacity>
                 )}
+                renderEmptyDate={() => (
+                    <View style={tw `flex-1 items-center`}>
+                        <Text style={tw `font-bold text-lg text-black`}> 
+                            No habit scheduled today. 
+                        </Text>
+                    </View>
+                )}
                 theme={{
                     agendaDayTextColor: 'gray',
                     agendaDayNumColor: 'gray',
@@ -26,7 +33,8 @@ export default function AgendaComponent() {
                     agendaKnobColor: 'green',
                     selectedDayBackgroundColor: 'green',
                     selectedDayTextColor: 'white',
-                    dotColor: 'green'
+                    dotColor: 'green',
+                    todayTextColor: 'green'
                 }}
             /> 
         </SafeAreaView>

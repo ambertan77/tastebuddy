@@ -29,7 +29,7 @@ export default function Index() {
         title: name,
         frequency: frequency,
         period: period, 
-        date: selectedDate,
+        date: date,
         uid: auth.currentUser.uid
       });
       navigation.navigate('screens/calendar/index')
