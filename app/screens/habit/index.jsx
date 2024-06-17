@@ -21,6 +21,7 @@ export default function Index() {
   const [mode, setMode] = useState('date')
   const [show, setShow] = useState(false)
   const navigation = useNavigation()
+  const selectedDate = date.toDateString
 
   const handleCreation = async () => {
     try {
@@ -28,7 +29,7 @@ export default function Index() {
         title: name,
         frequency: frequency,
         period: period, 
-        date: date.toLocaleDateString,
+        date: selectedDate,
         uid: auth.currentUser.uid
       });
       navigation.navigate('screens/calendar/index')
