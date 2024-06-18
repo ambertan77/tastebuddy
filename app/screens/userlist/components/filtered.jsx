@@ -31,11 +31,11 @@ const Filter = ({data, input, setSearchText}) => {
 
                 if(item.username.toLowerCase().includes(input.toLowerCase())) {
                     return (
-                        <View style={tw`h-20 m-3 flex rounded-lg bg-white shadow`}> 
+                        <View style={tw`h-14 m-1 flex-row justify-between rounded-lg bg-white shadow`}> 
                             <Text style={tw`px-3 pt-2 font-bold text-xl`}>
                             {item.username}
                             </Text>
-                            <View style={tw`items-end pl-2 pr-1.5`}>
+                            <View style={tw`pt-1 top-0 items-end pl-2 pr-1.5`}>
                                 <ButtonTemplate
                                         type = 'add' 
                                         size = 'med' 
