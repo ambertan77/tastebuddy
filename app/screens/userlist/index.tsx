@@ -1,24 +1,70 @@
 import React from 'react';
-import { StyleSheet, Text, SafeAreaView } from 'react-native';
-import { Image, View } from 'react-native';
+import {useState, useEffect } from 'react';
+import { StyleSheet, Text, SafeAreaView, ScrollView } from 'react-native';
+import { Image, View, TextInput } from 'react-native';
 import NavigationTab from "../../components/navigationBar";
 import tw from 'twrnc';
+import { useNavigation } from 'expo-router';
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from '../../../firebase';
+import { doc, getDoc, getDocs, query, collection, where } from "firebase/firestore";
+import Users from './components/users';
+import Filter from "./components/filtered";
 
 export default function Index() {
 
+  const navigation = useNavigation()
+
+  const [searchText, setSearchText] = useState("");
+    
+  const handleSearchTextChange = (text) => {
+    setSearchText(text);
+    console.log(searchText);
+  }
+  
+  const [users, setUsers] = useState([])
+
+  const fetchUsers = async () => {
+    const querySnapshot = await getDocs(collection(db, "Users"));
+    const userList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    setUsers(userList);
+  };
+
+  useEffect(() => {
+      fetchUsers();
+  }, [])
+
   return (
-    <View style={tw`flex-1`}>
-        <SafeAreaView style={styles.container}> 
-        
-            <View style={tw `flex-1 justify-center items-center`}>
-                <Text style={tw `text-black text-3xl font-bold`}>
-                All users shown here.
-                </Text>  
+    <View style={tw`flex-1 flex`}>
+
+      <View>
+            <View style={tw`bg-green-700 h-40`}>
+                <Text style={tw`text-white text-xl mt-15 text-center font-bold mb-2`}>
+                    Search for a friend!
+                </Text>
+
+                <View style={tw`flex justify-between flex-row px-4 py-1 bg-whitesmoke`}>
+                    <TextInput
+                        onChangeText={handleSearchTextChange}
+                        style={tw`w-full p-3 bg-white rounded-xl mb-3`}
+                        placeholder="Search for ... "
+                        clearButtonMode="always"
+                        autoCapitalize="none"
+                        value={searchText}
+                    />
+                </View>
             </View>
 
-        </SafeAreaView>
+      </View>
+      
+    <SafeAreaView style={styles.container}> 
 
-        <NavigationTab />
+        <Filter data={users} input={searchText} setSearchText={setSearchText} />
+      
+    </SafeAreaView>
+
+    <NavigationTab />
+
     </View>
   );
 };
