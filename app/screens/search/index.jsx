@@ -8,7 +8,7 @@ import { doc, getDoc, getDocs, query, collection, where } from "firebase/firesto
 import tw from 'twrnc';
 import Food from "../../screens/search/components/food";
 import ButtonTemplate from "../../components/buttonTemplate";
-import Filter from "../search/components/filtered";
+import Filter from "../search/components/nutrientsFilter";
 
 export default function Index() {
 
@@ -24,19 +24,6 @@ export default function Index() {
         setSearchText(text);
         console.log(searchText);
   }
-
-  
-  const [food, setFood] = useState([])
-
-  const fetchFood = async () => {
-        const querySnapshot = await getDocs(collection(db, "Food"));
-        const foodList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setFood(foodList);
-  };
-
-  useEffect(() => {
-      fetchFood();
-  }, [])
 
   return (
     <View style={tw`flex-1 flex`}>
@@ -58,50 +45,11 @@ export default function Index() {
                     />
                 </View>
             </View>
-
-            <ScrollView horizontal={true} style={tw`h-15 flex flex-row`}>
-                <View style={tw`justify-center pl-2 pr-1.5`}>
-                <ButtonTemplate
-                        type = 'filter' 
-                        size = 'med' 
-                        text = 'Protein-rich' 
-                        onPress = {filter}
-                />
-                </View>
-
-                <View style={tw`justify-center p-1.5`}>
-                <ButtonTemplate
-                        type = 'filter' 
-                        size = 'med' 
-                        text = 'Carbohydrate-rich' 
-                        onPress = {filter}
-                />
-                </View>
-
-                <View style={tw`justify-center p-1.5`}>
-                <ButtonTemplate
-                        type = 'filter' 
-                        size = 'med' 
-                        text = 'Low in Sugar' 
-                        onPress = {filter}
-                />
-                </View>
-
-                <View style={tw`justify-center p-1.5`}>
-                <ButtonTemplate
-                        type = 'filter' 
-                        size = 'med' 
-                        text = 'Low Fat' 
-                        onPress = {filter}
-                />
-                </View>
-            </ScrollView>
-
       </View>
       
     <SafeAreaView style={styles.container}> 
 
-        <Filter data={food} input={searchText} setSearchText={setSearchText} />
+        <Filter input={searchText} setSearchText={setSearchText} />
       
     </SafeAreaView>
 
