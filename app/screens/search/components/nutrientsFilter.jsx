@@ -1,9 +1,11 @@
 import React from "react";
 import {useEffect, useState } from "react";
-import { View, Text, ScrollView, FlatList } from "react-native";
+import { useNavigation } from 'expo-router';
+import { View, Text, ScrollView, FlatList, TouchableOpacity } from "react-native";
 import Food from "./food";
 import tw from 'twrnc';
 import ButtonTemplate from "../../../components/buttonTemplate";
+import Icon from "react-native-vector-icons/FontAwesome5";
 import { set } from "firebase/database";
 
 const Filter = ({input, setSearchText}) => {
@@ -41,7 +43,7 @@ const Filter = ({input, setSearchText}) => {
       }, [selectedNutri, food]);
       
     
-      const filterItems = () => {
+    const filterItems = () => {
         if (selectedNutri.length > 0) {
             let tempItems = food.filter((food) => selectedNutri.every((nutri) => food.Nutrients.includes(nutri)));
           setFilteredFood(tempItems.flat());
@@ -49,6 +51,12 @@ const Filter = ({input, setSearchText}) => {
           setFilteredFood(food);
         }
       };
+
+    const navigation = useNavigation()
+
+    const handle = () => {
+            navigation.navigate("screens/favourites/index")
+    }
 
     return (
     
@@ -70,27 +78,45 @@ const Filter = ({input, setSearchText}) => {
             <FlatList data={filteredFood} renderItem={({item}) => {
                 if (input === "") {
                     return (
-                        <View style={tw`h-20 m-3 flex rounded-lg bg-white shadow`}> 
-                            <Text style={tw`px-3 pt-2 font-bold text-xl`}>
-                            {item.Name}
-                            </Text>
-                            <Text style={tw`px-3 pt-1 text-amber-700`}>
-                            ${item.Price}
-                            </Text>
-                        </View>
+                        
+                            <View style={tw`h-20 m-3 rounded-lg flex bg-white shadow flex-row`}> 
+                                <View style={tw`flex-4`}>
+                                    <Text style={tw`px-3 pt-2 font-bold text-xl`}>
+                                        {item.Name}
+                                    </Text>
+                                    <Text style={tw`px-3 pt-1 text-amber-700`}>
+                                        ${item.Price}
+                                    </Text>
+                                </View>
+
+                                <View style={tw`flex-1 pt-3 pr-5 items-end`}>
+                                    <TouchableOpacity onPress={handle}>
+                                        <Icon name="heart" size={20} color="green" />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+
                     )
                 }
 
                 if(item.Name.toLowerCase().includes(input.toLowerCase())) {
                     return (
-                        <View style={tw`h-20 m-3 flex rounded-lg bg-white shadow`}> 
-                            <Text style={tw`px-3 pt-2 font-bold text-xl`}>
-                            {item.Name}
-                            </Text>
-                            <Text style={tw`px-3 pt-1 text-amber-700`}>
-                            ${item.Price}
-                            </Text>
-                        </View>
+                        <View style={tw`h-20 m-3 rounded-lg flex bg-white shadow flex-row`}> 
+                                <View style={tw`flex-4`}>
+                                    <Text style={tw`px-3 pt-2 font-bold text-xl`}>
+                                        {item.Name}
+                                    </Text>
+                                    <Text style={tw`px-3 pt-1 text-amber-700`}>
+                                        ${item.Price}
+                                    </Text>
+                                </View>
+
+                                <View style={tw`flex-1 pt-3 pr-5 items-end`}>
+                                    <TouchableOpacity onPress={handle}>
+                                        <Icon name="heart" size={20} color="green" />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
                     )
                 }
             }}/>
