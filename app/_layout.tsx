@@ -34,7 +34,7 @@ export default function RootLayout() {
         <Stack.Screen name="screens/login/index" options={{ headerShown: false}} />
         <Stack.Screen name="screens/signup/index" options={{ headerShown: false}} />
         <Stack.Screen name="screens/home/index" options={{ headerShown: false }} />
-        <Stack.Screen name="screens/map/index" options={{ headerShown: false }} />
+        <Stack.Screen name="screens/favourites/index" options={{ headerShown: false }} />
         <Stack.Screen name="screens/calendar/index" options={{ headerShown: false }} />
         <Stack.Screen name="screens/search/index" options={{ headerShown: false }} />
         <Stack.Screen name="screens/feed/index" options={{ headerShown: false }} />

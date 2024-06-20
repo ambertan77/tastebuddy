@@ -5,7 +5,7 @@ import tw from 'twrnc';
 
 const NavigationTab = () => {
     const tabs = [
-        { icon: "map", path: "/screens/map" },
+        { icon: "heart", path: "/screens/favourites" },
         { icon: "calendar-check", path: "screens/calendar" },
         { icon: "search", path: "screens/search" },
         { icon: "bell", path: "screens/feed" },
