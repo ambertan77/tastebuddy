@@ -1,23 +1,32 @@
 import React from "react";
 import {useEffect, useState } from "react";
 import { useNavigation } from 'expo-router';
+import { auth, db } from '../../../../firebase';
+import { doc, updateDoc, arrayUnion, getDoc, arrayRemove, onSnapshot } from "firebase/firestore";
 import { View, Text, ScrollView, FlatList, TouchableOpacity } from "react-native";
-import Food from "./food";
 import tw from 'twrnc';
 import ButtonTemplate from "../../../components/buttonTemplate";
-import Icon from "react-native-vector-icons/FontAwesome5";
+import Food from "../components/food";
+import Favourites from "../components/favourites";
+import Icon from "react-native-vector-icons/AntDesign"; 
 import { set } from "firebase/database";
 
 const Filter = ({input, setSearchText}) => {
 
+    const fetchFavData = async () => {
+        const FavList = await Favourites();
+        setFav(FavList);
+    }; 
+
     const [food, setFood] = useState([]);
     const [selectedNutri, setSelectedNutri] = useState([]);
     const [filteredFood, setFilteredFood] = useState(food);
+    const [fav, setFav] = useState(fetchFavData);
+    //console.log(fav);
 
     const getFoodData = async () => {
         const FoodList = await Food();
         setFood(FoodList);
-        
     };
 
     useEffect(() => {
@@ -33,7 +42,6 @@ const Filter = ({input, setSearchText}) => {
             setSelectedNutri(filters);
         } else {
             setSelectedNutri([...selectedNutri, cat]);
-
         }
     };
 
@@ -52,11 +60,25 @@ const Filter = ({input, setSearchText}) => {
         }
       };
 
-    const navigation = useNavigation()
+    
+    const user = auth.currentUser;
+    const userRef = doc(db, "Users", user.uid);
 
-    const handle = () => {
-            navigation.navigate("screens/favourites/index")
+    const handlePressLike = async (id) => {
+        if (fav.includes(id) == true) {
+            await updateDoc(userRef, {
+                favourites: arrayRemove(id)
+            }); 
+        } else {
+            await updateDoc(userRef, {
+                favourites: arrayUnion(id)
+            }); 
+        }  
     }
+
+    useEffect(() => {
+        fetchFavData();
+      }, [fav]);
 
     return (
     
@@ -77,8 +99,8 @@ const Filter = ({input, setSearchText}) => {
         <View>
             <FlatList data={filteredFood} renderItem={({item}) => {
                 if (input === "") {
+                    //console.log(fav);
                     return (
-                        
                             <View style={tw`h-20 m-3 rounded-lg flex bg-white shadow flex-row`}> 
                                 <View style={tw`flex-4`}>
                                     <Text style={tw`px-3 pt-2 font-bold text-xl`}>
@@ -90,8 +112,9 @@ const Filter = ({input, setSearchText}) => {
                                 </View>
 
                                 <View style={tw`flex-1 pt-3 pr-5 items-end`}>
-                                    <TouchableOpacity onPress={handle}>
-                                        <Icon name="heart" size={20} color="green" />
+                                    
+                                    <TouchableOpacity onPress={() => handlePressLike(id=item.id)}>
+                                        <Icon name={fav.includes(item.id) ? "heart" : "hearto"} size={20} color= "green" />
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -112,8 +135,8 @@ const Filter = ({input, setSearchText}) => {
                                 </View>
 
                                 <View style={tw`flex-1 pt-3 pr-5 items-end`}>
-                                    <TouchableOpacity onPress={handle}>
-                                        <Icon name="heart" size={20} color="green" />
+                                    <TouchableOpacity onPress={() => handlePressLike(id=item.id)}>
+                                        <Icon name={fav.includes(item.id) ? "heart" : "hearto"} size={20} color="green" />
                                     </TouchableOpacity>
                                 </View>
                             </View>
