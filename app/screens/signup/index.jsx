@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, Text, ScrollView, SafeAreaView, TouchableWithoutFeedback, KeyboardAvoidingView, Platform, Keyboard, Image, View } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { auth, db } from '../../../firebase';
@@ -16,9 +16,29 @@ export default function Index() {
   const [email, setEmail] = useState('')  
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
+  const [usernameList, setUsernameList] = useState([])
+  const [hasError, setHasError] = useState('')
   const navigation = useNavigation()
 
+  const fetchUsernames = async () => {
+    const querySnapshot = await getDocs(collection(db, "Users"));
+    const usernameList = querySnapshot.docs.map(doc => doc.data()?.username);
+    setUsernameList(usernameList);
+    //console.log(usernameList);
+  };
+
+  useEffect(() => {
+    fetchUsernames();
+  }, [])
+
+
   const handleSignUp = () => {
+
+    if (usernameList.includes(username)) {
+      alert('Username already being used.');
+      return;
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
     .then(userCredentials => {
       const user = userCredentials.user;
@@ -31,7 +51,8 @@ export default function Index() {
       setDoc(doc(db, "Users", uid), {
         username: username,
         email: email,
-        password: password
+        password: password,
+        favourites: []
       });
     }).catch(error => alert('Failed to create new account. ' + error.message))
   }

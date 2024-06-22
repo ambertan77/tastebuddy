@@ -1,22 +1,14 @@
 import { useState, useEffect, React } from "react";
 import { Image, View, StyleSheet, Text, SafeAreaView, ScrollView, TextInput } from 'react-native';
 import NavigationTab from "../../components/navigationBar";
-import { useNavigation } from 'expo-router';
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from '../../../firebase';
 import { doc, getDoc, getDocs, query, collection, where } from "firebase/firestore";
 import tw from 'twrnc';
-import Food from "../../screens/search/components/food";
 import ButtonTemplate from "../../components/buttonTemplate";
 import Filter from "../search/components/nutrientsFilter";
 
 export default function Index() {
-
-  const navigation = useNavigation()
-
-  const filter = () => {
-        navigation.navigate("index")
-  }
 
   const [searchText, setSearchText] = useState("");
     

@@ -1,24 +1,29 @@
-import React from 'react';
+import { useState, useEffect, React } from "react";
 import { StyleSheet, Text, SafeAreaView } from 'react-native';
 import { Image, View } from 'react-native';
 import NavigationTab from "../../components/navigationBar";
+import { useNavigation } from 'expo-router';
+import Header from "../favourites/components/header";
+import FavFood from "../favourites/components/favFood";
 import tw from 'twrnc';
 
 export default function Index() {
 
-  return (
-    <View style={tw`flex-1`}>
-    <SafeAreaView style={styles.container}> 
-      
-      <View style={tw `flex-1 justify-center items-center`}>
-        <Text style={tw `text-black text-3xl font-bold`}>
-          Build favourites page here.
-        </Text>  
-      </View>
+  const navigation = useNavigation();
 
+  return (
+    <View style={tw`flex-1 flex`}>
+
+      <Header />
+      
+    <SafeAreaView style={styles.container}> 
+
+        <FavFood />
+      
     </SafeAreaView>
 
     <NavigationTab />
+
     </View>
   );
 };
@@ -26,6 +31,6 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1 ,
-    backgroundColor: '#fff',
+    backgroundColor: '#f5f5f5',
   },
 });
