@@ -13,7 +13,7 @@ const LogoutButton = () => {
         <TouchableOpacity style={tw`absolute bottom-5 right-5`}>
             <Image
                 source={require('../components/randgenicon.png')} 
-                style={{width: 50, height: 50}}
+                style={{width: 60, height: 60}}
             />
         </TouchableOpacity>
     );
