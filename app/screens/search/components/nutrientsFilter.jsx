@@ -82,8 +82,8 @@ const Filter = ({input, setSearchText}) => {
 
     return (
     
-    <View>
-        <ScrollView horizontal={true} style={tw`h-15 flex flex-row`}>
+    <View style={tw`flex-1`}>
+        <ScrollView horizontal={true} style={tw`h-13 flex flex-row`}>
             {filters.map((cat, id) => (
                 <View style={tw`justify-center pl-2 pr-1.5`}>
                 <ButtonTemplate
@@ -96,8 +96,8 @@ const Filter = ({input, setSearchText}) => {
             ))}
         </ScrollView>
 
-        <View>
-            <FlatList data={filteredFood} renderItem={({item}) => {
+        
+        <FlatList style={tw`flex grow-0`} data={filteredFood} renderItem={({item}) => {
                 if (input === "") {
                     //console.log(fav);
                     return (
@@ -144,7 +144,6 @@ const Filter = ({input, setSearchText}) => {
                 }
             }}/>
         </View>
-    </View>
 )}
 
 export default Filter;
