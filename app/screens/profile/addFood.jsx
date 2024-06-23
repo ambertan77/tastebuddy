@@ -33,6 +33,10 @@ export default function Index() {
         }
     }
 
+    const goBack = () => {
+        navigation.navigate("screens/profile/index");
+    }
+
   return (
 
     <KeyboardAvoidingView
@@ -78,6 +82,18 @@ export default function Index() {
                     text = 'Add' 
                     onPress = {handleCreation}
                 />
+
+                <View style={tw `flex-row items-center`}>
+                    <Text>
+                        Nothing to input?
+                    </Text>
+                    <ButtonTemplate
+                        type = 'no-bg' 
+                        size = 'sm' 
+                        text = ' Head back to your profile.' 
+                        onPress = {goBack}
+                    />
+                </View>
 
                 </View>
 
