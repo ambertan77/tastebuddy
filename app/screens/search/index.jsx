@@ -7,6 +7,7 @@ import { doc, getDoc, getDocs, query, collection, where } from "firebase/firesto
 import tw from 'twrnc';
 import ButtonTemplate from "../../components/buttonTemplate";
 import Filter from "../search/components/nutrientsFilter";
+import Float from "../search/components/floatingButton";
 
 export default function Index() {
 
@@ -42,6 +43,8 @@ export default function Index() {
     <SafeAreaView style={styles.container}> 
 
         <Filter input={searchText} setSearchText={setSearchText} />
+        <Float />
+        
       
     </SafeAreaView>
 
