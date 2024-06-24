@@ -4,12 +4,14 @@ import { useNavigation } from 'expo-router';
 import { auth, db } from '../../../../firebase';
 import { doc, updateDoc, arrayUnion, getDoc, arrayRemove, onSnapshot } from "firebase/firestore";
 import { View, Text, ScrollView, FlatList, TouchableOpacity } from "react-native";
-import tw from 'twrnc';
 import ButtonTemplate from "../../../components/buttonTemplate";
-import Food from "../components/food";
-import Favourites from "../components/favourites";
+import Food from "./food";
+import userRandom from "./userRandom";
+import Favourites from "./favourites";
+import Float from "./floatingButton";
 import Icon from "react-native-vector-icons/AntDesign"; 
 import { set } from "firebase/database";
+import tw from 'twrnc';
 
 const Filter = ({input, setSearchText}) => {
 
@@ -22,6 +24,7 @@ const Filter = ({input, setSearchText}) => {
     const [selectedNutri, setSelectedNutri] = useState([]);
     const [filteredFood, setFilteredFood] = useState(food);
     const [fav, setFav] = useState(fetchFavData);
+    const [random, setRandom] = useState([]);
     //console.log(fav);
 
     const getFoodData = async () => {
@@ -60,7 +63,6 @@ const Filter = ({input, setSearchText}) => {
         }
       };
 
-    
     const user = auth.currentUser;
     const userRef = doc(db, "Users", user.uid);
 
@@ -80,8 +82,23 @@ const Filter = ({input, setSearchText}) => {
         fetchFavData();
       }, [fav]);
 
+    const getRandom = async () => {
+        const randomId = await userRandom();
+        const FoodList = await Food();
+        setFood(FoodList);
+        const randomFood = food.filter((food) => food.id == randomId);
+        setRandom([randomFood]);
+    };
+
+    useEffect(() => {
+        getRandom();
+        //console.log(random)
+    }, [random])
+
     return (
-    
+        
+    <View style={tw`flex-1`}>
+
     <View>
         <ScrollView horizontal={true} style={tw`h-13 flex flex-row`}>
             {filters.map((cat, id) => (
@@ -95,9 +112,33 @@ const Filter = ({input, setSearchText}) => {
                 </View>
             ))}
         </ScrollView>
-
         
-        <FlatList style={tw`flex grow-0 mb-15`} data={filteredFood} renderItem={({item}) => {
+        <FlatList scrollEnabled={false} style={tw`flex grow-0`} data={random[0]} renderItem={({item}) => {
+                if (random != "") {
+                    return (
+                            <View style={tw`h-20 m-3 rounded-lg flex bg-white border border-green-700 shadow flex-row`}> 
+                                <View style={tw`flex-4`}>
+                                    <Text style={tw`px-3 pt-2 font-bold text-xl`}>
+                                        {item.Name}
+                                    </Text>
+                                    <Text style={tw`px-3 pt-1 text-amber-700`}>
+                                        ${item.Price}
+                                    </Text>
+                                </View>
+
+                                <View style={tw`flex-1 pt-3 pr-5 items-end`}>
+                                    
+                                    <TouchableOpacity onPress={() => handlePressLike(id=item.id)}>
+                                        <Icon name={fav.includes(item.id) ? "heart" : "hearto"} size={20} color= "green" />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+
+                    )
+                }
+            }} />
+        
+        <FlatList style={tw`flex grow-1`} scrollEventThrottle={16} data={filteredFood} renderItem={({item}) => {
                 if (input === "") {
                     //console.log(fav);
                     return (
@@ -142,7 +183,12 @@ const Filter = ({input, setSearchText}) => {
                             </View>
                     )
                 }
-            }}/>
+            }}/> 
+            
+        </View>
+            
+        <Float selectedFilters={selectedNutri} filteredFood={filteredFood}/>
+
         </View>
 )}
 
