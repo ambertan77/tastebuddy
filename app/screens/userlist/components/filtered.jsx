@@ -1,13 +1,34 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native';
 import tw from 'twrnc';
 import ButtonTemplate from "@/app/components/buttonTemplate";
+import { useNavigation } from 'expo-router';
+import { auth, db } from '../../../../firebase';
+import { query, collection, where, addDoc, getDocs, doc } from 'firebase/firestore';
 
-const follow = () => {
-    // navigation.navigate("index")
-}
 
 const Filter = ({data, input, setSearchText}) => {
+
+    const currentUserUID = auth.currentUser.uid;
+    const navigation = useNavigation();
+    
+    const [following, setFollowing] = useState(false);
+
+    const follow = async (item) => {
+        try {
+            const currUserDocRef = collection(db, 'Users', currentUserUID, 'Following');
+            const docRef = await addDoc(currUserDocRef, {
+                username: item.username,
+                email: item.email,
+                uid: String(item.uid)
+            });
+            navigation.navigate('screens/profile/index');
+            console.log('User has been followed: ', docRef.id)
+        } catch (error) {
+            console.error('Error following user: ', error)
+        }
+    }
+
     return (
         <View>
             <FlatList data={data} renderItem={({item}) => {
@@ -22,7 +43,7 @@ const Filter = ({data, input, setSearchText}) => {
                                     type = 'add' 
                                     size = 'med' 
                                     text = '+ FOLLOW' 
-                                    onPress = {follow}
+                                    onPress = {() => follow(item)}
                                 />
                             </View>
                         </View>
@@ -40,7 +61,7 @@ const Filter = ({data, input, setSearchText}) => {
                                         type = 'add' 
                                         size = 'med' 
                                         text = '+ FOLLOW' 
-                                        onPress = {follow}
+                                        onPress = {() => follow(item)}
                                 />
                             </View>
                         </View>

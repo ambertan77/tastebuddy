@@ -52,7 +52,8 @@ export default function Index() {
         username: username,
         email: email,
         password: password,
-        favourites: []
+        favourites: [], 
+        uid: uid
       });
     }).catch(error => alert('Failed to create new account. ' + error.message))
   }
