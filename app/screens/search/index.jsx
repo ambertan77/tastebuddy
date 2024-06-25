@@ -43,8 +43,6 @@ export default function Index() {
     <SafeAreaView style={styles.container}> 
 
         <Filter input={searchText} setSearchText={setSearchText} />
-        <Float />
-        
       
     </SafeAreaView>
 

@@ -17,7 +17,7 @@ const NavigationTab = () => {
             {tabs.map((tab) => (
                 <Link href={tab.path} className="flex flex-col">
                     <View style={tw`pt-5 pb-6`}>
-                        <Icon name={tab.icon} size={30} color="green" />
+                        <Icon name={tab.icon} size={27} color="green" />
                     </View>
                 </Link>
             ))}
