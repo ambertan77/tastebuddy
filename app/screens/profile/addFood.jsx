@@ -11,7 +11,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { auth, db } from '../../../firebase';
 import { collection, doc, setDoc, addDoc, getDocs, where, query } from "firebase/firestore"; 
 
-export default function Index() {
+export default function AddFood() {
 
     const [name, setName] = useState('')
     const [date, setDate] = useState('')

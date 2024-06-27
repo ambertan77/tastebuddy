@@ -29,7 +29,7 @@ const UserConsumption = ({input, setSearchText}) => {
 
     useEffect(() => {
         getConsumptionData();
-    }, [])
+    }, [food])
 
     
     return (
