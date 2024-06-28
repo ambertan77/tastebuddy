@@ -59,6 +59,10 @@ export default function Index() {
       addDoc(collection(db, "Users", uid, "Following"), {
         uid: null
       })
+
+      addDoc(collection(db, "Users", uid, "Followers"), {
+        uid: null
+      })
     }).catch(error => alert('Failed to create new account. ' + error.message))
   }
 

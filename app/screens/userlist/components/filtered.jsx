@@ -16,8 +16,14 @@ const Filter = ({data, input, setSearchText}) => {
 
     const follow = async (item) => {
         try {
-            const currUserDocRef = collection(db, 'Users', currentUserUID, 'Following');
-            const docRef = await addDoc(currUserDocRef, {
+            const currUserCollection = collection(db, 'Users', currentUserUID, 'Following');
+            const docRef = await addDoc(currUserCollection, {
+                username: item.username,
+                email: item.email,
+                uid: String(item.uid)
+            });
+            const otherUserCollection = collection(db, 'Users', currentUserUID, 'Followers');
+            const otherDocRef = await addDoc(otherUserCollection, {
                 username: item.username,
                 email: item.email,
                 uid: String(item.uid)
