@@ -53,8 +53,7 @@ export default function Index() {
         email: email,
         password: password,
         favourites: [], 
-        uid: uid,
-        random: ""
+        uid: uid
       });
 
       addDoc(collection(db, "Users", uid, "Following"), {

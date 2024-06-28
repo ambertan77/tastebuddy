@@ -5,7 +5,7 @@ type Props = ModalProps & {
     isOpen: boolean
 }
 
-export const PopUp = ({isOpen, children, ...rest} : Props) => {
+const PopUp = ({isOpen, children, ...rest} : Props) => {
     return (
         <Modal
             visible={isOpen}
@@ -20,3 +20,5 @@ export const PopUp = ({isOpen, children, ...rest} : Props) => {
         </Modal>
     )
 }
+
+export default PopUp;

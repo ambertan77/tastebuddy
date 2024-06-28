@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Image, View, StyleSheet, Text, ScrollView, SafeAreaView, keyboardVerticalOffset, TouchableWithoutFeedback, KeyboardAvoidingView, TouchableOpacity, Platform, Keyboard } from 'react-native';
-import { auth } from '../../../firebase';
+import { auth, db } from '../../../firebase';
+import { doc, updateDoc, arrayUnion, getDoc, arrayRemove, onSnapshot } from "firebase/firestore";
 import tw from 'twrnc';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from 'expo-router';
@@ -10,13 +11,15 @@ import TBLogo from '../../components/logo';
 import WelcText from '../login/components/welcText';
 import SignUpText from '../login/components/signupButton';
 
+
 export default function Index() {
 
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
   const navigation = useNavigation()
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+
     signInWithEmailAndPassword(auth, email, password)
     .then(userCredentials => {
       const user = userCredentials.user;

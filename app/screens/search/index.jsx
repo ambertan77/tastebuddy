@@ -6,8 +6,7 @@ import { auth, db } from '../../../firebase';
 import { doc, getDoc, getDocs, query, collection, where } from "firebase/firestore";
 import tw from 'twrnc';
 import ButtonTemplate from "../../components/buttonTemplate";
-import Filter from "../search/components/nutrientsFilter";
-import Float from "../search/components/floatingButton";
+import Filter from "./components/nutrientsFilter";
 
 export default function Index() {
 
@@ -19,7 +18,7 @@ export default function Index() {
   }
 
   return (
-    <View style={tw`flex-1 flex`}>
+    <View style={tw`flex-1`}>
 
       <View>
             <View style={tw`bg-green-700 h-40`}>
@@ -43,11 +42,11 @@ export default function Index() {
     <SafeAreaView style={styles.container}> 
 
         <Filter input={searchText} setSearchText={setSearchText} />
-      
+        
     </SafeAreaView>
 
     <NavigationTab />
-
+   
     </View>
   );
 };
@@ -56,5 +55,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1 ,
     backgroundColor: '#f5f5f5',
+    marginBottom: 0,
   },
 });
