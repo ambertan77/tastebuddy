@@ -7,11 +7,9 @@ import ButtonTemplate from "../../../components/buttonTemplate";
 import { set } from "firebase/database";
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 
-const UserConsumption = ({input, setSearchText}) => {
+const UserConsumption = ({newFood}) => {
 
     const uid = auth.currentUser.uid;
-
-    const database = getFirestore();
 
     const [food, setFood] = useState([]);
     
@@ -29,6 +27,10 @@ const UserConsumption = ({input, setSearchText}) => {
 
     useEffect(() => {
         getConsumptionData();
+    }, [newFood == true])
+
+    useEffect(() => {
+        console.log(food)
     }, [food])
 
     
