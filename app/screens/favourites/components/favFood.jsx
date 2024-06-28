@@ -10,37 +10,50 @@ import Icon from "react-native-vector-icons/AntDesign";
 
 const FavFood = () => {
 
-    const [fav, setFav] = useState([]);
+    const [favId, setFavId] = useState([]);
     const [favFood, setFavFood] = useState([]);
+    const [food, setFood] = useState([]);
+
+    const getFoodData = async () => {
+        const FoodList = await Food();
+        setFood(FoodList);
+    };
 
     const fetchFavId = async () => {
         const FavList = await Favourites();
-        //console.log(FavList);
-        setFav(FavList);
+        setFavId(FavList);
     }; 
 
-    useEffect(() => {
-        fetchFavId();
-      }, [fav]);
-
     const getFavFoodData = async () => {
-        const FoodList = await Food();
-        const FavFood = FoodList.filter((x) => fav.includes(x.id))
+        const FavFood = food.filter((x) => favId.includes(x.id))
         setFavFood(FavFood);
-        //console.log(favFood);
     };
 
     useEffect(() => {
-        getFavFoodData();
-    }, [favFood])
+        getFoodData();
+        fetchFavId();
+      }, []);
 
-    const user = auth.currentUser;
-    const userRef = doc(db, "Users", user.uid);
+    useEffect(() => {
+        getFavFoodData();
+      }, [favId]);
+
+    //print statements for checking  
+    //useEffect(() => {
+    //    console.log("Updated food state:", food);
+    //    console.log("Updated favId state:", favId);
+    //    console.log("Updated favFood state:", favFood);
+    //}, [food, favId, favFood]);
+
     const handleUnlike = async(id) => {
+        const user = auth.currentUser;
+        const userRef = doc(db, "Users", user.uid);
+
+        const newFav = favId.filter((food) => food != id);
+        setFavId(newFav);
         await updateDoc(userRef, {
             favourites: arrayRemove(id)
-        }); 
-        fetchFavId();
+        });
     }
 
     return (
@@ -49,7 +62,7 @@ const FavFood = () => {
                 return (
                 <View style={tw`h-20 m-3 rounded-lg flex bg-white shadow flex-row`}> 
                     <View style={tw`flex-4`}>
-                        <Text style={tw`text-black px-3 pt-2 font-bold text-xl`}>
+                        <Text style={tw`text-black px-3 pt-2 font-bold text-lg`}>
                             {item.Name}
                         </Text>
                         <Text style={tw`px-3 pt-1 text-amber-700`}>
