@@ -178,8 +178,8 @@ const Filter = ({input, setSearchText}) => {
                     //if (random != "") {
                         return (
                                 <View style={styles.randompick}> 
-                                    <View style={tw`flex-4`}>
-                                        <Text style={tw`px-3 pt-2 font-bold text-lg`}>
+                                    <View style={tw`flex-7`}>
+                                        <Text style={tw`px-3 pt-2 font-bold text-base`}>
                                             {item.Name}
                                         </Text>
                                         <Text style={tw`px-3 pt-1 text-green-700`}>
@@ -203,9 +203,9 @@ const Filter = ({input, setSearchText}) => {
         <FlatList data={random[0] ? filteredFood.filter((food) => food.id != random[0].id) : filteredFood} renderItem={({item}) => {
                 if (input === "") {
                     return (
-                            <View style={tw`h-20 m-3 rounded-lg flex bg-white shadow flex-row`}> 
-                                <View style={tw`flex-4`}>
-                                    <Text style={tw`px-3 pt-2 font-bold text-lg`}>
+                            <View style={tw`h-23 m-3 rounded-lg flex bg-white shadow flex-row`}> 
+                                <View style={tw`flex-7`}>
+                                    <Text style={tw`px-3 pt-2 font-bold text-base`}>
                                         {item.Name}
                                     </Text>
                                     <Text style={tw`px-3 pt-1 text-amber-700`}>
@@ -227,8 +227,8 @@ const Filter = ({input, setSearchText}) => {
                 if(item.Name.toLowerCase().includes(input.toLowerCase())) {
                     return (
                         <View style={tw`h-20 m-3 rounded-lg flex bg-white shadow flex-row`}> 
-                                <View style={tw`flex-4`}>
-                                    <Text style={tw`px-3 pt-2 font-bold text-lg`}>
+                                <View style={tw`flex-7`}>
+                                    <Text style={tw`px-3 pt-2 font-bold text-base`}>
                                         {item.Name}
                                     </Text>
                                     <Text style={tw`px-3 pt-1 text-amber-700`}>
