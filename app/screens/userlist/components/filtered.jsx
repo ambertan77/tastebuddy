@@ -4,7 +4,7 @@ import tw from 'twrnc';
 import ButtonTemplate from "@/app/components/buttonTemplate";
 import { useNavigation } from 'expo-router';
 import { auth, db } from '../../../../firebase';
-import { query, collection, where, addDoc, getDocs, doc } from 'firebase/firestore';
+import { query, collection, where, addDoc, getDoc, doc } from 'firebase/firestore';
 
 
 const Filter = ({data, input, setSearchText}) => {
@@ -22,14 +22,16 @@ const Filter = ({data, input, setSearchText}) => {
                 email: item.email,
                 uid: String(item.uid)
             });
-            const otherUserCollection = collection(db, 'Users', currentUserUID, 'Followers');
-            const otherDocRef = await addDoc(otherUserCollection, {
-                username: item.username,
-                email: item.email,
-                uid: String(item.uid)
+            const otherUserCollection = collection(db, 'Users', item.uid, 'Followers');
+            const currentUserDoc = doc(db, 'Users', currentUserUID);
+            const docSnap = await getDoc(currentUserDoc);
+            const currUsername = docSnap.data().username;
+            const docRef2 = await addDoc(otherUserCollection, {
+                username: currUsername,
+                uid: String(currentUserUID)
             });
             navigation.navigate('screens/profile/index');
-            console.log('User has been followed: ', docRef.id)
+            console.log('User has been followed: ', docRef2.id)
         } catch (error) {
             console.error('Error following user: ', error)
         }
