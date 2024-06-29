@@ -3,8 +3,8 @@ import tw from 'twrnc';
 
 const Header = () => {
     return (
-        <View style={tw`h-25 border border-gray-400`}>
-            <Text style={tw`text-green-700 text-xl mt-15 text-center font-bold`}>
+        <View style={tw`h-25 bg-green-700`}>
+            <Text style={tw`text-white text-xl mt-15 text-center font-bold`}>
                 profile
             </Text>
         </View>

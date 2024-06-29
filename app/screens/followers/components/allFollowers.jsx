@@ -7,8 +7,8 @@ const fetchUsers = async () => {
     const uid = auth.currentUser.uid;
     const q = query(collection(db, "Users", uid, "Followers"), where('uid', '!=', null));
     const querySnapshot = await getDocs(q);
-    const allFollowing = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    return allFollowing;
+    const allFollowers = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return allFollowers;
 };
 
 export default fetchUsers;

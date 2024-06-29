@@ -34,6 +34,10 @@ export default function Index() {
       fetchUsers();
   }, [])
 
+  useEffect(() => {
+    console.log(users)
+  }, [users])
+
   return (
     <View style={tw`flex-1 flex`}>
 
