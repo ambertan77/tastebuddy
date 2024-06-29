@@ -10,9 +10,11 @@ const UserList = () => {
     const [user, setUser] = useState([])
 
     const fetchUser = async () => {
-        const querySnapshot = await getDocs(collection(db, "Users"));
-        const userList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setUser(userList);
+      const currentUserUID = auth.currentUser.uid;
+      const q = query(collection(db, "Users"), where('uid', '!=', currentUserUID));
+      const querySnapshot = await getDocs(q);
+      const userList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setUser(userList);
     };
 
     useEffect(() => {
