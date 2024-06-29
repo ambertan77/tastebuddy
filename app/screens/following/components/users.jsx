@@ -17,7 +17,12 @@ const Users = () => {
 
     useEffect(() => {
         fetchFollowingUsers();
-      }, [following]);
+        //console.log("fetching:" , following);
+      }, []);
+
+    //useEffect(() => {
+    //    console.log("recording change in following:" , following)
+    //}, [following]);
 
     return (
         <View> 

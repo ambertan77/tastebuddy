@@ -20,7 +20,7 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.container}> 
       
-      <View style={tw`items-center pt-50`}>
+      <View style={tw`items-center pt-40`}>
         <Image
           source={require('../app/assets/images/logo.png')} 
           style={{width: 250, height: 250}}

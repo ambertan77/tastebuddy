@@ -17,8 +17,12 @@ export default function Index() {
       <Header/>
 
       <SafeAreaView style={styles.container}> 
-        <LogoutButton />
-        <UserDetails />
+        
+        <View style={tw`flex flex-row`}>
+          <UserDetails style={tw`flex-4`}/>
+          <LogoutButton style={tw`flex-1`}/>
+        </View>
+        
         <AddFriends />
         
         <View style={tw `flex-1 items-center pt-5`}>

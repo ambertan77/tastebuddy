@@ -4,42 +4,87 @@ import tw from 'twrnc';
 import ButtonTemplate from "@/app/components/buttonTemplate";
 import { useNavigation } from 'expo-router';
 import { auth, db } from '../../../../firebase';
-import { query, collection, where, addDoc, getDoc, doc } from 'firebase/firestore';
-
+import { query, collection, where, addDoc, getDocs, getDoc, doc } from 'firebase/firestore';
+import Following from "../../following/components/allFollowing";
 
 const Filter = ({data, input, setSearchText}) => {
 
     const currentUserUID = auth.currentUser.uid;
     const navigation = useNavigation();
     
-    const [following, setFollowing] = useState(false);
+    const [following, setFollowing] = useState([]);
+    const [currentAppUser, setCurrentAppUser] = useState("");
+    const [editedData, setEditedData] = useState([]);
+
+    const getCurrentUser = async () => {
+        const docRef = doc(db, "Users", currentUserUID);
+        const docSnap = await getDoc(docRef);
+        setCurrentAppUser(docSnap.data());
+    }
+
+    const getFollowingList = async () => {
+        const followingList = await Following();
+        setFollowing(followingList.map((user) => user.uid));
+    }
+
+    const editData = () => {
+        const data2 = data.filter((user) => user.uid != currentUserUID)
+        setEditedData(data2);
+    }
+
+    useEffect(() => {
+        getCurrentUser();
+        getFollowingList();
+        console.log("current user:" , currentAppUser)
+        console.log("updated following list:" , following)
+    }, [])
+
+    useEffect(() => {
+        editData();
+    }, [data])
+
+    useEffect(() => {
+        console.log("current user:", currentAppUser)
+    }, [currentAppUser])
+
+    useEffect(() => {
+        console.log("added to following:", following)
+    }, [following])
+
+    useEffect(() => {
+        console.log("data edited2:", editedData)
+    }, [editedData])
+
 
     const follow = async (item) => {
-        try {
-            const currUserCollection = collection(db, 'Users', currentUserUID, 'Following');
-            const docRef = await addDoc(currUserCollection, {
-                username: item.username,
-                email: item.email,
-                uid: String(item.uid)
-            });
-            const otherUserCollection = collection(db, 'Users', item.uid, 'Followers');
-            const currentUserDoc = doc(db, 'Users', currentUserUID);
-            const docSnap = await getDoc(currentUserDoc);
-            const currUsername = docSnap.data().username;
-            const docRef2 = await addDoc(otherUserCollection, {
-                username: currUsername,
-                uid: String(currentUserUID)
-            });
-            navigation.navigate('screens/profile/index');
-            console.log('User has been followed: ', docRef2.id)
-        } catch (error) {
-            console.error('Error following user: ', error)
+        if (following.includes(item.uid) == false) {
+            try {
+                const currUserDocRef = collection(db, 'Users', currentUserUID, 'Following');
+                const docRef = await addDoc(currUserDocRef, {
+                    username: item.username,
+                    email: item.email,
+                    uid: String(item.uid)
+                });
+
+                const friendsUID = item.id
+                const friendDocRef = collection(db, 'Users', friendsUID, 'Followers');
+                const docRef2 = await addDoc(friendDocRef, {
+                    username: currentAppUser.username,
+                    email: currentAppUser.email,
+                    uid: currentUserUID
+                });
+                setFollowing(...following, item.uid)
+                navigation.navigate('screens/profile/index');
+                console.log('User has been followed: ', docRef.id)
+            } catch (error) {
+                console.error('Error following user: ', error)
+            }
         }
     }
 
     return (
         <View>
-            <FlatList data={data} renderItem={({item}) => {
+            <FlatList data={editedData} renderItem={({item}) => {
                 if (input === "") {
                     return (
                         <View style={tw`h-14 m-1 flex-row justify-between rounded-lg bg-white shadow`}> 
@@ -48,9 +93,9 @@ const Filter = ({data, input, setSearchText}) => {
                             </Text>
                             <View style={tw`pt-1 top-0 items-end pl-2 pr-1.5`}>
                                 <ButtonTemplate
-                                    type = 'add' 
+                                    type = {following.includes(item.uid) ? 'added' : 'add'}
                                     size = 'med' 
-                                    text = '+ FOLLOW' 
+                                    text = {following.includes(item.uid) ? 'following' : '+ follow'}
                                     onPress = {() => follow(item)}
                                 />
                             </View>
@@ -66,9 +111,9 @@ const Filter = ({data, input, setSearchText}) => {
                             </Text>
                             <View style={tw`pt-1 top-0 items-end pl-2 pr-1.5`}>
                                 <ButtonTemplate
-                                        type = 'add' 
+                                        type = {following.includes(item.uid) ? 'added' : 'add'} 
                                         size = 'med' 
-                                        text = '+ FOLLOW' 
+                                        text = {following.includes(item.uid) ? 'following' : '+ follow'}
                                         onPress = {() => follow(item)}
                                 />
                             </View>

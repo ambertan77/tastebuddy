@@ -4,20 +4,25 @@ import { auth, db } from '../../../../firebase';
 import { doc, updateDoc, arrayUnion, getDoc, arrayRemove, onSnapshot } from "firebase/firestore";
 import { View, Text, ScrollView, FlatList, TouchableOpacity } from "react-native";
 import tw from 'twrnc';
-import Following from "../../following/components/allFollowing"
+import Followers from "../../followers/components/allFollowers"
 
 const Users = () => {
 
     const [followers, setFollowers] = useState([]);
 
     const fetchFollowerUsers = async () => {
-        const FollowersList = await Following();
+        const FollowersList = await Followers();
         setFollowers(FollowersList);
     }; 
 
     useEffect(() => {
         fetchFollowerUsers();
-      }, [followers]);
+        //console.log("fetching:" , followers)
+      }, []);
+
+    //useEffect(() => {
+    //    console.log("recording change in followers:" , followers)
+    //  }, [followers]);
 
     return (
         <View> 

@@ -61,8 +61,8 @@ const FavFood = () => {
             <FlatList data={favFood} renderItem={({item}) => {
                 return (
                 <View style={tw`h-20 m-3 rounded-lg flex bg-white shadow flex-row`}> 
-                    <View style={tw`flex-7`}>
-                        <Text style={tw`text-black px-3 pt-2 font-bold text-base`}>
+                    <View style={tw`flex-4`}>
+                        <Text style={tw`text-black px-3 pt-2 font-bold text-lg`}>
                             {item.Name}
                         </Text>
                         <Text style={tw`px-3 pt-1 text-amber-700`}>
