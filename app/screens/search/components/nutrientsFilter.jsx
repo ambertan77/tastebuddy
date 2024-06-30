@@ -228,7 +228,7 @@ const Filter = ({input, setSearchText}) => {
 
                 if(item.Name.toLowerCase().includes(input.toLowerCase())) {
                     return (
-                        <View style={tw`h-20 m-3 rounded-lg flex bg-white shadow flex-row`}> 
+                        <View style={tw`h-23 m-3 rounded-lg flex bg-white shadow flex-row`}> 
                                 <View style={tw`flex-7`}>
                                     <Text style={tw`px-3 pt-2 font-bold text-base`}>
                                         {item.Name}
