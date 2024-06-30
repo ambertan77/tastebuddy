@@ -38,7 +38,7 @@ const UserConsumption = ({newFood}) => {
         <ScrollView style={tw `w-7/8 bg-white rounded-lg h-5/8`}>
             { food.length > 0 ? (
                 food.map(food => (
-                    <View style={tw`h-20 m-3 flex rounded-lg bg-white shadow`}> 
+                    <View key={food.Name} style={tw`h-20 m-3 flex rounded-lg bg-white shadow`}> 
                         <Text style={tw`px-3 pt-2 font-bold text-xl`}>
                             {food.Name}
                         </Text>

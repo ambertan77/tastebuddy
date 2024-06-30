@@ -74,7 +74,6 @@ const Filter = ({data, input, setSearchText}) => {
                     uid: currentUserUID
                 });
                 setFollowing(...following, item.uid)
-                navigation.navigate('screens/profile/index');
                 console.log('User has been followed: ', docRef.id)
             } catch (error) {
                 console.error('Error following user: ', error)
