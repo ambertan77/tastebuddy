@@ -5,6 +5,7 @@ import { useNavigation } from 'expo-router';
 import ButtonTemplate from '../app/components/buttonTemplate';
 
 import tw from 'twrnc';
+import { YellowBox } from 'react-native-web';
 export default function Index() {
 
   const navigation = useNavigation()
@@ -17,7 +18,10 @@ export default function Index() {
     navigation.navigate("screens/signup/index")
   }
 
+  console.disableYellowBox = true
+  
   return (
+    
     <SafeAreaView style={styles.container}> 
       
       <View style={tw`items-center pt-40`}>

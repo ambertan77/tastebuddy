@@ -184,6 +184,7 @@ const Filter = ({input, setSearchText}) => {
                                         </Text>
                                         <Text style={tw`px-3 pt-1 text-green-700`}>
                                             ${item.Price}
+                                            
                                         </Text>
                                     </View>
 
@@ -211,6 +212,7 @@ const Filter = ({input, setSearchText}) => {
                                     <Text style={tw`px-3 pt-1 text-amber-700`}>
                                         ${item.Price}
                                     </Text>
+                                    
                                 </View>
 
                                 <View style={tw`flex-1 pt-3 pr-5 items-end`}>
@@ -233,6 +235,7 @@ const Filter = ({input, setSearchText}) => {
                                     </Text>
                                     <Text style={tw`px-3 pt-1 text-amber-700`}>
                                         ${item.Price}
+                                        
                                     </Text>
                                 </View>
 
@@ -357,7 +360,7 @@ const Filter = ({input, setSearchText}) => {
 
 const styles = StyleSheet.create({
     randompick: {
-        height: 80, 
+        height: 92, 
         margin: 12, 
         borderRadius: 12, 
         flexDirection: 'row', 
