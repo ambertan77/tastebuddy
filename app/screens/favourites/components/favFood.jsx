@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { auth, db } from '../../../../firebase';
-import { doc, updateDoc, arrayUnion, getDoc, arrayRemove, onSnapshot } from "firebase/firestore";
+import { updateDoc, arrayUnion, getDoc, arrayRemove, onSnapshot, query, collection, where, addDoc, getDocs, doc } from "firebase/firestore";
 import { View, Text, ScrollView, FlatList, TouchableOpacity, SafeAreaView } from "react-native";
 import Entypo from "react-native-vector-icons/Entypo"; 
 import tw from 'twrnc';
@@ -12,6 +12,7 @@ import { useNavigation } from 'expo-router';
 import ButtonTemplate from "../../../components/buttonTemplate";
 import TextInputTemplate from "../../../components/textInputTemplate";
 import PopUp from "../../search/components/popup";
+import Followers from "../../followers/components/allFollowers";
 
 const FavFood = () => {
 
@@ -19,6 +20,8 @@ const FavFood = () => {
     const [favFood, setFavFood] = useState([]);
     const [food, setFood] = useState([]);
     const [review, setReview] = useState("");
+    const [selected, setSelected] = useState("");
+    const [selectedFoodId, setSelectedFoodId] = useState("");
     const [isPostOpen, setIsPostOpen] = useState(false);
     const navigation = useNavigation();
 
@@ -46,6 +49,18 @@ const FavFood = () => {
         getFavFoodData();
       }, [favId]);
 
+    useEffect(() => {
+        console.log("printing review: ", review);
+    }, [review]);
+
+    useEffect(() => {
+        console.log("selected to post: ", selected);
+    }, [selected]);
+
+    useEffect(() => {
+        console.log("selected id to post: ", selectedFoodId);
+    }, [selectedFoodId]);
+
     //print statements for checking  
     //useEffect(() => {
     //    console.log("Updated food state:", food);
@@ -61,6 +76,53 @@ const FavFood = () => {
         setFavId(newFav);
         await updateDoc(userRef, {
             favourites: arrayRemove(id)
+        });
+    }
+
+    const clickPost = (likedFoodName, likedId) => {
+        setReview("");
+        setSelected(likedFoodName);
+        setSelectedFoodId(likedId);
+        setIsPostOpen(true);
+    }
+
+    const [followers, setFollowers] = useState([]);
+
+    const fetchFollowerUsers = async () => {
+        const FollowersList = await Followers();
+        setFollowers(FollowersList);
+    }; 
+
+    useEffect(() => {
+        fetchFollowerUsers();
+        //console.log("fetching:" , followers)
+    }, []);
+
+    const currentUserUID = auth.currentUser.uid;
+
+    const handlePost = async () => {
+        //backend
+        //store post under user > reviews 
+        const currUserDocRef = collection(db, 'Users', currentUserUID, 'Reviews');
+        const docRef = await addDoc(currUserDocRef, {
+            foodId: selectedFoodId,
+            review: review,
+            date: new Date()
+        });
+        //store post under all followers > feed 
+        followers.forEach(user => addToFeed(user));
+
+        setIsPostOpen(false);
+    }
+
+    const addToFeed = async (user) => {
+        const followerUID = user.uid
+        const friendDocRef = collection(db, 'Users', followerUID, 'Feed');
+        const docRef2 = await addDoc(friendDocRef, {
+            PostedBysID: currentUserUID,
+            foodId: selectedFoodId,
+            review: review,
+            date: new Date()
         });
     }
 
@@ -90,7 +152,7 @@ const FavFood = () => {
                                 type = 'post'
                                 size = 'sm2' 
                                 text = "post" 
-                                onPress = {() => setIsPostOpen(true)}
+                                onPress = {() => clickPost(item.Name, item.id)}
                             />
 
                             <PopUp id='Post' isOpen={isPostOpen}>
@@ -99,7 +161,7 @@ const FavFood = () => {
                                     <View style={tw`flex flex-row`}> 
                                         <View style={tw`flex-9`}>
                                             <Text style={tw`px-5 pt-3 font-bold text-2xl`}>
-                                                Post 
+                                                Review 
                                             </Text>   
                                         </View>
 
@@ -112,7 +174,7 @@ const FavFood = () => {
 
                                     <View style={tw`px-5 pt-2`}> 
                                         <Text style={tw`text-sm pb-2`}>
-                                            Write your review about {item.Name} here.
+                                            Write your review about {selected} here.
                                         </Text> 
 
                                         <TextInputTemplate 
@@ -124,14 +186,12 @@ const FavFood = () => {
                                         />
                                     </View>
 
-                                    
-
                                     <View style={tw`items-end mt-0 pr-5`}>
                                         <ButtonTemplate
                                             type = "post"
                                             size = 'sm2' 
                                             text = "post"
-                                            onPress = {() => setIsPostOpen(false)}
+                                            onPress = {() => handlePost()}
                                         />
                                     </View>
 
