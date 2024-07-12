@@ -22,15 +22,15 @@ export default function Index() {
   const [show, setShow] = useState(false)
   const navigation = useNavigation()
   const selectedDate = date.toDateString
+  const currentUID = auth.currentUser.uid;
 
   const handleCreation = async () => {
     try {
-      const docRef = await addDoc(collection(db, 'Habits'), {
-        title: name,
+      const docRef = await addDoc(collection(db, 'Users', currentUID, 'Habits'), {
+        name: name,
         frequency: frequency,
         period: period, 
-        date: date,
-        uid: auth.currentUser.uid
+        date: date
       });
       navigation.navigate('screens/calendar/index')
       console.log('Document written with ID: ', docRef.id);
@@ -40,9 +40,12 @@ export default function Index() {
   }
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
+    const year = selectedDate.getFullYear();
+    const month = (selectedDate.getMonth() + 1) < 10 ? "0" + (selectedDate.getMonth() + 1) : (selectedDate.getMonth() + 1);
+    const day = selectedDate.getDate() < 10 ? "0" + selectedDate.getDate() : selectedDate.getDate()
+    const formattedDate = year + "-" + month + "-" + day
     setShow(false);
-    setDate(currentDate);
+    setDate(formattedDate);
   };
 
   const showMode = (currentMode) => {
@@ -100,7 +103,7 @@ export default function Index() {
                   text = '+ ADD SCHEDULED DATE'
                   onPress = {showDatepicker}
                 />
-                <Text>Date selected: {date.toLocaleDateString()}</Text>
+                <Text>Date selected: {date.toLocaleString()}</Text>
                 {show && (
                   <DateTimePicker
                     testID="dateTimePicker"
