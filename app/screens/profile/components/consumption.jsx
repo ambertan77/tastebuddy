@@ -75,7 +75,7 @@ const ConsumptionLog = () => {
 
             <PopUp id='AddFoodPage' isOpen={isAddFoodPageOpen}>
 
-            <View style={tw ``}> 
+            <View> 
                 <KeyboardAvoidingView
                     style={[tw`flex-1 flex-grow`, styles.container]}
                     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
