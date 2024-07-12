@@ -52,7 +52,7 @@ export default function Index() {
                   <TouchableOpacity style={tw `items-start ml-3 mt-13`} onPress={handleBackButton}>
                     <Icon name="chevron-left" size="20" color="white" />
                   </TouchableOpacity>
-                  <Text style={tw`text-white text-xl mt-15 text-center font-bold mb-2 ml-24`}>
+                  <Text style={tw`text-white text-xl mt-15 text-center font-bold mb-2 ml-21`}>
                       Search for a friend!
                   </Text>
                 </View>

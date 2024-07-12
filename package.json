@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-community/datetimepicker": "^8.1.0",
     "@react-native-firebase/app": "^20.1.0",
@@ -30,6 +31,7 @@
     "expo-splash-screen": "^0.27.5",
     "expo-status-bar": "~1.12.1",
     "expo-system-ui": "~3.0.6",
+    "expo-updates": "~0.25.18",
     "expo-web-browser": "~13.0.3",
     "firebase": "^10.12.2",
     "react": "18.2.0",
@@ -45,8 +47,7 @@
     "react-native-screens": "3.31.1",
     "react-native-vector-icons": "^10.1.0",
     "react-native-web": "~0.19.10",
-    "twrnc": "^4.2.0",
-    "expo-updates": "~0.25.18"
+    "twrnc": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
