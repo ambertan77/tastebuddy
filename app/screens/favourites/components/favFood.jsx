@@ -46,23 +46,28 @@ const FavFood = () => {
     useEffect(() => {
         getFoodData();
         fetchFavId();
-      }, []);
+        fetchReviews();
+    }, []);
 
     useEffect(() => {
         getFavFoodData();
       }, [favId]);
 
-    useEffect(() => {
-        console.log("printing review: ", review);
-    }, [review]);
+    //useEffect(() => {
+    //    console.log("favid updating", favId)
+    //}, [favId]);
 
-    useEffect(() => {
-        console.log("selected to post: ", selected);
-    }, [selected]);
+    //useEffect(() => {
+    //    console.log("printing review: ", review);
+    //}, [review]);
 
-    useEffect(() => {
-        console.log("selected id to post: ", selectedFoodId);
-    }, [selectedFoodId]);
+    //useEffect(() => {
+    //    console.log("selected to post: ", selected);
+    //}, [selected]);
+
+    //useEffect(() => {
+    //    console.log("selected id to post: ", selectedFoodId);
+    //}, [selectedFoodId]);
 
     //print statements for checking  
     //useEffect(() => {
@@ -119,7 +124,7 @@ const FavFood = () => {
         set(ref(db2, 'users/' + currentUserUID + '/' + 'reviews/' + selectedFoodId), {
             foodId: selectedFoodId,
             review: review,
-            date: new Date(),
+            date: new Date().getDate(),
         });
         //store post under all followers > feed 
         followers.forEach(user => addToFeed(user));
@@ -173,15 +178,11 @@ const FavFood = () => {
         const edited = reviewList.map((review) => review.foodId)
         //console.log("reviewlist:", reviewList)
         setReviewed(edited);
-    }; 
+    };
 
-    useEffect(() => {
-        fetchReviews();
-    }, []); //once only
-
-    useEffect(() => {
-        console.log("reviewed data:", reviewed)
-    }, [reviewed]);
+    //useEffect(() => {
+    //    console.log("reviewed data:", reviewed)
+    //}, [reviewed]);
 
 
     return (
