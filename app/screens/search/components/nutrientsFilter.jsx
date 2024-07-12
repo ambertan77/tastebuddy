@@ -124,6 +124,10 @@ const Filter = ({input, setSearchText}) => {
     //    console.log("Updated generatorOpen state:", isGeneratorOpen);
     //}, [random, food, selectedNutri, filteredFood, fav, isGeneratorOpen]);
 
+    useEffect(() => {
+        console.log("Updated food state:", food);
+    }, [food]);
+
     const handleRandom = () => {
         setIsGeneratorOpen(false);
 
@@ -141,8 +145,8 @@ const Filter = ({input, setSearchText}) => {
 
         <View style={tw`flex`}>
             <ScrollView horizontal={true} style={tw`h-13 flex flex-row`}>
-                {filters.map((cat, id) => (
-                    <View style={tw`justify-center pl-2 pr-1.5`}>
+                {filters.map((cat) => (
+                    <View key={cat} style={tw`justify-center pl-2 pr-1.5`}>
                     <ButtonTemplate
                         type = {selectedNutri?.includes(cat) ? "filter-clicked" : "filter"} 
                         size = 'med' 
@@ -177,7 +181,7 @@ const Filter = ({input, setSearchText}) => {
             <FlatList scrollEnabled={false} style={tw`flex grow-0`} data={random} renderItem={({item}) => {
                     //if (random != "") {
                         return (
-                                <View style={styles.randompick}> 
+                                <View key={item.id} style={styles.randompick}> 
                                     <View style={tw`flex-7`}>
                                         <Text style={tw`px-3 pt-2 font-bold text-base`}>
                                             {item.Name}
@@ -204,7 +208,7 @@ const Filter = ({input, setSearchText}) => {
         <FlatList data={random[0] ? filteredFood.filter((food) => food.id != random[0].id) : filteredFood} renderItem={({item}) => {
                 if (input === "") {
                     return (
-                            <View style={tw`h-23 m-3 rounded-lg flex bg-white shadow flex-row`}> 
+                            <View key={item.id} style={tw`h-23 m-3 rounded-lg flex bg-white shadow flex-row`}> 
                                 <View style={tw`flex-7`}>
                                     <Text style={tw`px-3 pt-2 font-bold text-base`}>
                                         {item.Name}
