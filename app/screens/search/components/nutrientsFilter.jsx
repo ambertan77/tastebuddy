@@ -15,18 +15,22 @@ import tw from 'twrnc';
 
 const Filter = ({input, setSearchText}) => {
 
-    const [food, setFood] = useState([]);
-    const [selectedNutri, setSelectedNutri] = useState([]);
-    const [filteredFood, setFilteredFood] = useState([]);
-    const [fav, setFav] = useState([]);
-    const [random, setRandom] = useState([]);
-    const [isGeneratorOpen, setIsGeneratorOpen] = useState(false);
-    const [priceInput, setPriceInput] = useState("");
-    const [background, setBackground] = useState("");
-    const [textColour, setTextColour] = useState("text-green-700");
+    const [food, setFood] = useState([]); //stores ALL food data in firestore 
+    const [selectedNutri, setSelectedNutri] = useState([]); //stores all nutrient filters chosen
+    const [filteredFood, setFilteredFood] = useState([]); //stores food data after filtering according to chosen filters 
+    const [fav, setFav] = useState([]); //stores list of ids that corresponds to users 'liked' foods
+    const [random, setRandom] = useState([]); //stores randomly generated food item (with all details)
+    const [isGeneratorOpen, setIsGeneratorOpen] = useState(false); //determines if random generator pop-up is opened or closed
+    const [priceInput, setPriceInput] = useState(""); //stores price input keyed into the budget filter
+    const [background, setBackground] = useState(""); //determines bg colour of price filter
+    const [textColour, setTextColour] = useState("text-green-700"); //determines text colour of price filter
 
-
+    let filters = ["Protein Source", "Carbohydrate Source", "Low in Sugar", "Low Fat"]; //an array of nutrition filters available
     
+    //purpose: select price filter, determines what happens when price input is keyed into the budget filter
+    // (1) price input stored in priceInput useState, (2) change bg colour and text colour of price input button filter
+    // (3) (if) other nutri filters are selected > filter food by price and selected filters and assign it to filteredFood useState
+    // (4) (else) no nutri filters are selected > filter food by price and assign it to filteredFood useState 
     const handlePriceInput = (text) => {
         setPriceInput(text);
         console.log(priceInput);
@@ -42,21 +46,23 @@ const Filter = ({input, setSearchText}) => {
         }
     }
 
+    //purpose: unselect price filter 
     const handlePriceButton = () => {
         setBackground("");
         setTextColour("text-green-700")
         filterItems();
     }
 
-    let filters = ["Protein Source", "Carbohydrate Source", "Low in Sugar", "Low Fat"];
-    
-
-    const getFoodData = async () => {
+    //this function is called ONCE when the page mounts due to the empty useEFfect dependency below
+    //purpose: get all food documents from database and store it in food useState
+    const getFoodData = async () => { 
         const FoodList = await Food();
         setFood(FoodList);
         setFilteredFood(FoodList); 
-    };
+    }; 
 
+    //this function is also called ONCE (after getFoodData is called) when the page mounts due to the empty useEFfect dependency below
+    //purpose: get all fav food ids from database (user > favourites field) and store it in fav useState
     const getFavData = async () => {
         const FavList = await Favourites();
         setFav(FavList);
@@ -67,7 +73,9 @@ const Filter = ({input, setSearchText}) => {
         getFavData();
     }, [])
 
-
+    //called when the nutritional filter buttons are clicked 
+    //scenario 1: (if) filter is being unselected, filter is removed from selectedNutri useState
+    //scenario 2: (else) filter is being selected, filter is added to selectedNutri useState
     const handleFilter = (cat) => {
         if (selectedNutri.includes(cat)) {
             let filters = selectedNutri.filter((i) => i !== cat);
@@ -77,12 +85,18 @@ const Filter = ({input, setSearchText}) => {
         }
     };
 
+
+    //purpose: (1) resets filteredFood useState to include ALL food items, (2) calls filterItems function
+    //this useEffect is called every time selectedNutri changes (nutritional filters are selected/ unselected)
     useEffect(() => {
         setFilteredFood(food);
         filterItems();
       }, [selectedNutri]);
+
       
-    
+    //purpose: handles filteredFood useState, hence determines what is shown on feed page
+    //scenario 1: (if) filters food data according to nutrients selected and stores it in filteredFood useState
+    //scenatio 2: (else) resets filteredFood useState to include ALL food items
     const filterItems = () => {
         if (selectedNutri.length > 0) {
             let tempItems = food.filter((food) => selectedNutri.every((nutri) => food.Nutrients.includes(nutri)));
@@ -92,7 +106,9 @@ const Filter = ({input, setSearchText}) => {
         }
       };
 
-      
+    //purpose: handles backend of pressing 'like' button
+    //(1) (if) unliking an item: food item is removed from favourites field in users document
+    //(2) (else) liking an item: food item is added to favourites field in users document
     const handlePressLike = async (id) => {
 
         const user = auth.currentUser;
@@ -115,6 +131,7 @@ const Filter = ({input, setSearchText}) => {
         }  
     }
 
+    //print statements to test for infinite loops
     //useEffect(() => {
     //    console.log("Updated random state:", random);
     //    console.log("Updated food state:", food);
@@ -124,10 +141,8 @@ const Filter = ({input, setSearchText}) => {
     //    console.log("Updated generatorOpen state:", isGeneratorOpen);
     //}, [random, food, selectedNutri, filteredFood, fav, isGeneratorOpen]);
 
-    useEffect(() => {
-        console.log("Updated food state:", food);
-    }, [food]);
-
+    //purpose: determines what happens when random box button is pressed
+    // (1) pop up is opened, (2) random useState is reset to an empty array, (3) Math.random is used to choose a random food from filteredFood useState and this item is stored in random useState
     const handleRandom = () => {
         setIsGeneratorOpen(false);
 

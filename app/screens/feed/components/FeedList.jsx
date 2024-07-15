@@ -9,9 +9,11 @@ import tw from 'twrnc';
 
 const FeedList = () => {
 
-    const [feedData, setFeedData] = useState([]);
-    const currentUserUID = auth.currentUser.uid;
+    const [feedData, setFeedData] = useState([]); //stores all data in the feed branch of this user (from realtime db)
+    const currentUserUID = auth.currentUser.uid; //this variable stores current users uid
 
+    //this function only runce ONCE when the feed page mounts
+    //purpose: fetch all the data in the feed branch of this user (from realtime db) and store feed info in feedData useState
     useEffect(() => {
         const feedRef = ref(db2, 'users/' + currentUserUID + '/' + 'feed/');
         onValue(feedRef, (snapshot => {
@@ -29,6 +31,7 @@ const FeedList = () => {
         }));
     }, []);
 
+    //print statements to check if feedData is updated correctly when page mounts
     useEffect(() => {
         console.log("feed: ", feedData);
     }, [feedData]);

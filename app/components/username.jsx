@@ -7,8 +7,8 @@ import tw from 'twrnc';
 
 const UsernameText = () => {
 
-    const [userID, setUserID] = useState<string | null>(null);
-    const [username, setUsername] = useState<string | null>(null);
+    const [userID, setUserID] = useState("");
+    const [username, setUsername] = useState("");
 
     const updateUserID = async () => {
         const user = auth.currentUser;
@@ -28,6 +28,14 @@ const UsernameText = () => {
         updateUserID();
         fetchData();
     }, [userID])
+
+    useEffect(() => {
+        console.log("print userid", userID);
+    }, [userID])
+
+    useEffect(() => {
+        console.log("print username", username);
+    }, [username])
  
 
   return (

@@ -73,7 +73,8 @@ const Filter = ({data, input, setSearchText}) => {
                     email: currentAppUser.email,
                     uid: currentUserUID
                 });
-                setFollowing(...following, item.uid)
+                const newFollowing = following.concat(item.uid)
+                setFollowing(newFollowing)
                 console.log('User has been followed: ', docRef.id)
             } catch (error) {
                 console.error('Error following user: ', error)
