@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { auth, db, db2 } from '../../../../firebase';
 import { updateDoc, arrayUnion, getDoc, arrayRemove, onSnapshot, query, collection, where, addDoc, getDocs, doc } from "firebase/firestore";
-import { ref, set, get, onValue, snapshot } from "firebase/database";
+import { ref, set, get, onValue, snapshot, child } from "firebase/database";
 import { View, Text, ScrollView, FlatList, TouchableOpacity, SafeAreaView } from "react-native";
 import Entypo from "react-native-vector-icons/Entypo"; 
 import tw from 'twrnc';
@@ -18,44 +18,72 @@ import Reviews from "./allReviews";
 
 const FavFood = () => {
 
-    const [favId, setFavId] = useState([]);
-    const [favFood, setFavFood] = useState([]);
-    const [food, setFood] = useState([]);
-    const [review, setReview] = useState("");
-    const [selected, setSelected] = useState("");
-    const [selectedFoodId, setSelectedFoodId] = useState("");
-    const [isPostOpen, setIsPostOpen] = useState(false);
-    const navigation = useNavigation();
-    const [reviewed, setReviewed] = useState([]);
+    const [favId, setFavId] = useState([]); //stores id of 'liked' foods
+    const [favFood, setFavFood] = useState([]); //stores details of 'liked' foods
+    const [food, setFood] = useState([]); //stores details of ALL food in firestore database
+    const [followers, setFollowers] = useState([]); //stores details of ALL followers of the user
+    const [review, setReview] = useState(""); //stores text input into Review popup
+    const [selected, setSelected] = useState(""); //stores food item that has been chosen to be reviewed
+    const [selectedFoodId, setSelectedFoodId] = useState(""); //stores id of food item that has been chosen to be reviewed
+    const [isPostOpen, setIsPostOpen] = useState(false); //determines if review pop-up is opened or closed
+    const [reviewed, setReviewed] = useState([]); //stores ids of food items that have been previously reviewed (from realtime database)
 
+    const navigation = useNavigation();
+
+    //this function is called ONCE when the page mounts due to the empty useEFfect dependency below
+    //purpose: get all food documents from database and store it in food useState
     const getFoodData = async () => {
         const FoodList = await Food();
         setFood(FoodList);
     };
 
+    //this function is called ONCE when the page mounts due to the empty useEffect dependency below
+    //purpose: get the id of food items liked by the user (in the faovurites field in users' document in firestore) and store it in favId useState
     const fetchFavId = async () => {
-        const FavList = await Favourites();
+        const FavList = await Favourites(); 
         setFavId(FavList);
     }; 
 
+    //this function is called ONCE when the page mounts & also whenever favId useState updates
+    //purpose: get the details of the 'liked' food items and store it in favFood useState
     const getFavFoodData = async () => {
         const FavFood = food.filter((x) => favId.includes(x.id))
         setFavFood(FavFood);
     };
 
+    //this function is called ONCE when the page mounts due to the empty useEffect dependency below
+    //purpose: this function fetches the data of users' followers from the followers sub-collection in the users' document and stores followers data in followers useState
+    const fetchFollowerUsers = async () => {
+        const FollowersList = await Followers();
+        setFollowers(FollowersList);
+    }; 
+
+    //useEffect runs on mount and calls the four functions above
     useEffect(() => {
         getFoodData();
         fetchFavId();
         fetchReviews();
+        fetchFollowerUsers();
+        //console.log("fetching:" , followers)
     }, []);
 
+    //updates favFood useState whenever favId useState changes
     useEffect(() => {
         getFavFoodData();
-      }, [favId]);
+    }, [favId]);
 
-    //useEffect(() => {
-    //    console.log("favid updating", favId)
-    //}, [favId]);
+    //print statements to test updating of useStates used
+    useEffect(() => {
+        console.log("favid updating", favId)
+    }, [favId]);
+
+    useEffect(() => {
+        console.log("favFood updating", favFood)
+    }, [favFood]);
+
+    useEffect(() => {
+        console.log("favFood updating", food)
+    }, [food]);
 
     //useEffect(() => {
     //    console.log("printing review: ", review);
@@ -69,13 +97,9 @@ const FavFood = () => {
     //    console.log("selected id to post: ", selectedFoodId);
     //}, [selectedFoodId]);
 
-    //print statements for checking  
-    //useEffect(() => {
-    //    console.log("Updated food state:", food);
-    //    console.log("Updated favId state:", favId);
-    //    console.log("Updated favFood state:", favFood);
-    //}, [food, favId, favFood]);
 
+    //purpose: this function handles the pressing of the filled heart button next to each food item
+    //corresponding food item's id is removed from favourites field in users' document in firestore
     const handleUnlike = async(id) => {
         const user = auth.currentUser;
         const userRef = doc(db, "Users", user.uid);
@@ -87,6 +111,11 @@ const FavFood = () => {
         });
     }
 
+    //purpose: this function handles what happens when the 'post' button next to each food item is clicked
+    // (1) reset the review useState to an empty string
+    // (2) store respective food item in selected useState
+    // (3) store respective food item's id in selectedFoodId useState
+    // (4) isPostOpen useState is set to true > opens review popup
     const clickPost = (likedFoodName, likedId) => {
         setReview("");
         setSelected(likedFoodName);
@@ -94,32 +123,16 @@ const FavFood = () => {
         setIsPostOpen(true);
     }
 
-    const [followers, setFollowers] = useState([]);
+    const currentUserUID = auth.currentUser.uid; //this variable stores current users' uid (from firebase authentication)
 
-    const fetchFollowerUsers = async () => {
-        const FollowersList = await Followers();
-        setFollowers(FollowersList);
-    }; 
-
-    useEffect(() => {
-        fetchFollowerUsers();
-        //console.log("fetching:" , followers)
-    }, []);
-
-    const currentUserUID = auth.currentUser.uid;
-
+    //purpose: this function handles what happens when the 'post' button on the review pop-up is clicked
+    // (1) adds chosen food items uid to reviewed useState
+    // (2) adds review under current user > reviews (in realtime database)
+    // (3) calls addToFeed on each follower
+    // (4) updates isPostOpen useState to false > closes review popup
     const handlePost = async () => {
-        //backend
-        //store post under user > reviews 
         const editedReviewed = reviewed.concat(selectedFoodId);
         setReviewed(editedReviewed)
-
-        const currUserDocRef = collection(db, 'Users', currentUserUID, 'Reviews');
-        const docRef = await addDoc(currUserDocRef, {
-            foodId: selectedFoodId,
-            review: review,
-            date: new Date().getDate()
-        });
 
         set(ref(db2, 'users/' + currentUserUID + '/' + 'reviews/' + selectedFoodId), {
             foodId: selectedFoodId,
@@ -132,6 +145,10 @@ const FavFood = () => {
         setIsPostOpen(false);
     }
 
+    //purpose: this function adds the review just typed into each followers feed branch in realtime database
+    // (1) takes in follower as the argument
+    // (2) adds new entry into followers feed branch and stores: PostedBysID (current users id), PostedBysUsername, foodId, foodName, review, date, month, year and time of review
+    // (3) the entrys id = number of already existing entries (this allows entries to be stored in a numerically increasing manner)
     const addToFeed = async (user) => {
         const querySnapshot = await getDoc(doc(db, "Users", currentUserUID));
         const username = querySnapshot.data()?.username
@@ -172,18 +189,27 @@ const FavFood = () => {
             console.error(error);
         });
     }
-    
+
+    //purpose: fetch id of food items that have already been reviewed before (from realtime db) and these ids are stored in reviewed useState, these food items cannot be reviewed again
     const fetchReviews = async () => {
-        const reviewList = await Reviews();
-        const edited = reviewList.map((review) => review.foodId)
-        //console.log("reviewlist:", reviewList)
-        setReviewed(edited);
+        const dbRef = ref(db2);
+        get(child(dbRef, `users/${currentUserUID}/reviews`)).then((snapshot) => {
+        if (snapshot.exists()) {
+            const details = snapshot.val();
+            const reviewedFoodId = Object.keys(details).map((value) => value)
+            setReviewed(reviewedFoodId)
+            console.log("realtime:", reviewedFoodId);
+        } else {
+            console.log("No data available");
+        }
+        }).catch((error) => {
+        console.error(error);
+        });
     };
 
     //useEffect(() => {
     //    console.log("reviewed data:", reviewed)
     //}, [reviewed]);
-
 
     return (
         <View> 
