@@ -14,6 +14,8 @@ export default function AgendaComponent() {
     const [habits, setHabits] = useState({});
     const [habitsId, setHabitsId] = useState([]);
 
+    // purpose: fetch the habits data from the database and filter by user
+    // ensure that the habits data is fetched everytime there is a change to the habit collection
     const fetchAgendas = async () => {
         const q = query(collection(db, "Users", uid, 'Habits'), where('date', '!=', null));
         onSnapshot(q, (querySnapshot) => {
@@ -60,6 +62,7 @@ export default function AgendaComponent() {
 
     const [item, setItem] = useState({});
 
+    // purpose: function to delete a habit document from the Habits collection
     const handleTrash = async (id) => {
         await deleteDoc(doc(db, "Users", uid, "Habits", id));
         const edittedIds = habitsId.filter((habitId) => habitId != id);
@@ -70,7 +73,6 @@ export default function AgendaComponent() {
         console.log(habitsId);
     }, [habitsId])
 
-    
             
     return (
         <SafeAreaView style={tw `flex-1 justify-center`}>
