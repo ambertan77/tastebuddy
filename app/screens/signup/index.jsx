@@ -39,6 +39,7 @@ export default function Index() {
       return;
     }
 
+    // create new account with firebase authentication
     createUserWithEmailAndPassword(auth, email, password)
     .then(userCredentials => {
       const user = userCredentials.user;
@@ -48,6 +49,7 @@ export default function Index() {
 
       navigation.navigate('screens/home/index');
       
+      // add new user document to firestore with the necessary fields and collections
       setDoc(doc(db, "Users", uid), {
         username: username,
         email: email,
