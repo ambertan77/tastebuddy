@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { SafeAreaView, TouchableOpacity, StyleSheet, Text, View } from 'react-native';
 import { Agenda, Calendar } from 'react-native-calendars';
 import tw from 'twrnc';
-import { getFirestore, collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { getFirestore, collection, query, where, getDocs, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '../../../../firebase';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useNavigation } from 'expo-router';
@@ -12,56 +12,65 @@ export default function AgendaComponent() {
     const uid = auth.currentUser.uid;
 
     const [habits, setHabits] = useState({});
+    const [habitsId, setHabitsId] = useState([]);
 
     const fetchAgendas = async () => {
         const q = query(collection(db, "Users", uid, 'Habits'), where('date', '!=', null));
-        const querySnapshot = await getDocs(q);
-        const habitsList = querySnapshot.docs.map(doc => ({ 
-            id: doc.id, 
-            date: doc.data()['date'],
-            name: doc.data()['name'],
-            frequency: doc.data()['frequency'],
-            period: doc.data()['period']
-        }));
-        const formattedItems = habitsList.reduce((acc, item) => {
-            if (!Object.keys(acc).includes(item.date)) {
-                acc[item.date] = [];
-            }
-            acc[item.date].push({ 
-                name: item.name,
-                frequency: item.frequency,
-                period: item.period
-            });
-            console.log(acc);
-            return acc;
-        }, Object.create({}));
-        console.log(formattedItems);
-        setHabits(formattedItems);
+        onSnapshot(q, (querySnapshot) => {
+            const habitsList = querySnapshot.docs.map(doc => ({ 
+                id: doc.id, 
+                date: doc.data()['date'],
+                name: doc.data()['name'],
+                frequency: doc.data()['frequency'],
+                period: doc.data()['period']
+            }));
+            const formattedItems = habitsList.reduce((acc, item) => {
+                if (!Object.keys(acc).includes(item.date)) {
+                    acc[item.date] = [];
+                }
+                acc[item.date].push({ 
+                    id: item.id,
+                    name: item.name,
+                    frequency: item.frequency,
+                    period: item.period
+                });
+                console.log(acc);
+                return acc;
+            }, Object.create({}));
+            console.log(formattedItems);
+            setHabits(formattedItems);
+        });
     }
+
+    const fetchHabitId = async () => {
+        const uid = auth.currentUser.uid;
+        const q = query(collection(db, "Users", uid, "Habits"), where('date', '!=', null));
+        const querySnapshot = await getDocs(q);
+        const allHabits = querySnapshot.docs.map(doc => ( doc.id ));
+        console.log(allHabits);
+        setHabitsId(allHabits);
+    };
 
     useEffect(() => {
         fetchAgendas()
+        fetchHabitId()
     }, []);
-
-    useEffect(() => {
-        console.log(habits)
-      }, [habits])
 
     const navigation = useNavigation();
 
     const [item, setItem] = useState({});
 
-    const handleTrash = async (item) => {
-        const document = query(doc(db, "Users", uid, "Habits", where('name', '==', item.name)));
-        document.deleteDoc();
-        // fetchAgendas();
-        // navigation.navigate("screens/profile/index")
-        //const document = query(doc(db, "Users", uid, "Habits"), where('name', '==', item.name));
-        // const querySnapshot = await getDocs(document);
-        // querySnapshot.forEach((doc) => {
-        //   doc.deleteDoc();
-        // });
-    };
+    const handleTrash = async (id) => {
+        await deleteDoc(doc(db, "Users", uid, "Habits", id));
+        const edittedIds = habitsId.filter((habitId) => habitId != id);
+        setHabitsId(edittedIds);
+    }
+
+    useEffect(() => {
+        console.log(habitsId);
+    }, [habitsId])
+
+    
             
     return (
         <SafeAreaView style={tw `flex-1 justify-center`}>
@@ -75,7 +84,7 @@ export default function AgendaComponent() {
                             <Text style={tw `text-black`}>{item.frequency}</Text>
                             <Text style={tw `text-black`}>{item.period}</Text> 
                         </View>
-                        <TouchableOpacity style={tw `items-end mr-5 justify-center`} onPress={() => handleTrash(item.name)}>
+                        <TouchableOpacity style={tw `items-end mr-5 justify-center`} onPress={() => handleTrash(item.id)}>
                             <Icon name="trash" size="20" color="green" />
                         </TouchableOpacity>
                     </View>
