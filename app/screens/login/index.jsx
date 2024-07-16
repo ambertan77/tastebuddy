@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Image, View, StyleSheet, Text, ScrollView, SafeAreaView, keyboardVerticalOffset, TouchableWithoutFeedback, KeyboardAvoidingView, TouchableOpacity, Platform, Keyboard } from 'react-native';
-import { auth, db } from '../../../firebase';
+import { auth, db } from '../../../firebase.js';
 import { doc, updateDoc, arrayUnion, getDoc, arrayRemove, onSnapshot } from "firebase/firestore";
 import tw from 'twrnc';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import ButtonTemplate from '../../components/buttonTemplate';
 import TextInputTemplate from '../../components/textInputTemplate';
 import TBLogo from '../../components/logo';
@@ -67,6 +67,7 @@ export default function Index() {
                 size = 'big' 
                 text = 'Login' 
                 onPress = {handleLogin}
+                testId='loginButton'
               />
 
               <SignUpText/>

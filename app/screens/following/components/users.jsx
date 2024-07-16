@@ -1,6 +1,6 @@
 import React from "react";
 import {useEffect, useState } from "react";
-import { auth, db } from '../../../../firebase';
+import { auth, db } from '../../../../firebase.js';
 import { doc, updateDoc, arrayUnion, getDoc, arrayRemove, onSnapshot } from "firebase/firestore";
 import { View, Text, ScrollView, FlatList, TouchableOpacity } from "react-native";
 import tw from 'twrnc';

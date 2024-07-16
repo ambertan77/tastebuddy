@@ -6,7 +6,7 @@ import NavigationTab from "../../components/navigationBar";
 import tw from 'twrnc';
 import { useNavigation } from 'expo-router';
 import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from '../../../firebase';
+import { auth, db } from '../../../firebase.js';
 import { doc, getDoc, getDocs, query, collection, where } from "firebase/firestore";
 import Filter from "./components/filtered";
 import Icon from "react-native-vector-icons/FontAwesome5";

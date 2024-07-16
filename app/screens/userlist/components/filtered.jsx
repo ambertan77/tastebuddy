@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native';
 import tw from 'twrnc';
 import ButtonTemplate from "@/app/components/buttonTemplate";
 import { useNavigation } from 'expo-router';
-import { auth, db } from '../../../../firebase';
+import { auth, db } from '../../../../firebase.js';
 import { query, collection, where, addDoc, getDocs, getDoc, doc } from 'firebase/firestore';
 import Following from "../../following/components/allFollowing";
 

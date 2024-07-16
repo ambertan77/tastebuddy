@@ -6,9 +6,10 @@ type ButtonProps = {
     size: "sm" | "sm2" | "med" | "big" ;
     text: string;
     onPress: () => void;
+    testId?: string 
 };
 
-const ButtonTemplate = ({ type, size, text, onPress }: ButtonProps) => {
+const ButtonTemplate = ({ type, size, text, onPress, testId }: ButtonProps) => {
     const backgroundColour = type === "green" ? "bg-green-700" : type === "filter" ? "bg-transparent rounded-xl" : type === "filter-clicked" ? "bg-green-700 rounded-xl" : type === "logout" ? "bg-amber-600" : type === "added" ? "bg-green-700" : type === "post-clicked" ? "bg-amber-600" : "bg-transparent";
     const textColour = type === "no-bg" ? "text-green-700" : type === "filter" ? "text-green-700" : type === "add" ? "text-gray-500" : type === "post" ? "text-amber-700" : "text-white";
     const textSize = size === "sm" ? "text-sm" : size === "sm2" ? "text-sm" : size === "med" ? "text-base" : "text-2xl";
@@ -18,10 +19,12 @@ const ButtonTemplate = ({ type, size, text, onPress }: ButtonProps) => {
     const marginBottom = size === "sm" ? "" : size === "med" ? "mb-1" : "mb-2";
     const bold = size === "sm" ? "" : "font-bold";
     const border = type === "add" ? "border border-gray-500" : type === "added" ? "border border-green-700" : type === "filter" ? "border border-green-700" : type === "filter-clicked" ? "border border-green-700" : type === "search" ? "border border-white" : type === "post" ? "border border-amber-600" : type === "post-clicked" ? "border border-amber-600" : "";
+    const id = testId;
     return (
         <TouchableOpacity
             onPress={onPress}
             style={tw`${width} ${marginBottom} ${marginTop} ${border} shadow-sm rounded-lg justify-center ${backgroundColour} ${height}`}
+            testID={testId}
         >
             <Text style={tw`${textColour} ${textSize} ${bold} text-center`}>
                 {text}
