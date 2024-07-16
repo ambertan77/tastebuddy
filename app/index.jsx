@@ -8,7 +8,7 @@ import tw from 'twrnc';
 import { YellowBox } from 'react-native-web';
 export default function Index() {
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const handlePressLogin = () => {
     navigation.navigate("screens/login/index")
@@ -37,6 +37,7 @@ export default function Index() {
         size = 'big' 
         text = 'Login' 
         onPress = {handlePressLogin}
+        testId = "loginButton"
         />
       </View>
       

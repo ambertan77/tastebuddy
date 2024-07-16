@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from '../../firebase';
+import { auth, db } from '../../firebase.js';
 import { View, Text } from 'react-native';
 import { useState, useEffect } from 'react';
 import { doc, getDoc, getDocs, query, collection, where } from "firebase/firestore";
