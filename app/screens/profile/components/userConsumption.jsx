@@ -13,7 +13,7 @@ const UserConsumption = ({newFood}) => {
 
     const [food, setFood] = useState([]);
     
-
+    // purpose: fetches the user's consumption data from firebase
     const getConsumptionData = async () => {
         try {
             const q = query(collection(db, "Consumption"), where("uid", "==", uid));
@@ -35,7 +35,7 @@ const UserConsumption = ({newFood}) => {
 
     
     return (
-        <ScrollView style={tw `w-7/8 bg-white rounded-lg h-5/8`}>
+        <ScrollView style={tw `w-7/8 bg-white rounded-lg h-3/4`}>
             { food.length > 0 ? (
                 food.map(food => (
                     <View key={food.Name} style={tw`h-20 m-3 flex rounded-lg bg-white shadow`}> 

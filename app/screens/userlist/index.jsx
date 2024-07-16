@@ -8,7 +8,6 @@ import { useNavigation } from 'expo-router';
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from '../../../firebase';
 import { doc, getDoc, getDocs, query, collection, where } from "firebase/firestore";
-import Users from './components/users';
 import Filter from "./components/filtered";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
@@ -18,6 +17,7 @@ export default function Index() {
 
   const [searchText, setSearchText] = useState("");
     
+  // allows users to search through the list of all users
   const handleSearchTextChange = (text) => {
     setSearchText(text);
     console.log(searchText);

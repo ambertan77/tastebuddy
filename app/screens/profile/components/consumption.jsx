@@ -10,22 +10,19 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { auth, db } from '../../../../firebase';
 import { collection, doc, setDoc, getDoc, addDoc, getDocs, where, query } from "firebase/firestore"; 
 
+// purpose: displays the list of food consumed in the food log
 const ConsumptionLog = () => {
 
     const navigation = useNavigation()
 
-    const [searchText, setSearchText] = useState("");
     const [isAddFoodPageOpen, setIsAddFoodPageOpen] = useState(false);
     const [name, setName] = useState('')
     const [date, setDate] = useState('')
     const [meal, setMeal] = useState('')
     const [newFood, setNewFood] = useState(false);
     
-    const handleSearchTextChange = (text) => {
-        setSearchText(text);
-        console.log(searchText);
-    }
 
+    // purpose: allows the user to add new items to the food log using a popup
     const handleCreation = async () => {
         try {
             const docRef = await addDoc(collection(db, 'Consumption'), {
@@ -56,16 +53,6 @@ const ConsumptionLog = () => {
             <Text style={tw `items-center text-white font-bold text-2xl pt-3 pb-1`}>
                 Your food log!
             </Text>
-            <View style={tw`flex justify-between flex-row px-4 py-1 bg-whitesmoke`}>
-                <TextInput
-                    onChangeText={handleSearchTextChange}
-                    style={tw`w-full p-3 bg-white rounded-xl mb-3`}
-                    placeholder="Search consumption history "
-                    clearButtonMode="always"
-                    autoCapitalize="none"
-                    value={searchText}
-                />
-            </View>
             <UserConsumption newFood={newFood} />
             <ButtonTemplate 
                 type = 'add'
