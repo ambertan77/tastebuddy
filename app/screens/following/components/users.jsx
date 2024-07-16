@@ -10,6 +10,7 @@ const Users = () => {
 
     const [following, setFollowing] = useState([]);
 
+    // store the following in an array 
     const fetchFollowingUsers = async () => {
         const FollowingList = await Following();
         setFollowing(FollowingList);

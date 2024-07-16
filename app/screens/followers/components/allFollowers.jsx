@@ -3,6 +3,7 @@ import { auth, db } from '../../../../firebase.js';
 import { doc, getDoc, getDocs, query, collection, where } from "firebase/firestore";
 import tw from 'twrnc';
 
+// purpose: fetch all users that follow the current user from firebase
 const fetchUsers = async () => {
     const uid = auth.currentUser.uid;
     const q = query(collection(db, "Users", uid, "Followers"), where('uid', '!=', null));

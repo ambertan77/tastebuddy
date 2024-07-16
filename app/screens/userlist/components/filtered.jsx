@@ -16,17 +16,20 @@ const Filter = ({data, input, setSearchText}) => {
     const [currentAppUser, setCurrentAppUser] = useState("");
     const [editedData, setEditedData] = useState([]);
 
+    // get the current user's document in firebase
     const getCurrentUser = async () => {
         const docRef = doc(db, "Users", currentUserUID);
         const docSnap = await getDoc(docRef);
         setCurrentAppUser(docSnap.data());
     }
 
+    // get the list of users the current user is following 
     const getFollowingList = async () => {
         const followingList = await Following();
         setFollowing(followingList.map((user) => user.uid));
     }
 
+    // ensure that the users displayed does not include the current user
     const editData = () => {
         const data2 = data.filter((user) => user.uid != currentUserUID)
         setEditedData(data2);
@@ -55,7 +58,8 @@ const Filter = ({data, input, setSearchText}) => {
         console.log("data edited2:", editedData)
     }, [editedData])
 
-
+    
+    // purpose: allows the user to follow another user
     const follow = async (item) => {
         if (following.includes(item.uid) == false) {
             try {

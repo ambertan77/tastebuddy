@@ -5,7 +5,8 @@ import ProfilePic from "../components/pfp";
 import UsernameText from "../../../components/username";
 import ButtonTemplate from "@/app/components/buttonTemplate";
 
-
+// (1) show the user's username
+// (2) provide the followers and following buttons to navigate to those pages
 const UserDetails = () => {
 
     const navigation = useNavigation()
