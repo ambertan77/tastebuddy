@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import ButtonTemplate from '../../../components/buttonTemplate';
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 
 const signupText = () => {
