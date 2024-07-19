@@ -9,6 +9,10 @@ import Following from "../../following/components/allFollowing";
 
 const Filter = ({data, input, setSearchText}) => {
 
+    if (auth.currentUser) {
+        const currentUserUID = auth.currentUser.uid;
+    }
+    
     const currentUserUID = auth.currentUser.uid;
     const navigation = useNavigation();
     

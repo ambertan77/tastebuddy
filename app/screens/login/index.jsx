@@ -16,9 +16,10 @@ export default function Index() {
 
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
-  const navigation = useNavigation()
+  
+  const navigation = useNavigation();
 
-  const handleLogin = async () => {
+  const handleLogin = () => {
 
     signInWithEmailAndPassword(auth, email, password)
     .then(userCredentials => {
@@ -66,7 +67,7 @@ export default function Index() {
                 type = 'green' 
                 size = 'big' 
                 text = 'Login' 
-                onPress = {handleLogin}
+                onPress = {(handleLogin)}
                 testId='loginButton'
               />
 

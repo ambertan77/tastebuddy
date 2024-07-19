@@ -1,24 +1,25 @@
 import React from 'react';
 import { StyleSheet, Text, SafeAreaView } from 'react-native';
 import { Image, View } from 'react-native';
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import ButtonTemplate from '../app/components/buttonTemplate';
-
 import tw from 'twrnc';
-import { YellowBox } from 'react-native-web';
+
 export default function Index() {
 
   const navigation = useNavigation();
 
   const handlePressLogin = () => {
-    navigation.navigate("screens/login/index")
+    if (navigation) {
+      navigation.navigate('screens/login/index');
+    }
   }
 
   const handlePressSignup = () => {
-    navigation.navigate("screens/signup/index")
+    if (navigation) {
+      navigation.navigate('screens/signup/index');
+    }
   }
-
-  console.disableYellowBox = true
   
   return (
     
@@ -47,6 +48,7 @@ export default function Index() {
         size = 'big' 
         text = 'Sign up' 
         onPress = {handlePressSignup}
+        testId='signupButton'
         />
       </View>
 
