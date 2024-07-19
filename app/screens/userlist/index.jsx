@@ -4,7 +4,7 @@ import { StyleSheet, Text, SafeAreaView, ScrollView, Link, TouchableOpacity } fr
 import { Image, View, TextInput } from 'react-native';
 import NavigationTab from "../../components/navigationBar";
 import tw from 'twrnc';
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from '../../../firebase.js';
 import { doc, getDoc, getDocs, query, collection, where } from "firebase/firestore";
@@ -49,7 +49,7 @@ export default function Index() {
       <View>
             <View style={tw`bg-green-700 h-40`}>
                 <View style={tw `flex-row items-center px-1`}>
-                  <TouchableOpacity style={tw `items-start ml-3 mt-13`} onPress={handleBackButton}>
+                  <TouchableOpacity style={tw `items-start ml-3 mt-13`} onPress={handleBackButton} testID='backButton'>
                     <Icon name="chevron-left" size="20" color="white" />
                   </TouchableOpacity>
                   <Text style={tw`text-white text-xl mt-15 text-center font-bold mb-2 ml-21`}>

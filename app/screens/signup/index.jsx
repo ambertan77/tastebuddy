@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, Text, ScrollView, SafeAreaView, TouchableWithoutFeedback, KeyboardAvoidingView, Platform, Keyboard, Image, View } from 'react-native';
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import tw from 'twrnc';
@@ -18,7 +18,8 @@ export default function Index() {
   const [username, setUsername] = useState('')
   const [usernameList, setUsernameList] = useState([])
   const [hasError, setHasError] = useState('')
-  const navigation = useNavigation()
+  
+  const navigation = useNavigation();
 
   const fetchUsernames = async () => {
     const querySnapshot = await getDocs(collection(db, "Users"));

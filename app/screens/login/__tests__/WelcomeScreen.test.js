@@ -4,8 +4,9 @@ import renderer from 'react-test-renderer';
 import { render, fireEvent } from '@testing-library/react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import WelcomeScreen from '../../../index';
 import LoginScreen from '../index';
-import SignupButton from '../components/signupButton';
+import SignupScreen from '../../signup/index';
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: jest.fn(),
@@ -13,17 +14,18 @@ jest.mock('@react-navigation/native', () => ({
 
 const mockNavigation = jest.mocked(useNavigation);
 
-describe('LoginScreen', () => {  
-  it('login button exists on login page', () => {
-    const page = render(<LoginScreen />);
-    const loginButton = page.getByTestId('loginButton');
-    expect(loginButton).toBeDefined();
-  })
-  
-  it('should go to home page', () => {
-    const page = render(<LoginScreen />);
+describe('Welcome Screen', () => {  
+  it('Login button leads to Login Screen', () => {
+    const page = render(<WelcomeScreen />);
     const loginButton = page.getByTestId('loginButton');
     fireEvent.press(loginButton);
+    expect(mockNavigation).toHaveBeenCalled();
+  })
+  
+  it('Signup button leads to Signup Screen', () => {
+    const page = render(<WelcomeScreen />);
+    const signupButton = page.getByTestId('signupButton');
+    fireEvent.press(signupButton);
     expect(mockNavigation).toHaveBeenCalled();
   })
 });

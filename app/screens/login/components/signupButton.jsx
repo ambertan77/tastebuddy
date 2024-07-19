@@ -9,7 +9,7 @@ const signupText = () => {
 
     const leadToSignup = () => {
         navigation.navigate("screens/signup/index")
-      }
+    }
 
     return (
         <View style={tw`flex-row`}>
@@ -22,6 +22,7 @@ const signupText = () => {
               size = 'sm' 
               text = 'Sign up!' 
               onPress = {leadToSignup}
+              testId="signupButton"
             />
       </View>
     );
