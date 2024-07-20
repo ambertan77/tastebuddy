@@ -4,8 +4,8 @@ import renderer from 'react-test-renderer';
 import { render, fireEvent } from '@testing-library/react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import LoginScreen from '../index';
-import SignupButton from '../components/signupButton';
+import SignupScreen from '../index';
+import LoginButton from '../components/loginButton';
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: jest.fn(),
@@ -13,11 +13,11 @@ jest.mock('@react-navigation/native', () => ({
 
 const mockNavigation = jest.mocked(useNavigation);
 
-describe('Login Screen', () => {  
-  it('Login button should go to home page on press', () => {
-    const page = render(<LoginScreen />);
-    const loginButton = page.getByTestId('loginButton');
-    fireEvent.press(loginButton);
+describe('Signup Screen', () => {  
+  it('Signup button should go to home page on Press', () => {
+    const page = render(<SignupScreen />);
+    const signupButton = page.getByTestId('signupButton');
+    fireEvent.press(signupButton);
     expect(mockNavigation).toHaveBeenCalled();
   })
 });

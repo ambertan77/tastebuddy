@@ -77,7 +77,7 @@ export default function Index() {
       
     </SafeAreaView>
 
-    <NavigationTab />
+    <NavigationTab currentRoute='screens/profile'/>
 
     </View>
   );

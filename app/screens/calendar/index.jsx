@@ -23,7 +23,7 @@ export default function Index() {
       
       </SafeAreaView>
   
-    <NavigationTab />
+    <NavigationTab currentRoute='screens/calendar'/>
 
     </View>
   );

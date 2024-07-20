@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native';
 import tw from 'twrnc';
 import ButtonTemplate from "@/app/components/buttonTemplate";
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../../../../firebase.js';
 import { query, collection, where, addDoc, getDocs, getDoc, doc } from 'firebase/firestore';
 import Following from "../../following/components/allFollowing";
@@ -12,8 +12,9 @@ const Filter = ({data, input, setSearchText}) => {
     if (auth.currentUser) {
         const currentUserUID = auth.currentUser.uid;
     }
-    
+
     const currentUserUID = auth.currentUser.uid;
+
     const navigation = useNavigation();
     
     const [following, setFollowing] = useState([]);
