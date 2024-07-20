@@ -30,7 +30,7 @@ export default function Index() {
         </View>
       </SafeAreaView>
 
-      <NavigationTab />
+      <NavigationTab currentRoute='screens/profile'/>
     
     </View>
   );

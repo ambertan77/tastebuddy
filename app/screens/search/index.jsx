@@ -45,7 +45,7 @@ export default function Index() {
         
     </SafeAreaView>
 
-    <NavigationTab />
+    <NavigationTab currentRoute='screens/search'/>
    
     </View>
   );

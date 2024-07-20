@@ -116,6 +116,7 @@ export default function Index() {
                 size = 'big' 
                 text = 'Sign Up' 
                 onPress = {handleSignUp}
+                testId='signupButton'
               />
 
               <LoginText/>

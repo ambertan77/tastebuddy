@@ -18,7 +18,7 @@ export default function Index() {
           <Feed />
       </SafeAreaView>
 
-      <NavigationTab />
+      <NavigationTab currentRoute='screens/feed'/>
 
     </View>
   );
