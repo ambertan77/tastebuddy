@@ -6,6 +6,7 @@ import { getFirestore, collection, query, where, getDocs, deleteDoc, doc, onSnap
 import { auth, db } from '../../../../firebase';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useNavigation } from 'expo-router';
+import CustomLoadingIndicator from './loadingIndicator';
 
 export default function AgendaComponent() {
 
@@ -13,6 +14,7 @@ export default function AgendaComponent() {
 
     const [habits, setHabits] = useState({});
     const [habitsId, setHabitsId] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     // purpose: fetch the habits data from the database and filter by user
     // ensure that the habits data is fetched everytime there is a change to the habit collection
@@ -44,18 +46,56 @@ export default function AgendaComponent() {
         });
     }
 
-    const fetchHabitId = async () => {
-        const uid = auth.currentUser.uid;
-        const q = query(collection(db, "Users", uid, "Habits"), where('date', '!=', null));
-        const querySnapshot = await getDocs(q);
-        const allHabits = querySnapshot.docs.map(doc => ( doc.id ));
-        console.log(allHabits);
-        setHabitsId(allHabits);
+    const getDatesForMonth = (month) => {
+        const year = month.year;
+        const currentMonth = month.month - 1; 
+        // set to first day of the current month
+        const date = new Date(year, currentMonth, 1);
+        const dates = [];
+
+        // create empty array of habits for each day in this month
+        while (date.getMonth() == currentMonth) {
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
+            const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate()
+            const formattedDate = year + "-" + month + "-" + day
+            dates.push(formattedDate);
+            date.setDate(date.getDate() + 1);
+        }
+        
+        console.log(dates);
+        return dates;
     };
+
+    const loadItemsForMonth = async (month) => {
+        const dates = getDatesForMonth(month);
+        const updatedHabits = {};
+
+        dates.forEach(date => {
+            if (!habits[date]) {
+                updatedHabits[date] = [];
+            }
+        });
+
+        setHabits(currentHabits => ({ ...currentHabits, ...updatedHabits }));
+    };
+
+    const getFormattedDateToday = () => {
+        const date = new Date()
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
+        const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate()
+        const formattedDate = year + "-" + month + "-" + day
+        return formattedDate;
+    }
+
+    const formattedDateToday = getFormattedDateToday();
 
     useEffect(() => {
         fetchAgendas()
-        fetchHabitId()
+        const today = new Date();
+        const currentMonth = today.getMonth() + 1;
+        loadItemsForMonth(currentMonth)
     }, []);
 
     const navigation = useNavigation();
@@ -73,11 +113,15 @@ export default function AgendaComponent() {
         console.log(habitsId);
     }, [habitsId])
 
+    if (loading) {
+        setLoading(false);
+        return <CustomLoadingIndicator />;
+    }
             
     return (
         <SafeAreaView style={tw `flex-1 justify-center`}>
             <Agenda
-                selected=""
+                selected={ formattedDateToday }
                 items={ habits }
                 renderItem={ item => (   
                     <View style={tw `bg-white flex-row rounded-lg pl-3 pt-2 pb-3 mt-4 mr-6`}>
@@ -91,13 +135,8 @@ export default function AgendaComponent() {
                         </TouchableOpacity>
                     </View>
                 )}
-                renderEmptyDate={() => (
-                    <View style={tw `flex-1 items-center`}>
-                        <Text style={tw `font-bold text-lg text-black`}> 
-                            No habit scheduled today. 
-                        </Text>
-                    </View>
-                )}
+                renderEmptyData={() => <CustomLoadingIndicator/> }
+                loadItemsForMonth={ loadItemsForMonth }
                 theme={{
                     agendaDayTextColor: 'gray',
                     agendaDayNumColor: 'gray',
