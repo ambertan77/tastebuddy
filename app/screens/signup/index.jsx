@@ -95,6 +95,7 @@ export default function Index() {
                 text= 'Enter your email'
                 setText = {text => setEmail(text)}
                 value={email}
+                testId='email'
               />
 
               <TextInputTemplate 
@@ -102,6 +103,7 @@ export default function Index() {
                 text= 'Enter your username'
                 setText = {text => setUsername(text)}
                 value={username}
+                testId='username'
               />
 
               <TextInputTemplate 
@@ -109,6 +111,7 @@ export default function Index() {
                 text= 'Enter your password'
                 setText = {text => setPassword(text)}
                 value={password}
+                testId='password'
               />
         
               <ButtonTemplate
