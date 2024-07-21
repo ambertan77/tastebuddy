@@ -49,7 +49,7 @@ export default function Index() {
 
       <View>
             <View style={tw`bg-green-700 h-40`}>
-                <View style={tw `flex-row items-center px-1`}>
+                <View style={tw `flex-row px-1`}>
                   <BackButton onPress={handleBackButton} testId='backButton' />
                   <Text style={tw`text-white text-xl mt-15 text-center font-bold mb-2 ml-21`}>
                       Search for a friend!
