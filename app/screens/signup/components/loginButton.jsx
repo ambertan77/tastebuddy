@@ -22,7 +22,8 @@ const LoginText = () => {
               size = 'sm' 
               text = 'Login!' 
               onPress = {leadToLogin}
-            />
+              testId="loginButton"
+            />s
       </View>
     );
 };
