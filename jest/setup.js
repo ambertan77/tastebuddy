@@ -17,9 +17,9 @@ jest.mock('react-native-reanimated', () => {
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
 jest.mock("@react-navigation/native", () => {
-  const actualNav = jest.requireActual("@react-navigation/native");
+  const original = jest.requireActual("@react-navigation/native");
   return {
-    ...actualNav,
+    ...original,
     useNavigation: () => ({
       navigate: jest.fn(),
       dispatch: jest.fn(),
@@ -30,3 +30,5 @@ jest.mock("@react-navigation/native", () => {
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock')
 );
+
+jest.mock('firebaseMock')

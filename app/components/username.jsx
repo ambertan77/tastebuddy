@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from '../../firebase.js';
+import { auth, db } from '../../firebase';
 import { View, Text } from 'react-native';
 import { useState, useEffect } from 'react';
 import { doc, getDoc, getDocs, query, collection, where } from "firebase/firestore";
@@ -13,8 +13,8 @@ const UsernameText = () => {
     const updateUserID = async () => {
         const user = auth.currentUser;
         if (user) {
-        setUserID(user.uid)
-    }
+            setUserID(user.uid)
+        }
     }
 
     const fetchData = async () => {
@@ -26,21 +26,32 @@ const UsernameText = () => {
 
     useEffect(() => {
         updateUserID();
+    }, [userID])
+
+    useEffect(() => {
         fetchData();
     }, [userID])
 
     useEffect(() => {
-        console.log("print userid", userID);
+        updateUserID();
+    }, [])
+
+    useEffect(() => {
+        fetchData();
+    }, [])
+
+    useEffect(() => {
+        console.log("print userid:", userID);
     }, [userID])
 
     useEffect(() => {
-        console.log("print username", username);
+        console.log("print username:", username);
     }, [username])
  
 
   return (
       <View>
-          <Text style={tw `text-black text-2xl font-bold`}>
+          <Text style={tw `text-black text-2xl font-bold`} testID="usernameText">
               {username}
           </Text>
       </View>
