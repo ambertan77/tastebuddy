@@ -9,7 +9,7 @@ import tw from 'twrnc';
 import Favourites from "../../search/components/favourites";
 import Food from "../../search/components/food"
 import Icon from "react-native-vector-icons/AntDesign"; 
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import ButtonTemplate from "../../../components/buttonTemplate";
 import TextInputTemplate from "../../../components/textInputTemplate";
 import PopUp from "../../search/components/popup";

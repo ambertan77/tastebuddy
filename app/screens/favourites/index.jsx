@@ -2,7 +2,7 @@ import { useState, useEffect, React } from "react";
 import { StyleSheet, Text, SafeAreaView } from 'react-native';
 import { Image, View } from 'react-native';
 import NavigationTab from "../../components/navigationBar";
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import Header from "../favourites/components/header";
 import FavFood from "../favourites/components/favFood";
 import tw from 'twrnc';
@@ -22,7 +22,7 @@ export default function Index() {
       
     </SafeAreaView>
 
-    <NavigationTab currentRoute='screens/favourites'/>
+    <NavigationTab currentRoute='screens/favourites' testId={'navbar'}/>
 
     </View>
   );
