@@ -1,6 +1,6 @@
 import React from "react";
 import {useEffect, useState } from "react";
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../../../../firebase.js';
 import { doc, updateDoc, arrayUnion, getDoc, arrayRemove, onSnapshot } from "firebase/firestore";
 import { View, Text, ScrollView, FlatList, TouchableOpacity, StyleSheet, Image, SafeAreaView, TextInput } from "react-native";

@@ -34,6 +34,7 @@ export default function Index() {
                         clearButtonMode="always"
                         autoCapitalize="none"
                         value={searchText}
+                        testID="searchBar"
                     />
                 </View>
             </View>
