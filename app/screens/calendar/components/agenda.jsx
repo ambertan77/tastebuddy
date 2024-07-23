@@ -46,20 +46,22 @@ export default function AgendaComponent() {
         });
     }
 
-    const getDatesForMonth = (month) => {
-        const year = month.year;
+    // purpose: put all the dates in this current month into an array
+    const getAllDatesInCurrentMonth = (month) => {
+        const currentYear = month.year;
         const currentMonth = month.month - 1; 
         // set to first day of the current month
-        const date = new Date(year, currentMonth, 1);
-        const dates = [];
+        var date = new Date(currentYear, currentMonth, 1);
+        var dates = [];
 
         // create empty array of habits for each day in this month
-        while (date.getMonth() == currentMonth) {
+        while (date.getMonth() === currentMonth) {
             const year = date.getFullYear();
             const month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
             const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate()
             const formattedDate = year + "-" + month + "-" + day
             dates.push(formattedDate);
+            // set date to the next date
             date.setDate(date.getDate() + 1);
         }
         
@@ -67,16 +69,19 @@ export default function AgendaComponent() {
         return dates;
     };
 
+    // purpose: to update the habit dictionary such that all dates are keys in the dictionary
     const loadItemsForMonth = async (month) => {
-        const dates = getDatesForMonth(month);
+        const dates = getAllDatesInCurrentMonth(month);
         const updatedHabits = {};
-
-        dates.forEach(date => {
+        
+        // for each date, create an empty array if it has no existing added habit 
+        dates.forEach((date) => {
             if (!habits[date]) {
                 updatedHabits[date] = [];
             }
         });
-
+        
+        // merge the current list of habits with the updated list (containing dates with empty arrays)
         setHabits(currentHabits => ({ ...currentHabits, ...updatedHabits }));
     };
 
@@ -113,6 +118,7 @@ export default function AgendaComponent() {
         console.log(habitsId);
     }, [habitsId])
 
+    // give instructions if the user just opened the calendar page instead of showing the loading indicator
     if (loading) {
         setLoading(false);
         return <CustomLoadingIndicator />;
