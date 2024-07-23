@@ -1,15 +1,15 @@
 import { View, Text } from "react-native";
 import ButtonTemplate from '../../../components/buttonTemplate';
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 
-const LogoutButton = () => {
+const LogoutButton = ({ onPress }) => {
 
     const navigation = useNavigation()
 
-    const handleLogOut = () => {
-        navigation.navigate("index")
-    }
+    // const handleLogOut = () => {
+    //     navigation.navigate("index")
+    // }
 
     return (
         <View style={tw`items-end pr-4 pt-2`}>
@@ -17,7 +17,8 @@ const LogoutButton = () => {
                 type = 'logout' 
                 size = 'med' 
                 text = 'Log out' 
-                onPress = {handleLogOut}
+                onPress = { onPress }
+                testId="logout"
             />
         </View>
     );

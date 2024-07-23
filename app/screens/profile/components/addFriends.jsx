@@ -1,15 +1,15 @@
 import { View, Text } from "react-native";
 import ButtonTemplate from '../../../components/buttonTemplate';
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 
-const AddFriends = () => {
+const AddFriends = ({ onPress }) => {
 
     const navigation = useNavigation()
 
-    const add = () => {
-        navigation.navigate("screens/userlist/index")
-    }
+    // const add = () => {
+    //     navigation.navigate("screens/userlist/index")
+    // }
 
     return (
         <View style={tw`items-start px-5`}>
@@ -17,7 +17,8 @@ const AddFriends = () => {
                 type = 'add' 
                 size = 'med' 
                 text = '+ ADD FRIENDS' 
-                onPress = {add}
+                onPress = {onPress}
+                testId= "addFriends"
             />
         </View>
     );
