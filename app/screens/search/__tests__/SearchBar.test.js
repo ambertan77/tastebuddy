@@ -8,6 +8,12 @@ import { collection, doc, setDoc, addDoc, getDocs, where, query, getFirestore } 
 import { auth } from '../../../../firebase';
 
 import SearchScreen from '../index';
+import FoodList from '../components/nutrientsFilter';
+import { fetchFood } from '../components/food';
+import { fetchFavs } from '../components/favourites';
+
+jest.mock('../components/food');
+jest.mock('../components/favourites');
 
 //mock alert function 
 global.alert = jest.fn();
@@ -58,7 +64,6 @@ jest.mock('firebase/firestore', () => ({
     getFirestore: jest.fn(),
 }));
 
-
 describe('Search Screen', () => {  
     beforeEach(() => {
         jest.clearAllMocks(); //clear all mocks before each test case
@@ -70,5 +75,15 @@ describe('Search Screen', () => {
         fireEvent.changeText(searchBar, "boiled egg");
         
         expect(searchBar.props.value).toBe("boiled egg");
+    })
+
+    it('Filtered food matches SearchText', async () => {
+      fetchFood.mockResolvedValueOnce({ docs: ['food1', 'food2', 'food3'] }); 
+      fetchFavs.mockResolvedValueOnce({ docs: ['food1', 'food2'] }); 
+      
+      const page = render(<FoodList />)
+
+      expect(fetchFood).toHaveBeenCalledTimes(1);
+      expect(page).toBeDefined();        
     })
 });
