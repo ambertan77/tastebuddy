@@ -5,8 +5,8 @@ import { auth, db } from '../../../../firebase.js';
 import { doc, updateDoc, arrayUnion, getDoc, arrayRemove, onSnapshot } from "firebase/firestore";
 import { View, Text, ScrollView, FlatList, TouchableOpacity, StyleSheet, Image, SafeAreaView, TextInput } from "react-native";
 import ButtonTemplate from "../../../components/buttonTemplate";
-import Food from "./food";
-import Favourites from "./favourites";
+import { fetchFood } from "./food";
+import { fetchFavs } from "./favourites";
 import Icon from "react-native-vector-icons/AntDesign"; 
 import Entypo from "react-native-vector-icons/Entypo"; 
 import PopUp from "./popup";
@@ -56,7 +56,7 @@ const Filter = ({input, setSearchText}) => {
     //this function is called ONCE when the page mounts due to the empty useEFfect dependency below
     //purpose: get all food documents from database and store it in food useState
     const getFoodData = async () => { 
-        const FoodList = await Food();
+        const FoodList = await fetchFood();
         setFood(FoodList);
         setFilteredFood(FoodList); 
     }; 
@@ -64,7 +64,7 @@ const Filter = ({input, setSearchText}) => {
     //this function is also called ONCE (after getFoodData is called) when the page mounts due to the empty useEFfect dependency below
     //purpose: get all fav food ids from database (user > favourites field) and store it in fav useState
     const getFavData = async () => {
-        const FavList = await Favourites();
+        const FavList = await fetchFavs();
         setFav(FavList);
     }; 
 
@@ -220,7 +220,7 @@ const Filter = ({input, setSearchText}) => {
                 } />
         </View>
         
-        <FlatList data={random[0] ? filteredFood.filter((food) => food.id != random[0].id) : filteredFood} renderItem={({item}) => {
+        <FlatList testID={'foodList'} data={random[0] ? filteredFood.filter((food) => food.id != random[0].id) : filteredFood} renderItem={({item}) => {
                 if (input === "") {
                     return (
                             <View key={item.id} style={tw`h-23 m-3 rounded-lg flex bg-white shadow flex-row`}> 
