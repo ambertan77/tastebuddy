@@ -9,17 +9,6 @@ import { collection, doc, setDoc, addDoc, getDocs, where, query, getFirestore } 
 
 import UsernameText from '../../../components/username';
 
-//mock global alert function 
-global.alert = jest.fn();
-
-//mock useNavigation 
-const mockNavigate = jest.fn()
-jest.mock('@react-navigation/native', () => ({
-  useNavigation: () => ({
-    navigate: mockNavigate,
-  }),
-}));
-
 //mock firebase functions
 jest.mock('../../../../firebase', () => {
     const originalModule = jest.requireActual('../../../../firebase');
