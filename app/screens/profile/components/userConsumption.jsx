@@ -20,7 +20,7 @@ const UserConsumption = ({newFood}) => {
             const querySnapshot = await getDocs(q);
             const FoodList = querySnapshot.docs.map(doc => doc.data());
             setFood(FoodList);
-        } catch (e) {
+        } catch (error) {
             alert('Error fetching user data. ' + error.message)
         } 
     };
