@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { View, StyleSheet, Text, TextInput, ScrollView, TouchableWithoutFeedback, SafeAreaView, KeyboardAvoidingView, Platform, Keyboard, Button } from "react-native";
 import ButtonTemplate from '../../../components/buttonTemplate';
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 import UserConsumption from "./userConsumption";
 import PopUp from "../components/popup";
@@ -58,9 +58,10 @@ const ConsumptionLog = () => {
                 type = 'add'
                 text = '+ ADD TO FOOD LOG'
                 onPress = {() => setIsAddFoodPageOpen(true)}
+                testId = "addFoodButton"
             />
 
-            <PopUp id='AddFoodPage' isOpen={isAddFoodPageOpen}>
+            <PopUp id='AddFoodPage' isOpen={isAddFoodPageOpen} testID="addFoodPopup" >
 
             <View> 
                 <KeyboardAvoidingView
@@ -116,6 +117,7 @@ const ConsumptionLog = () => {
                                     size = 'sm' 
                                     text = ' Head back to your profile.' 
                                     onPress = {() => setIsAddFoodPageOpen(false)}
+                                    testId = "goBack"
                                 />
                             </View>
 
