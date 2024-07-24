@@ -40,9 +40,6 @@ export default function Index() {
     console.log(users)
   }, [users])
 
-  const handleBackButton = () => {
-    navigation.navigate("screens/profile/index");
-  }
 
   return (
     <View style={tw`flex-1 flex`}>
@@ -50,7 +47,7 @@ export default function Index() {
       <View>
             <View style={tw`bg-green-700 h-40`}>
                 <View style={tw `flex-row px-1`}>
-                  <BackButton onPress={handleBackButton} testId='backButton' />
+                  <BackButton />
                   <Text style={tw`text-white text-xl mt-15 text-center font-bold mb-2 ml-21`}>
                       Search for a friend!
                   </Text>
