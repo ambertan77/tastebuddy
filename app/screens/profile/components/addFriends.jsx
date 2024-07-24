@@ -3,13 +3,13 @@ import ButtonTemplate from '../../../components/buttonTemplate';
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 
-const AddFriends = ({ onPress }) => {
+const AddFriends = () => {
 
     const navigation = useNavigation()
 
-    // const add = () => {
-    //     navigation.navigate("screens/userlist/index")
-    // }
+    const add = () => {
+        navigation.navigate("screens/userlist/index")
+    }
 
     return (
         <View style={tw`items-start px-5`}>
@@ -17,7 +17,7 @@ const AddFriends = ({ onPress }) => {
                 type = 'add' 
                 size = 'med' 
                 text = '+ ADD FRIENDS' 
-                onPress = {onPress}
+                onPress = { add }
                 testId= "addFriends"
             />
         </View>

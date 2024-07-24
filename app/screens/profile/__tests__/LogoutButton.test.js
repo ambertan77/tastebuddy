@@ -6,17 +6,22 @@ import { useNavigation } from '@react-navigation/native';
 
 import LogoutButton from '../components/logoutButton';
 
+const mockNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({
-    useNavigation: jest.fn(),
-  }));
-  
-const mockNavigation = jest.mocked(useNavigation);
+  useNavigation: () => ({
+    navigate: mockNavigate,
+  }),
+}));
   
 describe('Logout button', () => {  
-  it('Logout button should call onPress when pressed', () => {
-    const { getByTestId } = render(<LogoutButton onPress={mockNavigation} />);
+  beforeEach(() => {
+    jest.clearAllMocks();
+  })
+
+  it('Logout button should navigate to the correct screen when pressed', () => {
+    const { getByTestId } = render(<LogoutButton />);
     const logoutButton = getByTestId('logout');
     fireEvent.press(logoutButton);
-    expect(mockNavigation).toHaveBeenCalled();
+    expect(mockNavigate).toHaveBeenCalledWith('index');
   })
 });

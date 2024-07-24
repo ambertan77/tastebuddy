@@ -14,14 +14,6 @@ export default function Index() {
 
   const navigation = useNavigation();
 
-  const handleAddFriends = () => {
-    navigation.navigate("screens/userlist/index");
-  }
-
-  const handleLogout = () => {
-    navigation.navigate("index")
-  }
-
   return (
     <View style={tw`flex-1`}>
 
@@ -31,10 +23,10 @@ export default function Index() {
         
         <View style={tw`flex flex-row`}>
           <UserDetails style={tw`flex-4`}/>
-          <LogoutButton style={tw`flex-1`} onPress={handleLogout}/>
+          <LogoutButton style={tw`flex-1`} />
         </View>
         
-        <AddFriends onPress={handleAddFriends} />
+        <AddFriends />
         
         <View style={tw `flex-1 items-center pt-5`}>
           <ConsumptionLog />

@@ -9,17 +9,9 @@ import FollowingButton from '../components/followingButton'
 
 // (1) show the user's username
 // (2) provide the followers and following buttons to navigate to those pages
-const UserDetails = ({ onPress }) => {
+const UserDetails = () => {
 
     const navigation = useNavigation()
-
-    const followers = () => {
-        navigation.navigate("screens/followers/index")
-    }
-
-    const following = () => {
-        navigation.navigate("screens/following/index")
-    }
     
     return (
         <View style={tw`flex flex-row p-5`}>
@@ -29,8 +21,8 @@ const UserDetails = ({ onPress }) => {
                 <UsernameText />
 
                 <View style={tw`flex-row`}>
-                    <FollowersButton onPress={followers} />
-                    <FollowingButton onPress={following} />
+                    <FollowersButton />
+                    <FollowingButton />
                 </View>
             </View>
             

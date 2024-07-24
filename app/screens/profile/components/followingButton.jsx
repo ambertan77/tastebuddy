@@ -3,9 +3,13 @@ import ButtonTemplate from '../../../components/buttonTemplate';
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 
-const FollowingButton = ({ onPress }) => {
+const FollowingButton = () => {
 
     const navigation = useNavigation()
+
+    const following = () => {
+        navigation.navigate("screens/following/index")
+    }
 
     return (
         <View>
@@ -13,7 +17,7 @@ const FollowingButton = ({ onPress }) => {
                 type = 'no-bg' 
                 size = 'sm' 
                 text = 'following' 
-                onPress = {onPress}
+                onPress = { following }
                 testId = "following"
             />
         </View>
