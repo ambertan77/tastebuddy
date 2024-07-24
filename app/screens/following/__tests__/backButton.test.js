@@ -6,17 +6,22 @@ import { useNavigation } from '@react-navigation/native';
 
 import BackButton from '../components/backButton';
 
+const mockNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({
-    useNavigation: jest.fn(),
-  }));
-  
-const mockNavigation = jest.mocked(useNavigation);
+  useNavigation: () => ({
+    navigate: mockNavigate,
+  }),
+}));
   
 describe('Back button', () => {  
-  it('Back button should call onPress when pressed', () => {
-    const { getByTestId } = render(<BackButton onPress={mockNavigation} />);
+  beforeEach(() => {
+    jest.clearAllMocks();
+  })
+
+  it('Back button should navigate to the correct screen when pressed', () => {
+    const { getByTestId } = render(<BackButton />);
     const backButton = getByTestId('goBack');
     fireEvent.press(backButton);
-    expect(mockNavigation).toHaveBeenCalled();
+    expect(mockNavigate).toHaveBeenCalledWith('screens/profile/index');
   })
 });
