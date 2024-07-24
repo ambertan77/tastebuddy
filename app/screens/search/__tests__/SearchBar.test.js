@@ -1,7 +1,7 @@
 import React from 'react';
 import { jest } from '@jest/globals';
 import renderer from 'react-test-renderer';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import { render, fireEvent, waitFor, within } from '@testing-library/react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword, initializeAuth, getAuth } from 'firebase/auth';
 import { collection, doc, setDoc, addDoc, getDocs, where, query, getFirestore } from "firebase/firestore"; 
@@ -69,7 +69,14 @@ describe('Search Screen', () => {
         jest.clearAllMocks(); //clear all mocks before each test case
     });
 
-    it('Search Bar correctly reflects TextInput', async () => {
+    it('Search Icon is green', async () => {
+      const { getByTestId } = render(<SearchScreen />);
+      const icon = getByTestId('search');
+      
+      expect(icon.props.children[0].props.children.props.color).toBe('green');
+    })
+
+    it('Feature 4: Search Bar correctly reflects TextInput', async () => {
         const { getByTestId } = render(<SearchScreen />);
         const searchBar = getByTestId('searchBar');
         fireEvent.changeText(searchBar, "boiled egg");
@@ -77,13 +84,24 @@ describe('Search Screen', () => {
         expect(searchBar.props.value).toBe("boiled egg");
     })
 
-    it('Filtered food matches SearchText', async () => {
-      fetchFood.mockResolvedValueOnce({ docs: ['food1', 'food2', 'food3'] }); 
-      fetchFavs.mockResolvedValueOnce({ docs: ['food1', 'food2'] }); 
-      
-      const page = render(<FoodList />)
+    it('Feature 4: Search input results in correctly sorted food', async () => {
+      fetchFood.mockResolvedValueOnce([
+        {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: []},
+        {id: '2', Name: 'egg tart', Price: '0.5', Nutrients: []},
+        {id: '3', Name: 'chicken soup', Price: '3.2', Nutrients: []}
+      ])
 
-      expect(fetchFood).toHaveBeenCalledTimes(1);
-      expect(page).toBeDefined();        
-    })
+      fetchFavs.mockResolvedValueOnce([
+        '1', '2'
+      ])
+
+      const page = render(<FoodList input="egg" setSearchText={() => jest.fn} />);
+
+      await waitFor(() => {
+        expect(page.queryByText('boiled egg')).toBeTruthy();
+        expect(page.queryByText('egg tart')).toBeTruthy();
+        expect(page.queryByText('chicken soup')).toBeFalsy();
+      })
+  })
+
 });
