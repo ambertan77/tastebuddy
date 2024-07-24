@@ -6,7 +6,7 @@ import { ref, set, get, onValue, snapshot, child } from "firebase/database";
 import { View, Text, ScrollView, FlatList, TouchableOpacity, SafeAreaView } from "react-native";
 import Entypo from "react-native-vector-icons/Entypo"; 
 import tw from 'twrnc';
-import { fecthFavs } from "../../search/components/favourites";
+import { fetchFavs } from "../../search/components/favourites";
 import { fetchFood } from "../../search/components/food"
 import Icon from "react-native-vector-icons/AntDesign"; 
 import { useNavigation } from '@react-navigation/native';
@@ -40,7 +40,7 @@ const FavFood = () => {
     //this function is called ONCE when the page mounts due to the empty useEffect dependency below
     //purpose: get the id of food items liked by the user (in the faovurites field in users' document in firestore) and store it in favId useState
     const fetchFavId = async () => {
-        const FavList = await fecthFavs(); 
+        const FavList = await fetchFavs(); 
         setFavId(FavList);
     }; 
 

@@ -131,10 +131,6 @@ const Filter = ({input, setSearchText}) => {
         }  
     }
 
-    useEffect(() => {
-        console.log('food:', food)
-    })
-
     //print statements to test for infinite loops
     //useEffect(() => {
     //    console.log("Updated random state:", random);
@@ -199,7 +195,7 @@ const Filter = ({input, setSearchText}) => {
         </View>
 
         <View style={tw`justify-center`}>
-            <FlatList scrollEnabled={false} style={tw`flex grow-0`} data={random} renderItem={({item}) => {
+            <FlatList testID='randomFood' scrollEnabled={false} style={tw`flex grow-0`} data={random} renderItem={({item}) => {
                     //if (random != "") {
                         return (
                                 <View key={item.id} style={styles.randompick}> 
@@ -242,8 +238,7 @@ const Filter = ({input, setSearchText}) => {
                                 </View>
 
                                 <View style={tw`flex-1 pt-3 pr-5 items-end`}>
-                                    
-                                    <TouchableOpacity onPress={() => handlePressLike(id=item.id)}>
+                                    <TouchableOpacity testID="heart" onPress={() => handlePressLike(id=item.id)}>
                                         <Icon name={fav.includes(item.id) ? "heart" : "hearto"} size={20} color= "green" />
                                     </TouchableOpacity>
                                 </View>
@@ -281,6 +276,7 @@ const Filter = ({input, setSearchText}) => {
         <TouchableOpacity 
             style={tw``}
             onPress={() => setIsGeneratorOpen(true)}
+            testID='randomBox'
         >
             <Image
                 source={require('../components/randgenicon.png')} 
@@ -288,7 +284,7 @@ const Filter = ({input, setSearchText}) => {
              />
         </TouchableOpacity>
 
-       <PopUp id='Generator' isOpen={isGeneratorOpen}>
+       <PopUp id='Generator' isOpen={isGeneratorOpen} testID="randomPopup">
 
             <SafeAreaView style={tw `rounded rounded-xl h-55 w-95 bg-white`}> 
                 <View style={tw`flex flex-row`}> 
@@ -374,6 +370,7 @@ const Filter = ({input, setSearchText}) => {
                     size = 'med' 
                     text = "GO"
                     onPress = {() => handleRandom()}
+                    testId='randomGO'
                     />
                 </View>
 
