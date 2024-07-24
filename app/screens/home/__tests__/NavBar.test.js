@@ -33,7 +33,7 @@ describe('Navigation Bar', () => {
     it('Favourites Icon leads to Favourites Screen', () => {
         const { getByTestId } = render(<NavigationBar />);
         const favIcon = getByTestId('favourites');
-        fireEvent.press(favIcon); // Use fireEvent instead of userEvent if userEvent is not properly imported
+        fireEvent.press(favIcon); 
 
         expect(mockNavigate).toHaveBeenCalledWith('screens/favourites/index');
     })
@@ -41,7 +41,7 @@ describe('Navigation Bar', () => {
     it('Calendar Icon leads to Calendar Screen', () => {
         const { getByTestId } = render(<NavigationBar />);
         const calendarIcon = getByTestId('calendar');
-        fireEvent.press(calendarIcon); // Use fireEvent instead of userEvent if userEvent is not properly imported
+        fireEvent.press(calendarIcon); 
         
         expect(mockNavigate).toHaveBeenCalledWith('screens/calendar/index');
     })
@@ -49,7 +49,7 @@ describe('Navigation Bar', () => {
     it('Search Icon leads to Search Screen', async () => {
         const { getByTestId } = render(<NavigationBar />);
         const searchIcon = getByTestId('search');
-        fireEvent.press(searchIcon); // Use fireEvent instead of userEvent if userEvent is not properly imported
+        fireEvent.press(searchIcon); 
         
         expect(mockNavigate).toHaveBeenCalledWith('screens/search/index');
     })
@@ -57,7 +57,7 @@ describe('Navigation Bar', () => {
     it('Feed Icon leads to Feeds Screen', async () => {
         const { getByTestId } = render(<NavigationBar />);
         const feedIcon = getByTestId('feed');
-        fireEvent.press(feedIcon); // Use fireEvent instead of userEvent if userEvent is not properly imported
+        fireEvent.press(feedIcon); 
         
         expect(mockNavigate).toHaveBeenCalledWith('screens/feed/index');
     })
@@ -65,7 +65,7 @@ describe('Navigation Bar', () => {
     it('Profile Icon leads to Profile Screen', async () => {
         const { getByTestId } = render(<NavigationBar />);
         const profileIcon = getByTestId('profile');
-        fireEvent.press(profileIcon); // Use fireEvent instead of userEvent if userEvent is not properly imported
+        fireEvent.press(profileIcon); 
         
         expect(mockNavigate).toHaveBeenCalledWith('screens/profile/index');
     })

@@ -131,6 +131,10 @@ const Filter = ({input, setSearchText}) => {
         }  
     }
 
+    useEffect(() => {
+        console.log('food:', food)
+    })
+
     //print statements to test for infinite loops
     //useEffect(() => {
     //    console.log("Updated random state:", random);
@@ -167,11 +171,12 @@ const Filter = ({input, setSearchText}) => {
                         size = 'med' 
                         text = {`${cat}`} 
                         onPress = {() => handleFilter(cat)}
+                        testId={cat}
                     />
                     </View>
                 ))}
                     <View style={tw`justify-center pl-2 pr-1.5`}>
-                        <TouchableOpacity onPress={handlePriceButton} style={tw`w-fit px-3 mb-1 mt-1 border border-green-700 ${background} shadow-sm rounded-lg justify-center rounded-xl h-8`}>
+                        <TouchableOpacity testID='priceButton' onPress={handlePriceButton} style={tw`w-fit px-3 mb-1 mt-1 border border-green-700 ${background} shadow-sm rounded-lg justify-center rounded-xl h-8`}>
                             <View style={tw`flex-row items-center`}>
                                 <Text style={tw`${textColour} text-base font-bold text-center`}>
                                     Price &lt;
@@ -185,6 +190,7 @@ const Filter = ({input, setSearchText}) => {
                                     autoCapitalize="none"
                                     inputMode="numeric"
                                     value={background === "" ? "" : priceInput}
+                                    testID="priceFilter"
                                 />
                             </View>
                         </TouchableOpacity>
@@ -220,7 +226,8 @@ const Filter = ({input, setSearchText}) => {
                 } />
         </View>
         
-        <FlatList testID={'foodList'} data={random[0] ? filteredFood.filter((food) => food.id != random[0].id) : filteredFood} renderItem={({item}) => {
+        <View testID="foodList0">
+        <FlatList testID="foodList" data={random[0] ? filteredFood.filter((food) => food.id != random[0].id) : filteredFood} renderItem={({item}) => {
                 if (input === "") {
                     return (
                             <View key={item.id} style={tw`h-23 m-3 rounded-lg flex bg-white shadow flex-row`}> 
@@ -247,7 +254,7 @@ const Filter = ({input, setSearchText}) => {
 
                 if(item.Name.toLowerCase().includes(input.toLowerCase())) {
                     return (
-                        <View style={tw`h-23 m-3 rounded-lg flex bg-white shadow flex-row`}> 
+                        <View testID="filterBySearch" style={tw`h-23 m-3 rounded-lg flex bg-white shadow flex-row`}> 
                                 <View style={tw`flex-7`}>
                                     <Text style={tw`px-3 pt-2 font-bold text-base`}>
                                         {item.Name}
@@ -267,6 +274,7 @@ const Filter = ({input, setSearchText}) => {
                     )
                 }
         }}/>
+        </View>
 
     
     <View style={tw`absolute bottom-5 right-5 items-center justify-center`}>
