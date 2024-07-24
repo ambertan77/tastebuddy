@@ -3,9 +3,13 @@ import ButtonTemplate from '../../../components/buttonTemplate';
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 
-const FollowersButton = ({ onPress }) => {
+const FollowersButton = () => {
 
     const navigation = useNavigation()
+
+    const followers = () => {
+        navigation.navigate("screens/followers/index");
+    }
 
     return (
         <View style={tw`pr-3`}>
@@ -13,7 +17,7 @@ const FollowersButton = ({ onPress }) => {
                 type = 'no-bg' 
                 size = 'sm' 
                 text = 'followers' 
-                onPress = {onPress}
+                onPress = { followers }
                 testId = "followers"
             />
         </View>

@@ -6,17 +6,22 @@ import { useNavigation } from '@react-navigation/native';
 
 import FollowingButton from '../components/followingButton';
 
+const mockNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({
-    useNavigation: jest.fn(),
-  }));
-  
-const mockNavigation = jest.mocked(useNavigation);
+  useNavigation: () => ({
+    navigate: mockNavigate,
+  }),
+}));
   
 describe('Following button', () => {  
-  it('Following button should call onPress when pressed', () => {
-    const { getByTestId } = render(<FollowingButton onPress={mockNavigation} />);
+  beforeEach(() => {
+    jest.clearAllMocks();
+  })
+
+  it('Following button should navigate to the correct screen when pressed', () => {
+    const { getByTestId } = render(<FollowingButton />);
     const followingButton = getByTestId('following');
     fireEvent.press(followingButton);
-    expect(mockNavigation).toHaveBeenCalled();
+    expect(mockNavigate).toHaveBeenCalledWith('screens/following/index');
   })
 });

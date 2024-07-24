@@ -3,13 +3,13 @@ import ButtonTemplate from '../../../components/buttonTemplate';
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 
-const LogoutButton = ({ onPress }) => {
+const LogoutButton = () => {
 
     const navigation = useNavigation()
 
-    // const handleLogOut = () => {
-    //     navigation.navigate("index")
-    // }
+    const handleLogOut = () => {
+        navigation.navigate("index")
+    }
 
     return (
         <View style={tw`items-end pr-4 pt-2`}>
@@ -17,7 +17,7 @@ const LogoutButton = ({ onPress }) => {
                 type = 'logout' 
                 size = 'med' 
                 text = 'Log out' 
-                onPress = { onPress }
+                onPress = { handleLogOut }
                 testId="logout"
             />
         </View>
