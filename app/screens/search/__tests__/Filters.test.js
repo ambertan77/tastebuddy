@@ -64,7 +64,7 @@ jest.mock('firebase/firestore', () => ({
     getFirestore: jest.fn(),
 }));
 
-describe('Search Screen', () => {  
+describe('Search Screen: Filters (Feature 5)', () => {  
     beforeEach(() => {
         jest.clearAllMocks(); //clear all mocks before each test case
     });
