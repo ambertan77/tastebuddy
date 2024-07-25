@@ -32,7 +32,7 @@ jest.mock('../../../../firebase', () => {
       ...originalModule,
       auth: {
         currentUser: {
-            uid: 'uid-1',
+            uid: '0',
         }},
     };
 });
@@ -59,7 +59,7 @@ jest.mock('firebase/firestore', () => ({
         data: jest.fn(() => ({
             username: "tester", 
             email: "tester@email.com", 
-            uid: "uid-1" 
+            uid: "0" 
         })),
     })),
     getFirestore: jest.fn(),
@@ -76,25 +76,40 @@ describe('User List screen displays all users in the database', () => {
         jest.clearAllMocks(); //clear all mocks before each test case
     });
 
+    it("all users are displayed on screen", async () => {
+        fetchUsers.mockResolvedValueOnce([
+            {id: '1', username: 'goat', email: 'goat@email.com', uid: '1'},
+            {id: '2', username: 'sheep', email: 'sheep@email.com', uid: '2'},
+            {id: '3', username: 'frog', email: 'frog@email.com', uid: '3'}
+        ])
+        const page = render(<UserListScreen />);
+        await waitFor(() => {
+            expect(page.queryByText('goat')).toBeTruthy();
+            expect(page.queryByText('sheep')).toBeTruthy();
+            expect(page.queryByText('frog')).toBeTruthy();
+          })
+    });
+
     it("add followed user to following collection, current user to followers collection", async () => {
         fetchUsers.mockResolvedValueOnce([
-            {id: '1', username: 'tester', email: 'tester@email.com', uid: 'uid-1'},
-            {id: '2', username: 'sheep', email: 'sheep@email.com', uid: 'uid-2'},
-            {id: '3', username: 'frog', email: 'frog@email.com', uid: 'uid-3'}
+            {id: '1', username: 'goat', email: 'goat@email.com', uid: '1'},
+            {id: '2', username: 'sheep', email: 'sheep@email.com', uid: '2'},
+            {id: '3', username: 'frog', email: 'frog@email.com', uid: '3'}
         ])
         const page = render(<UserListScreen />);
         // add timeout to increase time for waitFor function
         const followButtons = await waitFor(() => page.findAllByTestId('follow'), { timeout: 2000 });
         const followButton = followButtons[0];
         fireEvent.press(followButton);
-        await waitFor(() => expect(collection).toHaveBeenCalledWith(db, "Users", "uid-1", "Following"));
+        await waitFor(() => expect(collection).toHaveBeenCalledWith(db, "Users", "0", "Following"));
+        await waitFor(() => expect(collection).toHaveBeenCalledWith(db, "Users", "1", "Followers"));
         expect(addDoc).toHaveBeenCalledTimes(2);
     });
 
     it("follow button changed to following after pressing", async () => {
         fetchUsers.mockResolvedValueOnce([
-            {id: '1', username: 'sheep', email: 'sheep@email.com', uid: 'uid-1'}, 
-            {id: '2', username: 'frog', email: 'frog@email.com', uid: 'uid-2'}
+            {id: '1', username: 'sheep', email: 'sheep@email.com', uid: '1'},
+            {id: '2', username: 'frog', email: 'frog@email.com', uid: '2'}
         ])
         const page = render(<UserListScreen />);
         // add timeout to increase time for waitFor function
