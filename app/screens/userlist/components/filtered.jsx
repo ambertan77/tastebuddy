@@ -6,8 +6,9 @@ import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../../../../firebase.js';
 import { query, collection, where, addDoc, getDocs, getDoc, doc } from 'firebase/firestore';
 import Following from "../../following/components/allFollowing";
+import { fetchUsers } from "./fetchUsers.jsx";
 
-const Filter = ({data, input, setSearchText}) => {
+const Filter = ({input, setSearchText}) => {
 
     if (auth.currentUser) {
         const currentUserUID = auth.currentUser.uid;
@@ -17,6 +18,7 @@ const Filter = ({data, input, setSearchText}) => {
 
     const navigation = useNavigation();
     
+    const [data, setData] = useState([])
     const [following, setFollowing] = useState([]);
     const [currentAppUser, setCurrentAppUser] = useState("");
     const [editedData, setEditedData] = useState([]);
@@ -35,21 +37,24 @@ const Filter = ({data, input, setSearchText}) => {
     }
 
     // ensure that the users displayed does not include the current user
-    const editData = () => {
-        const data2 = data.filter((user) => user.uid != currentUserUID)
-        setEditedData(data2);
+    const editData = async () => {
+        const data = await fetchUsers();
+        console.log(data);
+        setEditedData(data);
     }
 
     useEffect(() => {
         getCurrentUser();
         getFollowingList();
+        editData();
+        console.log(editedData);
         console.log("current user:" , currentAppUser)
         console.log("updated following list:" , following)
     }, [])
 
-    useEffect(() => {
-        editData();
-    }, [data])
+    // useEffect(() => {
+    //     editData();
+    // }, [editedData])
 
     useEffect(() => {
         console.log("current user:", currentAppUser)
@@ -59,9 +64,9 @@ const Filter = ({data, input, setSearchText}) => {
         console.log("added to following:", following)
     }, [following])
 
-    useEffect(() => {
-        console.log("data edited2:", editedData)
-    }, [editedData])
+    // useEffect(() => {
+    //     console.log("data edited2:", editedData)
+    // }, [editedData])
 
     
     // purpose: allows the user to follow another user
@@ -106,6 +111,7 @@ const Filter = ({data, input, setSearchText}) => {
                                     size = 'med' 
                                     text = {following.includes(item.uid) ? 'following' : '+ follow'}
                                     onPress = {() => follow(item)}
+                                    testId = {following.includes(item.uid) ? "following" : "follow"}
                                 />
                             </View>
                         </View>
