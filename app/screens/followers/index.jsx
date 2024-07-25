@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, SafeAreaView } from 'react-native';
 import { Image, View } from 'react-native';
 import NavigationTab from "../../components/navigationBar";
-import { useNavigation } from 'expo-router';
-import Header from "../followers/components/header";
-import Users from "../followers/components/users";
+import { useNavigation } from '@react-navigation/native';
+import Header from "./components/header";
+import Users from "./components/users";
 import tw from 'twrnc';
 
 export default function Index() {
