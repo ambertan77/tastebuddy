@@ -7,13 +7,13 @@ import { View, Text, ScrollView, FlatList, TouchableOpacity, SafeAreaView } from
 import Entypo from "react-native-vector-icons/Entypo"; 
 import tw from 'twrnc';
 import { fetchFavs } from "../../search/components/favourites";
-import { fetchFood } from "../../search/components/food"
+import { fetchFood } from "../../search/components/food";
 import Icon from "react-native-vector-icons/AntDesign"; 
 import { useNavigation } from '@react-navigation/native';
 import ButtonTemplate from "../../../components/buttonTemplate";
 import TextInputTemplate from "../../../components/textInputTemplate";
 import PopUp from "../../search/components/popup";
-import Followers from "../../followers/components/allFollowers";
+import { fetchUsers } from "../components/followers";
 import Reviews from "./allReviews";
 
 const FavFood = () => {
@@ -54,7 +54,7 @@ const FavFood = () => {
     //this function is called ONCE when the page mounts due to the empty useEffect dependency below
     //purpose: this function fetches the data of users' followers from the followers sub-collection in the users' document and stores followers data in followers useState
     const fetchFollowerUsers = async () => {
-        const FollowersList = await Followers();
+        const FollowersList = await fetchUsers();
         setFollowers(FollowersList);
     }; 
 
@@ -84,6 +84,10 @@ const FavFood = () => {
     useEffect(() => {
         console.log("favFood updating", food)
     }, [food]);
+
+    useEffect(() => {
+        console.log("printing followers: ", followers);
+    }, [followers]);
 
     //useEffect(() => {
     //    console.log("printing review: ", review);
@@ -215,7 +219,7 @@ const FavFood = () => {
         <View> 
             <FlatList data={favFood} renderItem={({item}) => {
                 return (
-                <View key={item.id} style={tw`h-23 m-3 rounded-lg flex bg-white shadow flex-row`}> 
+                <View testID='food' key={item.id} style={tw`h-23 m-3 rounded-lg flex bg-white shadow flex-row`}> 
                     <View style={tw`flex-4`}>
                         <Text style={tw`text-black px-3 pt-2 font-bold text-base`}>
                             {item.Name}
@@ -228,7 +232,7 @@ const FavFood = () => {
 
                     <View style={tw`flex-1 pt-3 pr-5 items-end`}>
                         
-                        <TouchableOpacity onPress={() => handleUnlike(id=item.id)}>
+                        <TouchableOpacity testID='like' onPress={() => handleUnlike(id=item.id)}>
                             <Icon name={favFood.includes(item) ? "heart" : "hearto"} size={20} color= "green" />
                         </TouchableOpacity>
 
@@ -238,9 +242,10 @@ const FavFood = () => {
                                 size = 'sm2' 
                                 text = {reviewed.includes(item.id) ? "posted" : "post"}
                                 onPress = {reviewed.includes(item.id) ? () => navigation.navigate("screens/favourites/index") : () => clickPost(item.Name, item.id)}
+                                testId="postButton1"
                             />
 
-                            <PopUp id='Post' isOpen={isPostOpen}>
+                            <PopUp testID='reviewPopup' id='Post' isOpen={isPostOpen}>
 
                                 <SafeAreaView style={tw `rounded rounded-xl h-55 w-95 bg-white`}> 
                                     <View style={tw`flex flex-row`}> 
@@ -251,7 +256,7 @@ const FavFood = () => {
                                         </View>
 
                                         <View style={tw`flex-1 items-end`}>
-                                            <TouchableOpacity onPress={() => setIsPostOpen(false)}>
+                                            <TouchableOpacity testID='crossButton' onPress={() => setIsPostOpen(false)}>
                                                 <Entypo name="cross" size={25} color= "gray" style={tw`absolute top-3 right-3`} />
                                             </TouchableOpacity>                
                                         </View>
@@ -268,6 +273,8 @@ const FavFood = () => {
                                             text= 'Your review ...'
                                             setText = {(text => setReview(text))}
                                             value={review}
+                                            testID='reviewInput'
+                                            accessibilityLabel='review'
                                         />
                                     </View>
 
@@ -277,6 +284,7 @@ const FavFood = () => {
                                             size = 'sm2' 
                                             text = "post"
                                             onPress = {() => handlePost()}
+                                            testId="postButton2"
                                         />
                                     </View>
 

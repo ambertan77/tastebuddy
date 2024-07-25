@@ -52,10 +52,6 @@ const Filter = ({input, setSearchText}) => {
         console.log("updated following list:" , following)
     }, [])
 
-    // useEffect(() => {
-    //     editData();
-    // }, [editedData])
-
     useEffect(() => {
         console.log("current user:", currentAppUser)
     }, [currentAppUser])
