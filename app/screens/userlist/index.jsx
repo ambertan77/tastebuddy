@@ -11,6 +11,7 @@ import { doc, getDoc, getDocs, query, collection, where } from "firebase/firesto
 import Filter from "./components/filtered";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import BackButton from './components/backButton';
+import { fetchUsers } from './components/fetchUsers'
 
 export default function Index() {
 
@@ -26,14 +27,13 @@ export default function Index() {
   
   const [users, setUsers] = useState([])
 
-  const fetchUsers = async () => {
-    const querySnapshot = await getDocs(collection(db, "Users"));
-    const userList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  const getUsers = async () => {
+    const userList = await fetchUsers();
     setUsers(userList);
   };
 
   useEffect(() => {
-      fetchUsers();
+      getUsers();
   }, [])
 
   useEffect(() => {
