@@ -7,11 +7,11 @@ import { createUserWithEmailAndPassword, initializeAuth, getAuth } from 'firebas
 import { collection, doc, setDoc, addDoc, getDocs, where, query, getFirestore } from "firebase/firestore"; 
 import { auth } from '../../../../firebase';
 
-import FollowersScreen from '../index';
+import FollowingScreen from '../index';
 import UsersList from '../components/users';
-import { allFollowers } from '../components/allFollowers';
+import { allFollowing } from '../components/allFollowing';
 
-jest.mock('../components/allFollowers');
+jest.mock('../components/allFollowing');
 
 //mock useNavigation 
 const mockNavigate = jest.fn()
@@ -65,9 +65,9 @@ describe('Followers Screen:', () => {
     });
 
 
-    it('Followers correctly reflected on screen', async () => {
+    it('Following correctly reflected on screen', async () => {
 
-        allFollowers.mockResolvedValueOnce([
+        allFollowing.mockResolvedValueOnce([
             {email: "goat@email.com", id: "1", uid: "1", username: "goat"}, 
             {email: "sheep@email.com", id: "2", uid: "2", username: "sheep"}, 
             {email: "frog@email.com", id: "3", uid: "3", username: "frog"}
