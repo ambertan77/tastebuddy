@@ -38,7 +38,7 @@ jest.mock('../../../../firebase', () => {
     };
 });
 
-//mock firebase auth functions used in signup/index
+//mock firebase auth functions used in nutrientsFilter.jsx
 jest.mock('firebase/auth', () => {
     const originalModule = jest.requireActual('firebase/auth');
     return {
@@ -47,7 +47,7 @@ jest.mock('firebase/auth', () => {
     };
 });
  
-//mock firebase firestore functions used in signup/index
+//mock firebase firestore functions used in nutrientsFilter.jsx
 jest.mock('firebase/firestore', () => ({
     setDoc: jest.fn(),
     addDoc: jest.fn(),
@@ -58,7 +58,7 @@ jest.mock('firebase/firestore', () => ({
     doc: jest.fn(),
     getDoc: jest.fn(() => ({
         data: jest.fn(() => ({
-            favourites: ['chicken soup', 'fried rice', 'boiled egg']
+            favourites: []
         })),
     })),
     getFirestore: jest.fn(),
@@ -69,7 +69,7 @@ describe('Search Screen: Random Generator (Feature 6)', () => {
         jest.clearAllMocks(); //clear all mocks before each test case
     });
 
-    it('Feature 6: Random Pop up doesnt exist on Search Page initially', async () => {
+    it('Random Pop up doesnt exist on Search Page initially', async () => {
         fetchFood.mockResolvedValueOnce([
             {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: ["Protein Source", "Low in Sugar" ]},
             {id: '2', Name: 'egg tart', Price: '0.5', Nutrients: ["Protein Source"]},
@@ -85,7 +85,7 @@ describe('Search Screen: Random Generator (Feature 6)', () => {
         await waitFor(() => expect(page.queryByTestId('randomPopup')).toBeFalsy());
     });
 
-    it('Feature 6: Random Generator Pop up is open when Random Box Button is pressed', async () => {
+    it('Random Generator Pop up is open when Random Box Button is pressed', async () => {
         fetchFood.mockResolvedValueOnce([
             {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: ["Protein Source", "Low in Sugar" ]},
             {id: '2', Name: 'egg tart', Price: '0.5', Nutrients: ["Protein Source"]},
@@ -105,7 +105,7 @@ describe('Search Screen: Random Generator (Feature 6)', () => {
         });
     });
 
-    it('Feature 6: random food doesnt exist initially', async () => {
+    it('random food doesnt exist initially', async () => {
         fetchFood.mockResolvedValueOnce([
             {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: ["Protein Source", "Low in Sugar" ]},
             {id: '2', Name: 'egg tart', Price: '0.5', Nutrients: ["Protein Source"]},
@@ -123,7 +123,7 @@ describe('Search Screen: Random Generator (Feature 6)', () => {
         });
     });
 
-    it('Feature 6: random food exists after pressing GO', async () => {
+    it('random food exists after pressing GO', async () => {
         fetchFood.mockResolvedValueOnce([
             {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: ["Protein Source", "Low in Sugar" ]},
             {id: '2', Name: 'egg tart', Price: '0.5', Nutrients: ["Protein Source"]},
@@ -144,8 +144,9 @@ describe('Search Screen: Random Generator (Feature 6)', () => {
         const randomFoodName = await waitFor(() => page.queryByTestId('randomFood').props.data[0].Name)
         
         await waitFor(() => {
-            expect(page.queryByTestId('randomFood').props.data).not.toEqual([]); //check that random food exists
+            expect(page.queryByTestId('randomFood').props.data).not.toEqual([]); //check that random food array is not empty
             expect((page.queryByTestId('randomFood').props.data).length).toEqual(1); //check there is only ONE random food
+            expect(page.queryByText(randomFoodName)).toBeTruthy(); //check that the random food name is shown on screen
         });
     });
 });

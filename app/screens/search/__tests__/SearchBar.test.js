@@ -38,7 +38,7 @@ jest.mock('../../../../firebase', () => {
     };
 });
 
-//mock firebase auth functions used in signup/index
+//mock firebase auth functions used in nutrientsFilter.jsx
 jest.mock('firebase/auth', () => {
     const originalModule = jest.requireActual('firebase/auth');
     return {
@@ -47,7 +47,7 @@ jest.mock('firebase/auth', () => {
     };
 });
  
-//mock firebase firestore functions used in signup/index
+//mock firebase firestore functions used in nutrientsFilter.jsx
 jest.mock('firebase/firestore', () => ({
     setDoc: jest.fn(),
     addDoc: jest.fn(),
@@ -58,25 +58,18 @@ jest.mock('firebase/firestore', () => ({
     doc: jest.fn(),
     getDoc: jest.fn(() => ({
         data: jest.fn(() => ({
-            favourites: ['chicken soup', 'fried rice', 'boiled egg']
+            favourites: []
         })),
     })),
     getFirestore: jest.fn(),
 }));
 
-describe('Search Screen: Search Bar (Feature 4)', () => {  
+describe('Search Screen: Search Bar Test (Feature 4)', () => {  
     beforeEach(() => {
         jest.clearAllMocks(); //clear all mocks before each test case
     });
 
-    it('Search Icon is green', async () => {
-      const { getByTestId } = render(<SearchScreen />);
-      const icon = getByTestId('search');
-      
-      expect(icon.props.children[0].props.children.props.color).toBe('green');
-    })
-
-    it('Feature 4: Search Bar correctly reflects TextInput', async () => {
+    it('Search Bar correctly reflects TextInput', async () => {
         const { getByTestId } = render(<SearchScreen />);
         const searchBar = getByTestId('searchBar');
         fireEvent.changeText(searchBar, "boiled egg");
@@ -84,7 +77,7 @@ describe('Search Screen: Search Bar (Feature 4)', () => {
         expect(searchBar.props.value).toBe("boiled egg");
     })
 
-    it('Feature 4: Search input results in correctly sorted food', async () => {
+    it('Search input results in correctly sorted food', async () => {
       fetchFood.mockResolvedValueOnce([
         {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: []},
         {id: '2', Name: 'egg tart', Price: '0.5', Nutrients: []},

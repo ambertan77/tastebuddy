@@ -41,7 +41,7 @@ jest.mock('../../../../firebase', () => {
     };
 });
 
-//mock firebase auth functions used in signup/index
+//mock firebase auth functions used in favFood.jsx
 jest.mock('firebase/auth', () => {
     const originalModule = jest.requireActual('firebase/auth');
     return {
@@ -50,7 +50,7 @@ jest.mock('firebase/auth', () => {
     };
 });
  
-//mock firebase firestore functions used in signup/index
+//mock firebase firestore functions used in favFood.jsx
 jest.mock('firebase/firestore', () => ({
     setDoc: jest.fn(),
     addDoc: jest.fn(),
@@ -61,7 +61,7 @@ jest.mock('firebase/firestore', () => ({
     doc: jest.fn(),
     getDoc: jest.fn(() => ({
         data: jest.fn(() => ({
-            favourites: ['chicken soup', 'fried rice', 'boiled egg']
+            favourites: []
         })),
     })),
     getFirestore: jest.fn(),
@@ -83,7 +83,7 @@ jest.mock('firebase/database', () => ({
 }));
  
 
-describe('Favourites Page: Post a food item (Feature 8)', () => {  
+describe('Favourites Page: Post Button 2 test', () => {  
     beforeEach(() => {
         jest.clearAllMocks(); //clear all mocks before each test case
         cleanup();

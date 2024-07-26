@@ -38,7 +38,7 @@ jest.mock('../../../../firebase', () => {
     };
 });
 
-//mock firebase auth functions used in signup/index
+//mock firebase auth functions used in nutrientsFilter.jsx
 jest.mock('firebase/auth', () => {
     const originalModule = jest.requireActual('firebase/auth');
     return {
@@ -47,7 +47,7 @@ jest.mock('firebase/auth', () => {
     };
 });
  
-//mock firebase firestore functions used in signup/index
+//mock firebase firestore functions used in nutrientsFilter.jsx
 jest.mock('firebase/firestore', () => ({
     setDoc: jest.fn(),
     addDoc: jest.fn(),
@@ -69,7 +69,7 @@ describe('Search Screen: Filters (Feature 5)', () => {
         jest.clearAllMocks(); //clear all mocks before each test case
     });
 
-    it('Feature 5: 1 Nutrition Filter selected, food correctly displayed', async () => {
+    it('1 Nutrition Filter selected, food correctly displayed', async () => {
       fetchFood.mockResolvedValueOnce([
         {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: ["Protein Source", "Low in Sugar" ]},
         {id: '2', Name: 'egg tart', Price: '0.5', Nutrients: ["Protein Source"]},
@@ -92,7 +92,7 @@ describe('Search Screen: Filters (Feature 5)', () => {
       })
     })
 
-    it('Feature 5: 2 Nutrition Filter selected, food correctly displayed', async () => {
+    it('2 Nutrition Filter selected, food correctly displayed', async () => {
       fetchFood.mockResolvedValueOnce([
         {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: ["Protein Source", "Low in Sugar" ]},
         {id: '2', Name: 'egg tart', Price: '0.5', Nutrients: ["Protein Source"]},
@@ -117,7 +117,7 @@ describe('Search Screen: Filters (Feature 5)', () => {
       })
     })
 
-    it('Feature 5: 1 Nutrition Filter selected then unselected, food correctly displayed', async () => {
+    it('1 Nutrition Filter selected then unselected, food correctly displayed', async () => {
       fetchFood.mockResolvedValueOnce([
         {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: ["Protein Source", "Low in Sugar" ]},
         {id: '2', Name: 'egg tart', Price: '0.5', Nutrients: ["Protein Source"]},
@@ -141,7 +141,7 @@ describe('Search Screen: Filters (Feature 5)', () => {
       })
     })
 
-    it('Feature 5: price input into Price Filter, food correctly displayed', async () => {
+    it('price input into Price Filter, food correctly displayed', async () => {
       fetchFood.mockResolvedValueOnce([
         {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: ["Protein Source", "Low in Sugar" ]},
         {id: '2', Name: 'egg tart', Price: '0.5', Nutrients: ["Protein Source"]},
@@ -164,7 +164,7 @@ describe('Search Screen: Filters (Feature 5)', () => {
       })
     })
 
-    it('Feature 5: price input into Price Filter then deselected, food correctly displayed', async () => {
+    it('price input into Price Filter then deselected, food correctly displayed', async () => {
       fetchFood.mockResolvedValueOnce([
         {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: ["Protein Source", "Low in Sugar" ]},
         {id: '2', Name: 'egg tart', Price: '0.5', Nutrients: ["Protein Source"]},
@@ -190,7 +190,7 @@ describe('Search Screen: Filters (Feature 5)', () => {
       })
     })
 
-    it('Feature 5: price input into Price Filter then deselected, food correctly displayed', async () => {
+    it('price input into Price Filter & nutrition filter chosen, food correctly displayed', async () => {
       fetchFood.mockResolvedValueOnce([
         {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: ["Protein Source", "Low in Sugar" ]},
         {id: '2', Name: 'egg tart', Price: '0.5', Nutrients: ["Protein Source"]},

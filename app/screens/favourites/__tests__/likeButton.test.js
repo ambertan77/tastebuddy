@@ -11,7 +11,6 @@ import FavouritesScreen from '../index';
 import FavFoodList from '../components/favFood';
 import { fetchFood } from '../../search/components/food';
 import { fetchFavs } from '../../search/components/favourites';
-import { update } from 'firebase/database';
 
 jest.mock('../../search/components/food');
 jest.mock('../../search/components/favourites');
@@ -39,7 +38,7 @@ jest.mock('../../../../firebase', () => {
     };
 });
 
-//mock firebase auth functions used in signup/index
+//mock firebase auth functions used in favFood.jsx
 jest.mock('firebase/auth', () => {
     const originalModule = jest.requireActual('firebase/auth');
     return {
@@ -48,7 +47,7 @@ jest.mock('firebase/auth', () => {
     };
 });
  
-//mock firebase firestore functions used in signup/index
+//mock firebase firestore functions used in favFood.jsx
 jest.mock('firebase/firestore', () => ({
     setDoc: jest.fn(),
     addDoc: jest.fn(),
@@ -59,7 +58,7 @@ jest.mock('firebase/firestore', () => ({
     doc: jest.fn(),
     getDoc: jest.fn(() => ({
         data: jest.fn(() => ({
-            favourites: ['chicken soup', 'fried rice', 'boiled egg']
+            favourites: []
         })),
     })),
     getFirestore: jest.fn(),
@@ -70,7 +69,7 @@ jest.mock('firebase/firestore', () => ({
     query: jest.fn(),
 }));
 
-describe('Favourites Page: Post a food item (Feature 8)', () => {  
+describe('Favourites Page: Unlike food item', () => {  
     beforeEach(() => {
         jest.clearAllMocks(); //clear all mocks before each test case
         cleanup();
