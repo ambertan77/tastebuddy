@@ -76,10 +76,10 @@ describe('Followers Screen:', () => {
         const page = render(<UsersList />);
 
         await waitFor(() => {
-            expect(page.queryByText('goat')).toBeTruthy(); //ensure goat is a follower
-            expect(page.queryByText('sheep')).toBeTruthy(); //ensure sheep is a follower
-            expect(page.queryByText('frog')).toBeTruthy(); //ensure frog is a follower
-            expect(page.queryByText('ninja')).toBeFalsy(); //ensure user ninja doesnt exist on followers page
+            expect(page.queryByText('goat')).toBeTruthy(); //ensure goat is on following page
+            expect(page.queryByText('sheep')).toBeTruthy(); //ensure sheep is on following page
+            expect(page.queryByText('frog')).toBeTruthy(); //ensure frog is on following page
+            expect(page.queryByText('ninja')).toBeFalsy(); //ensure user ninja doesnt exist on following page
         })
   })
 
