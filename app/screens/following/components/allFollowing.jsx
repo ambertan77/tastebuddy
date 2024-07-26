@@ -4,12 +4,10 @@ import { doc, getDoc, getDocs, query, collection, where } from "firebase/firesto
 import tw from 'twrnc';
 
 // purpose: fetch all users that the current user follows from firebase
-const fetchUsers = async () => {
+export const allFollowing = async () => {
     const uid = auth.currentUser.uid;
     const q = query(collection(db, "Users", uid, "Following"), where('uid', '!=', null));
     const querySnapshot = await getDocs(q);
     const allFollowing = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     return allFollowing;
 };
-
-export default fetchUsers;

@@ -4,7 +4,7 @@ import { auth, db } from '../../../../firebase.js';
 import { doc, updateDoc, arrayUnion, getDoc, arrayRemove, onSnapshot } from "firebase/firestore";
 import { View, Text, ScrollView, FlatList, TouchableOpacity } from "react-native";
 import tw from 'twrnc';
-import Followers from "../../followers/components/allFollowers"
+import { allFollowers } from "../../followers/components/allFollowers"
 
 const Users = () => {
 
@@ -12,7 +12,7 @@ const Users = () => {
 
     // store the followers in an array 
     const fetchFollowerUsers = async () => {
-        const FollowersList = await Followers();
+        const FollowersList = await allFollowers();
         setFollowers(FollowersList);
     }; 
 
