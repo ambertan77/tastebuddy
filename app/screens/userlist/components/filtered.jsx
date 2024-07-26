@@ -5,7 +5,7 @@ import ButtonTemplate from "@/app/components/buttonTemplate";
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../../../../firebase.js';
 import { query, collection, where, addDoc, getDocs, getDoc, doc } from 'firebase/firestore';
-import Following from "../../following/components/allFollowing";
+import { allFollowing } from "../../following/components/allFollowing";
 import { fetchUsers } from "./fetchUsers.jsx";
 
 const Filter = ({input, setSearchText}) => {
@@ -32,7 +32,7 @@ const Filter = ({input, setSearchText}) => {
 
     // get the list of users the current user is following 
     const getFollowingList = async () => {
-        const followingList = await Following();
+        const followingList = await allFollowing();
         setFollowing(followingList.map((user) => user.uid));
     }
 
