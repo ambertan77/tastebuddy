@@ -7,13 +7,8 @@ import { createUserWithEmailAndPassword, initializeAuth, getAuth } from 'firebas
 import { collection, doc, setDoc, addDoc, getDocs, where, query, getFirestore, updateDoc, arrayRemove, arrayUnion } from "firebase/firestore"; 
 import { auth } from '../../../../firebase';
 
-import FavouritesScreen from '../index';
-import FavFoodList from '../components/favFood';
-import { fetchFood } from '../../search/components/food';
-import { fetchFavs } from '../../search/components/favourites';
-
-jest.mock('../../search/components/food');
-jest.mock('../../search/components/favourites');
+import FeedScreen from '../index';
+import Feed from '../components/FeedList';
 
 //mock alert function 
 global.alert = jest.fn();
@@ -38,7 +33,7 @@ jest.mock('../../../../firebase', () => {
     };
 });
 
-//mock firebase auth functions used in favFood.jsx
+//mock firebase auth functions used in FeedList.jsx
 jest.mock('firebase/auth', () => {
     const originalModule = jest.requireActual('firebase/auth');
     return {
@@ -47,7 +42,7 @@ jest.mock('firebase/auth', () => {
     };
 });
  
-//mock firebase firestore functions used in favFood.jsx
+//mock firebase firestore functions used in FeedList.jsx
 jest.mock('firebase/firestore', () => ({
     setDoc: jest.fn(),
     addDoc: jest.fn(),
@@ -69,23 +64,16 @@ jest.mock('firebase/firestore', () => ({
     query: jest.fn(),
 }));
 
-describe('Favourites Page: Navigation Bar Test', () => {  
+describe('Feeds Page: Navigation bar test', () => {  
     beforeEach(() => {
         jest.clearAllMocks(); //clear all mocks before each test case
         cleanup();
-        fetchFood.mockClear();
-        fetchFavs.mockClear();
     });
 
-    it('Favourites Icon is green', async () => {
-        fetchFood.mockResolvedValueOnce([
-            {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: ["Protein Source", "Low in Sugar" ]},
-          ])
-    
-        fetchFavs.mockResolvedValueOnce([])
+    it('Feed Icon is green', async () => {
 
-        const page = render(<FavouritesScreen />);
-        const icon = page.getByTestId('favourites');
+        const page = render(<FeedScreen />);
+        const icon = page.getByTestId('feed');
         
         expect(icon.props.children[0].props.children.props.color).toEqual('green');
     })

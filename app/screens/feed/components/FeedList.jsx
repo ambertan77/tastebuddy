@@ -46,7 +46,9 @@ const FeedList = () => {
                             @{item.PostedBysUsername}
                         </Text>
                         <Text style={tw`text-amber-600 pl-3 pb-2 text-sm`}>
-                            {item.foodName}: 
+                            <Text style={tw`text-amber-600`}>
+                                {item.foodName}: 
+                            </Text>
                             <Text style={tw`text-black`}>
                                 {""} {item.review}
                             </Text>

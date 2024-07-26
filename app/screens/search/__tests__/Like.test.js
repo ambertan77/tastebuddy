@@ -38,7 +38,7 @@ jest.mock('../../../../firebase', () => {
     };
 });
 
-//mock firebase auth functions used in signup/index
+//mock firebase auth functions used in nutrientsFilter.jsx
 jest.mock('firebase/auth', () => {
     const originalModule = jest.requireActual('firebase/auth');
     return {
@@ -47,7 +47,7 @@ jest.mock('firebase/auth', () => {
     };
 });
  
-//mock firebase firestore functions used in signup/index
+//mock firebase firestore functions used in nutrientsFilter.jsx
 jest.mock('firebase/firestore', () => ({
     setDoc: jest.fn(),
     addDoc: jest.fn(),
@@ -58,7 +58,7 @@ jest.mock('firebase/firestore', () => ({
     doc: jest.fn(),
     getDoc: jest.fn(() => ({
         data: jest.fn(() => ({
-            favourites: ['chicken soup', 'fried rice', 'boiled egg']
+            favourites: []
         })),
     })),
     getFirestore: jest.fn(),
@@ -72,7 +72,7 @@ describe('Search Screen: Like a food item (Feature 7)', () => {
         jest.clearAllMocks(); //clear all mocks before each test case
     });
 
-    it('Feature 7: Food is liked (heart icon is pressed)', async () => {
+    it('Food is liked (heart icon is pressed)', async () => {
         fetchFood.mockResolvedValueOnce([
             {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: ["Protein Source", "Low in Sugar" ]},
           ])
@@ -87,7 +87,7 @@ describe('Search Screen: Like a food item (Feature 7)', () => {
         await waitFor(() => expect(updateDoc).toHaveBeenCalledTimes(1)); //ensure that updateDoc has been called once (in handlePressLike function in nutriFilter.jsx)
     });
 
-    it('Feature 7: heart icon is already filled heart when food is in favourites in db', async () => {
+    it('heart icon is already filled heart when food is in favourites in database', async () => {
         fetchFood.mockResolvedValueOnce([
             {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: ["Protein Source", "Low in Sugar" ]},
           ])
@@ -103,7 +103,7 @@ describe('Search Screen: Like a food item (Feature 7)', () => {
         await waitFor(() => expect(updateDoc).toHaveBeenCalledTimes(0)); //ensure that updateDoc has NOT been called once (handlePressLike function NOT called)
     });
 
-    it('Feature 7: heart icon becomes an outlined heart when food is unliked', async () => {
+    it('heart icon becomes an outlined heart when food is unliked', async () => {
         fetchFood.mockResolvedValueOnce([
             {id: '1', Name: 'boiled egg', Price: '0.4', Nutrients: ["Protein Source", "Low in Sugar" ]},
           ])
