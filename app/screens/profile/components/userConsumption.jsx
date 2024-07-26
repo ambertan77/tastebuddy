@@ -7,6 +7,8 @@ import ButtonTemplate from "../../../components/buttonTemplate";
 import { set } from "firebase/database";
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 
+import { getConsumptionData } from "./getConsumptionData";
+
 const UserConsumption = ({newFood}) => {
 
     const uid = auth.currentUser.uid;
@@ -14,19 +16,12 @@ const UserConsumption = ({newFood}) => {
     const [food, setFood] = useState([]);
     
     // purpose: fetches the user's consumption data from firebase
-    const getConsumptionData = async () => {
-        try {
-            const q = query(collection(db, "Consumption"), where("uid", "==", uid));
-            const querySnapshot = await getDocs(q);
-            const FoodList = querySnapshot.docs.map(doc => doc.data());
-            setFood(FoodList);
-        } catch (error) {
-            alert('Error fetching user data. ' + error.message)
-        } 
+    const getConsumption = async () => {
+        getConsumptionData();
     };
 
     useEffect(() => {
-        getConsumptionData();
+        getConsumption();
     }, [newFood == true])
 
     useEffect(() => {
