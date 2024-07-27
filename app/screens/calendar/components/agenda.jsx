@@ -23,10 +23,10 @@ export default function AgendaComponent() {
         onSnapshot(q, (querySnapshot) => {
             const habitsList = querySnapshot.docs.map(doc => ({ 
                 id: doc.id, 
-                date: doc.data()?.date,
-                name: doc.data()?.title,
-                frequency: doc.data()?.frequency,
-                period: doc.data()?.period
+                date: doc.data()['date'],
+                name: doc.data()['name'],
+                frequency: doc.data()['frequency'],
+                period: doc.data()['period']
             }));
             const formattedItems = habitsList.reduce((acc, item) => {
                 if (!Object.keys(acc).includes(item.date)) {
