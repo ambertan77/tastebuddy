@@ -1,33 +1,36 @@
 import React from "react";
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { auth, db } from '../../../../firebase';
 import tw from 'twrnc';
 import ButtonTemplate from "../../../components/buttonTemplate";
 import { set } from "firebase/database";
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
-
-import { getConsumptionData } from "./getConsumptionData";
+import { getConsumptionData } from '../components/getConsumptionData';
 
 const UserConsumption = ({newFood}) => {
-
-    const uid = auth.currentUser.uid;
 
     const [food, setFood] = useState([]);
     
     // purpose: fetches the user's consumption data from firebase
     const getConsumption = async () => {
-        getConsumptionData();
+        const foodList = await getConsumptionData();
+        setFood(foodList);
     };
 
     useEffect(() => {
         getConsumption();
-    }, [newFood == true])
+    }, [])
+
+    useEffect(() => {
+        if (newFood) {
+            getConsumption();
+        }
+    }, [newFood]);
 
     useEffect(() => {
         console.log(food)
     }, [food])
-
     
     return (
         <ScrollView style={tw `w-7/8 bg-white rounded-lg h-3/4`}>

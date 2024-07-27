@@ -1,17 +1,17 @@
 import React from 'react';
 import { jest } from '@jest/globals';
 import renderer from 'react-test-renderer';
-import { render, fireEvent, waitFor, within, userEvent } from '@testing-library/react-native';
+import { render, fireEvent, waitFor, within } from '@testing-library/react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword, initializeAuth, getAuth } from 'firebase/auth';
-import { collection, doc, setDoc, addDoc, getDocs, where, query, getFirestore, updateDoc, arrayRemove, arrayUnion } from "firebase/firestore"; 
-import { db, auth } from '../../../../firebase';
+import { collection, doc, setDoc, addDoc, getDocs, where, query, getFirestore } from "firebase/firestore"; 
+import { auth } from '../../../../firebase';
 
-import Consumption from '../components/consumption';
-import UserConsumption from '../components/userConsumption';
+import ConsumptionScreen from '../components/consumption';
+import ConsumptionList from '../components/userConsumption';
 import { getConsumptionData } from '../components/getConsumptionData';
 
-jest.mock('../components/getConsumptionData')
+jest.mock('../components/getConsumptionData');
 
 //mock alert function 
 global.alert = jest.fn();
@@ -31,12 +31,12 @@ jest.mock('../../../../firebase', () => {
       ...originalModule,
       auth: {
         currentUser: {
-            uid: '0',
+            uid: '123456',
         }},
     };
 });
 
-//mock firebase auth functions used in signup/index
+//mock firebase auth functions used in consumption.jsx
 jest.mock('firebase/auth', () => {
     const originalModule = jest.requireActual('firebase/auth');
     return {
@@ -45,79 +45,158 @@ jest.mock('firebase/auth', () => {
     };
 });
  
-//mock firebase firestore functions used in signup/index
+//mock firebase firestore functions used in consumption.jsx
 jest.mock('firebase/firestore', () => ({
     setDoc: jest.fn(),
     addDoc: jest.fn(),
     collection: jest.fn(),
-    getDocs: jest.fn(() => ({ 
-      docs: [{id: '1', Name: 'bibimbap', Date: '26/7', Meal: 'lunch'},
-        {id: '2', Name: 'noodles soup', Date: '26/7', uid: 'dinner'},
-        {id: '3', username: 'chicken sandwich', email: '27/7', uid: 'breakfast'}],
+    getDocs: jest.fn(() => Promise.resolve({ 
+      docs: [],
     })),
     doc: jest.fn(),
     getDoc: jest.fn(() => ({
         data: jest.fn(() => ({
-            username: "tester", 
-            email: "tester@email.com", 
-            uid: "0" 
         })),
     })),
     getFirestore: jest.fn(),
-    updateDoc: jest.fn(),
-    arrayRemove: jest.fn(),
-    arrayUnion: jest.fn(),
-    where: jest.fn(),
-    query: jest.fn()
 }));
 
-  
-const mockNavigation = jest.mocked(useNavigation);
-  
-describe('Add to food log button', () => {  
-  it('Add to food log button exists on the consumption history component', () => {
-    const { getByTestId } = render(<Consumption />);
-    const addFoodButton = getByTestId('addFoodButton');
-    expect(addFoodButton).toBeDefined();
-  });
-
-  it('food log reflects all data', async () => {
-    getConsumptionData.mockResolvedValueOnce([
-      {id: '1', Name: 'bibimbap', Date: '26/7', Meal: 'lunch'},
-    ])
-    const component = render(<UserConsumption />);
-    await waitFor(() => {
-      expect(component.findByText('bibimbap')).toBeTruthy();
-      expect(component.findByText('26/7')).toBeTruthy();
-      expect(component.findByText('lunch')).toBeTruthy();
-    }, {timeout: 3000})
-  });
-
-  it('Add to food log button opens popup when pressed', async () => {
-    const { queryByTestId, getByTestId } = render(<Consumption />);
-    const addFoodButton = getByTestId('addFoodButton');
-    const addFoodPopup = queryByTestId('addFoodPopup');
-    expect(addFoodPopup).toBeNull();
-    fireEvent.press(addFoodButton);
-    await waitFor(() => {
-        const addFoodPopupOpened = queryByTestId('addFoodPopup');
-        expect(addFoodPopupOpened).not.toBeNull();
+describe('Search Screen: Random Generator (Feature 6)', () => {  
+    beforeEach(() => {
+        jest.clearAllMocks(); //clear all mocks before each test case
     });
-  });
 
-  it('Close popup when "Head back to your profile" button is pressed', async () => {
-    const { queryByTestId, getByTestId } = render(<Consumption />);
-    const addFoodButton = getByTestId('addFoodButton');
-    fireEvent.press(addFoodButton);
-    await waitFor(() => {
-        const addFoodPopupOpened = queryByTestId('addFoodPopup');
-        expect(addFoodPopupOpened).not.toBeNull();
-        const backButton = getByTestId('goBack');
-        fireEvent.press(backButton);
+    it('Add to food log button exists on the consumption history component', async () => {
+
+        getConsumptionData.mockResolvedValueOnce([
+            {Date: "29/6", Meal: "dinner", Name: "bibimbap", uid: "1"}, 
+            {Date: "28/7", Meal: "breakfast", Name: "egg", uid: "2"}
+        ]);
+
+        const { getByTestId } = render(<ConsumptionScreen />);
+
+        const addFoodButton = getByTestId('addFoodButton');
+        expect(addFoodButton).toBeDefined();
     });
-    await waitFor(() => {
+
+    it('food log reflects all data', async () => {
+
+        getConsumptionData.mockResolvedValueOnce([
+            {Date: "29/6", Meal: "dinner", Name: "bibimbap", uid: "1"}, 
+            {Date: "28/7", Meal: "breakfast", Name: "egg", uid: "2"}
+        ])
+
+        const { queryByText } = await waitFor(() => render(<ConsumptionList />));
+        
+        expect(queryByText('bibimbap')).toBeTruthy();
+        expect(queryByText('29/6, dinner')).toBeTruthy();
+        
+    });
+
+    it('Add to food log button opens popup when pressed', async () => {
+
+        getConsumptionData.mockResolvedValueOnce([
+            {Date: "29/6", Meal: "dinner", Name: "bibimbap", uid: "1"}, 
+            {Date: "28/7", Meal: "breakfast", Name: "egg", uid: "2"}
+        ])
+
+        const { queryByTestId, getByTestId } = render(<ConsumptionScreen />);
+        const addFoodButton = getByTestId('addFoodButton');
+        const addFoodPopup = queryByTestId('addFoodPopup');
+
+        expect(addFoodPopup).toBeNull();
+
+        await waitFor(() => fireEvent.press(addFoodButton));
+        
+        expect(queryByTestId('addFoodPopup')).not.toBeNull();
+    });
+
+    it('Popup text inputs correctly reflect text inputs', async () => {
+
+        getConsumptionData.mockResolvedValueOnce([
+            {Date: "29/6", Meal: "dinner", Name: "bibimbap", uid: "1"}, 
+            {Date: "28/7", Meal: "breakfast", Name: "egg", uid: "2"}
+        ])
+
+        const { queryByTestId, getByTestId } = render(<ConsumptionScreen />);
+
+        const addFoodButton = getByTestId('addFoodButton');
         const addFoodPopup = queryByTestId('addFoodPopup');
         expect(addFoodPopup).toBeNull();
-    })
-  });
+
+        await waitFor(() => fireEvent.press(addFoodButton));
+        expect(queryByTestId('addFoodPopup')).not.toBeNull();
+
+        await waitFor(() => fireEvent.changeText(queryByTestId('foodName'), 'chicken soup'));
+        expect(queryByTestId('foodName').props.value).toBe('chicken soup');
+
+        await waitFor(() => fireEvent.changeText(queryByTestId('consumptionDate'), '27/7'));
+        expect(queryByTestId('consumptionDate').props.value).toBe('27/7');
+
+        await waitFor(() => fireEvent.changeText(queryByTestId('mealType'), 'dinner'));
+        expect(queryByTestId('mealType').props.value).toBe('dinner');
+    });
+
+    it('Newly added food is reflected in Food Log', async () => {
+
+        getConsumptionData.mockResolvedValueOnce([
+            {Date: "29/6", Meal: "dinner", Name: "bibimbap", uid: "1"}, 
+            {Date: "28/7", Meal: "breakfast", Name: "egg", uid: "2"}
+        ])
+
+        const { queryByTestId, getByTestId, queryByText } = render(<ConsumptionScreen />);
+
+        const addFoodButton = getByTestId('addFoodButton');
+        const addFoodPopup = queryByTestId('addFoodPopup');
+        expect(addFoodPopup).toBeNull();
+
+        await waitFor(() => fireEvent.press(addFoodButton));
+        expect(queryByTestId('addFoodPopup')).not.toBeNull();
+
+        await waitFor(() => fireEvent.changeText(queryByTestId('foodName'), 'chicken soup'));
+        expect(queryByTestId('foodName').props.value).toBe('chicken soup');
+
+        await waitFor(() => fireEvent.changeText(queryByTestId('consumptionDate'), '27/7'));
+        expect(queryByTestId('consumptionDate').props.value).toBe('27/7');
+
+        await waitFor(() => fireEvent.changeText(queryByTestId('mealType'), 'dinner'));
+        expect(queryByTestId('mealType').props.value).toBe('dinner');
+
+        getConsumptionData.mockResolvedValueOnce([
+            { Date: '29/6', Meal: 'dinner', Name: 'bibimbap', uid: '1' },
+            { Date: '28/7', Meal: 'breakfast', Name: 'egg', uid: '2' },
+            { Date: '27/7', Meal: 'dinner', Name: 'chicken soup', uid: '3' },
+        ]);
+      
+        await waitFor(() => fireEvent.press(queryByTestId('addButton')));
+        expect(queryByTestId('addFoodPopup')).toBeNull();
+      
+        await waitFor(() => {
+            expect(queryByText('27/7, dinner')).toBeTruthy();
+            expect(queryByText('chicken soup')).toBeTruthy();
+        });
+
+    });
+
+    it('Close popup when "Head back to your profile" button is pressed', async () => {
+
+        getConsumptionData.mockResolvedValueOnce([
+            {Date: "29/6", Meal: "dinner", Name: "bibimbap", uid: "1"}, 
+            {Date: "28/7", Meal: "breakfast", Name: "egg", uid: "2"}
+        ])
+
+        const { queryByTestId, getByTestId } = render(<ConsumptionScreen />);
+
+        const addFoodButton = getByTestId('addFoodButton');
+        await waitFor(() => fireEvent.press(addFoodButton));
+        const addFoodPopupOpened = queryByTestId('addFoodPopup');
+        expect(addFoodPopupOpened).not.toBeNull();
+            
+        const backButton = getByTestId('goBack');
+        await waitFor(() => fireEvent.press(backButton));
+        const addFoodPopup = queryByTestId('addFoodPopup');
+        expect(addFoodPopup).toBeNull();
+        
+    });
+
 });

@@ -19,7 +19,7 @@ const Users = () => {
     useEffect(() => {
         fetchFollowerUsers();
         //console.log("fetching:" , followers)
-      }, []);
+    }, []);
 
     //useEffect(() => {
     //    console.log("recording change in followers:" , followers)
