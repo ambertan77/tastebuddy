@@ -19,7 +19,7 @@ const ConsumptionLog = () => {
     const [name, setName] = useState('')
     const [date, setDate] = useState('')
     const [meal, setMeal] = useState('')
-    const [newFood, setNewFood] = useState(false);
+    const [newFood, setNewFood] = useState("");
     
 
     // purpose: allows the user to add new items to the food log using a popup
@@ -33,7 +33,7 @@ const ConsumptionLog = () => {
             });
             const docSnap = await getDoc(docRef);
             console.log('Document written with ID: ', docSnap.data());
-            setNewFood(true)
+            setNewFood(name)
             setIsAddFoodPageOpen(false);
             setName("")
             setDate("")
@@ -43,10 +43,6 @@ const ConsumptionLog = () => {
             console.error('Error creating new habit: ', error);
         }
     }
-
-    useEffect(() => {
-        setNewFood(false);
-    }, [newFood])
 
     return (
         <View style={tw`items-center bg-green-800 w-7/8 rounded-lg`}>
@@ -85,6 +81,7 @@ const ConsumptionLog = () => {
                                 text= 'Enter the name of your food item'
                                 setText = {text => setName(text)}
                                 value={name}
+                                testId="foodName"
                             />
 
                             <TextInputTemplate 
@@ -92,6 +89,7 @@ const ConsumptionLog = () => {
                                 text= 'Enter the date of consumption'
                                 setText = {text => setDate(text)}
                                 value={date}
+                                testId="consumptionDate"
                             />
 
                             <TextInputTemplate 
@@ -99,6 +97,7 @@ const ConsumptionLog = () => {
                                 text= 'Enter the meal (e.g. Lunch)'
                                 setText = {text => setMeal(text)}
                                 value={meal}
+                                testId="mealType"
                             />
                         
                             <ButtonTemplate
@@ -106,6 +105,7 @@ const ConsumptionLog = () => {
                                 size = 'big' 
                                 text = 'Add' 
                                 onPress = {handleCreation}
+                                testId="addButton"
                             />
 
                             <View style={tw `flex-row items-center`}>
