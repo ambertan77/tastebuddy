@@ -4,7 +4,7 @@ import { View, Text, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { KeyboardAvoidingView, Platform, Keyboard, Button } from 'react-native'
 import { StyleSheet, SafeAreaView} from 'react-native';
 import tw from 'twrnc';
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import ButtonTemplate from '../../components/buttonTemplate';
 import TextInputTemplate from '../../components/textInputTemplate';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -80,6 +80,7 @@ export default function Index() {
                 text= 'Enter the name of your new habit'
                 setText = {text => setName(text)}
                 value={name}
+                testId = 'name'
               />
 
               <TextInputTemplate 
@@ -87,6 +88,7 @@ export default function Index() {
                 text= 'Enter the frequency of your new habit'
                 setText = {text => setFrequency(text)}
                 value={frequency}
+                testId = 'frequency'
               />
 
               <TextInputTemplate 
@@ -94,6 +96,7 @@ export default function Index() {
                 text= 'Enter the period of your new habit'
                 setText = {text => setPeriod(text)}
                 value={period}
+                testId = 'period'
               />
 
               <View style={tw `flex-1 justify-center items-center mb-2`}>
@@ -102,14 +105,15 @@ export default function Index() {
                   size = 'med'
                   text = '+ ADD SCHEDULED DATE'
                   onPress = {showDatepicker}
+                  testId = 'openDatePicker'
                 />
                 <Text>Date selected: {date.toLocaleString()}</Text>
                 {show && (
                   <DateTimePicker
-                    testID="dateTimePicker"
                     value={date}
                     mode={mode}
                     onChange={onChange}
+                    testID="datePicker"
                   />
                 )}
               </View>
@@ -119,6 +123,7 @@ export default function Index() {
                 size = 'big' 
                 text = 'Create' 
                 onPress = {handleCreation}
+                testId = 'create'
               />
 
             </View>
