@@ -5,7 +5,7 @@ import tw from 'twrnc';
 import { getFirestore, collection, query, where, getDocs, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '../../../../firebase';
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import CustomLoadingIndicator from './loadingIndicator';
 
 export default function AgendaComponent() {
@@ -136,7 +136,7 @@ export default function AgendaComponent() {
                             <Text style={tw `text-black`}>{item.frequency}</Text>
                             <Text style={tw `text-black`}>{item.period}</Text> 
                         </View>
-                        <TouchableOpacity style={tw `items-end mr-5 justify-center`} onPress={() => handleTrash(item.id)}>
+                        <TouchableOpacity style={tw `items-end mr-5 justify-center`} onPress={() => handleTrash(item.id)} testID='trash'>
                             <Icon name="trash" size="20" color="green" />
                         </TouchableOpacity>
                     </View>
