@@ -46,45 +46,6 @@ export default function AgendaComponent() {
         });
     }
 
-    // purpose: put all the dates in this current month into an array
-    const getAllDatesInCurrentMonth = (month) => {
-        const currentYear = month.year;
-        const currentMonth = month.month - 1; 
-        // set to first day of the current month
-        var date = new Date(currentYear, currentMonth, 1);
-        var dates = [];
-
-        // create empty array of habits for each day in this month
-        while (date.getMonth() === currentMonth) {
-            const year = date.getFullYear();
-            const month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
-            const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate()
-            const formattedDate = year + "-" + month + "-" + day
-            dates.push(formattedDate);
-            // set date to the next date
-            date.setDate(date.getDate() + 1);
-        }
-        
-        console.log(dates);
-        return dates;
-    };
-
-    // purpose: to update the habit dictionary such that all dates are keys in the dictionary
-    const loadItemsForMonth = async (month) => {
-        const dates = getAllDatesInCurrentMonth(month);
-        const updatedHabits = {};
-        
-        // for each date, create an empty array if it has no existing added habit 
-        dates.forEach((date) => {
-            if (!habits[date]) {
-                updatedHabits[date] = [];
-            }
-        });
-        
-        // merge the current list of habits with the updated list (containing dates with empty arrays)
-        setHabits(currentHabits => ({ ...currentHabits, ...updatedHabits }));
-    };
-
     const getFormattedDateToday = () => {
         const date = new Date()
         const year = date.getFullYear();
@@ -100,7 +61,6 @@ export default function AgendaComponent() {
         fetchAgendas()
         const today = new Date();
         const currentMonth = today.getMonth() + 1;
-        loadItemsForMonth(currentMonth)
     }, []);
 
     const navigation = useNavigation();
@@ -117,12 +77,6 @@ export default function AgendaComponent() {
     useEffect(() => {
         console.log(habitsId);
     }, [habitsId])
-
-    // give instructions if the user just opened the calendar page instead of showing the loading indicator
-    if (loading) {
-        setLoading(false);
-        return <CustomLoadingIndicator />;
-    }
             
     return (
         <SafeAreaView style={tw `flex-1 justify-center`}>
@@ -141,8 +95,11 @@ export default function AgendaComponent() {
                         </TouchableOpacity>
                     </View>
                 )}
-                renderEmptyData={() => <CustomLoadingIndicator/> }
-                loadItemsForMonth={ loadItemsForMonth }
+                renderEmptyData={() => <View style={tw `flex-1 justify-center items-center`}>
+                                            <Text style={tw `align-center font-bold text-lg text-green-700`}> 
+                                                    No habits to show for today :/
+                                            </Text>
+                                        </View> }
                 theme={{
                     agendaDayTextColor: 'gray',
                     agendaDayNumColor: 'gray',
