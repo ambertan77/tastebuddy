@@ -18,6 +18,7 @@ export default function Index() {
   const [frequency, setFrequency] = useState('')
   const [period, setPeriod] = useState('')
   const [date, setDate] = useState(new Date())
+  const [formattedDate, setFormattedDate] = useState('');
   const [mode, setMode] = useState('date')
   const [show, setShow] = useState(false)
   const navigation = useNavigation()
@@ -30,7 +31,7 @@ export default function Index() {
         name: name,
         frequency: frequency,
         period: period, 
-        date: date
+        date: formattedDate
       });
       navigation.navigate('screens/calendar/index')
       console.log('Document written with ID: ', docRef.id);
@@ -40,12 +41,13 @@ export default function Index() {
   }
 
   const onChange = (event, selectedDate) => {
+    setDate(selectedDate);
     const year = selectedDate.getFullYear();
     const month = (selectedDate.getMonth() + 1) < 10 ? "0" + (selectedDate.getMonth() + 1) : (selectedDate.getMonth() + 1);
     const day = selectedDate.getDate() < 10 ? "0" + selectedDate.getDate() : selectedDate.getDate()
     const formattedDate = year + "-" + month + "-" + day
     setShow(false);
-    setDate(formattedDate);
+    setFormattedDate(formattedDate);
   };
 
   const showMode = (currentMode) => {
@@ -107,7 +109,7 @@ export default function Index() {
                   onPress = {showDatepicker}
                   testId = 'openDatePicker'
                 />
-                <Text>Date selected: {date.toLocaleString()}</Text>
+                <Text>Date selected: {formattedDate}</Text>
                 {show && (
                   <DateTimePicker
                     value={date}
