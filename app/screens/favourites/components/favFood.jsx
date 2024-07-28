@@ -37,11 +37,17 @@ const FavFood = () => {
         setFood(FoodList);
     };
 
+    const currentUserUID = auth.currentUser.uid; //this variable stores current users' uid (from firebase authentication)
+
     //this function is called ONCE when the page mounts due to the empty useEffect dependency below
     //purpose: get the id of food items liked by the user (in the faovurites field in users' document in firestore) and store it in favId useState
     const fetchFavId = async () => {
-        const FavList = await fetchFavs(); 
-        setFavId(FavList);
+        //const FavList = await fetchFavs(); 
+        onSnapshot(doc(db, "Users", currentUserUID), (doc) => {
+            console.log("Current data: ", doc.data()?.favourites);
+            setFavId(doc.data()?.favourites);
+        });
+        //setFavId(FavList);
     }; 
 
     //this function is called ONCE when the page mounts & also whenever favId useState updates
@@ -58,12 +64,16 @@ const FavFood = () => {
         setFollowers(FollowersList);
     }; 
 
+    const fetchData = async () => {
+        await getFoodData();
+        await fetchFavId();
+        await fetchReviews();
+        await fetchFollowerUsers();
+    };
+
     //useEffect runs on mount and calls the four functions above
     useEffect(() => {
-        getFoodData();
-        fetchFavId();
-        fetchReviews();
-        fetchFollowerUsers();
+        fetchData();
         //console.log("fetching:" , followers)
     }, []);
 
@@ -126,8 +136,6 @@ const FavFood = () => {
         setSelectedFoodId(likedId);
         setIsPostOpen(true);
     }
-
-    const currentUserUID = auth.currentUser.uid; //this variable stores current users' uid (from firebase authentication)
 
     //purpose: this function handles what happens when the 'post' button on the review pop-up is clicked
     // (1) adds chosen food items uid to reviewed useState
