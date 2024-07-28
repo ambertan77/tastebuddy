@@ -49,7 +49,9 @@ jest.mock('firebase/auth', () => {
 //mock firebase firestore functions used in signup/index
 jest.mock('firebase/firestore', () => ({
     setDoc: jest.fn(),
-    addDoc: jest.fn(),
+    addDoc: jest.fn(() => Promise.resolve({ 
+        id: '1' 
+    })),
     collection: jest.fn(),
     getDocs: jest.fn(() => Promise.resolve({ 
       docs: [],
