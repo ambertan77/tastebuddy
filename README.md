@@ -11,6 +11,7 @@ In the CLI, run the following code to launch the app on Expo Go:
 ```
 npx expo start
 ```
+
 ### Unit & Integration Testing with Jest
 To conduct unit and integration testing with Jest, change the root directory in the package.json file ("jest" > "setupFiles", "jest" > "resolver"), then you can run the following code in your CLI:
 ```
@@ -22,6 +23,7 @@ If you would like to run the test by folders, you can run the following code in 
 npx jest <path to the __tests__ file>
 ```
 Replace the <path to the tests file> with your path to the tests file you want to test for. 
+
 ### System Testing
 After launching Taste Buddy on Expo Go, the following test cases can be used to check if the current implementation of the app is working well (each bullet point describes a "test > expected outcome"):
 #### Welcome Page
