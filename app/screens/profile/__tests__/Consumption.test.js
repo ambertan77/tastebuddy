@@ -83,7 +83,6 @@ describe('Search Screen: Random Generator (Feature 6)', () => {
 
         getConsumptionData.mockResolvedValueOnce([
             {Date: "29/6", Meal: "dinner", Name: "bibimbap", uid: "1"}, 
-            {Date: "28/7", Meal: "breakfast", Name: "egg", uid: "2"}
         ])
 
         const { queryByText } = await waitFor(() => render(<ConsumptionList />));
@@ -97,7 +96,6 @@ describe('Search Screen: Random Generator (Feature 6)', () => {
 
         getConsumptionData.mockResolvedValueOnce([
             {Date: "29/6", Meal: "dinner", Name: "bibimbap", uid: "1"}, 
-            {Date: "28/7", Meal: "breakfast", Name: "egg", uid: "2"}
         ])
 
         const { queryByTestId, getByTestId } = render(<ConsumptionScreen />);
@@ -115,7 +113,6 @@ describe('Search Screen: Random Generator (Feature 6)', () => {
 
         getConsumptionData.mockResolvedValueOnce([
             {Date: "29/6", Meal: "dinner", Name: "bibimbap", uid: "1"}, 
-            {Date: "28/7", Meal: "breakfast", Name: "egg", uid: "2"}
         ])
 
         const { queryByTestId, getByTestId } = render(<ConsumptionScreen />);
@@ -141,7 +138,6 @@ describe('Search Screen: Random Generator (Feature 6)', () => {
 
         getConsumptionData.mockResolvedValueOnce([
             {Date: "29/6", Meal: "dinner", Name: "bibimbap", uid: "1"}, 
-            {Date: "28/7", Meal: "breakfast", Name: "egg", uid: "2"}
         ])
 
         const { queryByTestId, getByTestId, queryByText } = render(<ConsumptionScreen />);
@@ -182,7 +178,6 @@ describe('Search Screen: Random Generator (Feature 6)', () => {
 
         getConsumptionData.mockResolvedValueOnce([
             {Date: "29/6", Meal: "dinner", Name: "bibimbap", uid: "1"}, 
-            {Date: "28/7", Meal: "breakfast", Name: "egg", uid: "2"}
         ])
 
         const { queryByTestId, getByTestId } = render(<ConsumptionScreen />);

@@ -4,16 +4,14 @@ import renderer from 'react-test-renderer';
 import { render, fireEvent, waitFor, within, userEvent, cleanup } from '@testing-library/react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword, initializeAuth, getAuth } from 'firebase/auth';
-import { collection, doc, setDoc, addDoc, getDocs, where, query, getFirestore, updateDoc, arrayRemove, arrayUnion } from "firebase/firestore"; 
+import { collection, doc, setDoc, addDoc, getDocs, where, query, getFirestore, updateDoc, arrayRemove, arrayUnion, onSnapshot } from "firebase/firestore"; 
 import { auth } from '../../../../firebase';
 
 import FavouritesScreen from '../index';
 import FavFoodList from '../components/favFood';
 import { fetchFood } from '../../search/components/food';
-import { fetchFavs } from '../../search/components/favourites';
 
 jest.mock('../../search/components/food');
-jest.mock('../../search/components/favourites');
 
 //mock alert function 
 global.alert = jest.fn();
@@ -67,6 +65,7 @@ jest.mock('firebase/firestore', () => ({
     arrayUnion: jest.fn(),
     where: jest.fn(),
     query: jest.fn(),
+    onSnapshot: jest.fn(),
 }));
 
 describe('Favourites Page: Review Input Test (Feature 8)', () => {  
@@ -74,7 +73,6 @@ describe('Favourites Page: Review Input Test (Feature 8)', () => {
         jest.clearAllMocks(); //clear all mocks before each test case
         cleanup();
         fetchFood.mockClear();
-        fetchFavs.mockClear();
     });
 
     it('Review Text Input section in Popup correctly reflects typed review to User', async () => {
@@ -84,7 +82,13 @@ describe('Favourites Page: Review Input Test (Feature 8)', () => {
             {id: '3', Name: 'chicken soup', Price: '3.2', Nutrients: []}
         ])
     
-        fetchFavs.mockResolvedValueOnce(['3'])
+        const mockOnSnapshot = jest.fn((docRef, callback) => {
+            const mockData = { favourites: ["3"] };
+            callback({ data: () => mockData });
+        });
+
+        onSnapshot.mockImplementation(mockOnSnapshot);
+
     
         const page = render(<FavFoodList />);
         const postButton = await waitFor(() => page.getByTestId('postButton1'));

@@ -5,17 +5,15 @@ import { render, fireEvent, waitFor, within, userEvent, cleanup } from '@testing
 import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword, initializeAuth, getAuth } from 'firebase/auth';
 import { ref, set, get, onValue, snapshot, child, getDatabase } from "firebase/database";
-import { collection, doc, setDoc, addDoc, getDocs, where, query, getFirestore, updateDoc, arrayRemove, arrayUnion } from "firebase/firestore"; 
+import { collection, doc, setDoc, addDoc, getDocs, where, query, getFirestore, updateDoc, arrayRemove, arrayUnion, onSnapshot } from "firebase/firestore"; 
 import { auth } from '../../../../firebase';
 
 import FavouritesScreen from '../index';
 import FavFoodList from '../components/favFood';
 import { fetchFood } from '../../search/components/food';
-import { fetchFavs } from '../../search/components/favourites';
 import { fetchUsers } from '../components/followers';
 
 jest.mock('../../search/components/food');
-jest.mock('../../search/components/favourites');
 jest.mock('../components/followers');
 
 //mock alert function 
@@ -69,7 +67,8 @@ jest.mock('firebase/firestore', () => ({
     arrayRemove: jest.fn(),
     arrayUnion: jest.fn(),
     where: jest.fn(),
-    query: jest.fn()
+    query: jest.fn(), 
+    onSnapshot: jest.fn(),
 }));
 
 //firebase/database mock
@@ -88,7 +87,6 @@ describe('Favourites Page: Post Button 2 test', () => {
         jest.clearAllMocks(); //clear all mocks before each test case
         cleanup();
         fetchFood.mockClear();
-        fetchFavs.mockClear();
     });
 
     it('Post button on Review Popup correctly calls its onPress function', async () => {
@@ -99,7 +97,12 @@ describe('Favourites Page: Post Button 2 test', () => {
             {id: '4', Name: 'dory fish', Price: '3', Nutrients: []}
         ])
     
-        fetchFavs.mockResolvedValueOnce(['1']);
+        const mockOnSnapshot = jest.fn((docRef, callback) => {
+            const mockData = { favourites: ["1"] };
+            callback({ data: () => mockData });
+        });
+
+        onSnapshot.mockImplementation(mockOnSnapshot);
 
         fetchUsers.mockResolvedValueOnce([
             {email: "penguin@email.com", id: "T4GB1qZWRx0LhR5jcYxR", uid: "7RtlMenRKtO4HKzV4JDoLix866l1", username: "penguin"}, 

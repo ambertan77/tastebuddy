@@ -4,17 +4,15 @@ import renderer from 'react-test-renderer';
 import { render, fireEvent, waitFor, within, userEvent, cleanup } from '@testing-library/react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword, initializeAuth, getAuth } from 'firebase/auth';
-import { collection, doc, setDoc, addDoc, getDocs, where, query, getFirestore, updateDoc, arrayRemove, arrayUnion } from "firebase/firestore"; 
+import { collection, doc, setDoc, addDoc, getDocs, where, query, getFirestore, updateDoc, arrayRemove, arrayUnion, onSnapshot } from "firebase/firestore"; 
 import { auth } from '../../../../firebase';
 
 import FavouritesScreen from '../index';
 import FavFoodList from '../components/favFood';
 import { fetchFood } from '../../search/components/food';
-import { fetchFavs } from '../../search/components/favourites';
 import { fetchUsers } from '../components/followers';
 
 jest.mock('../../search/components/food');
-jest.mock('../../search/components/favourites');
 jest.mock('../components/followers')
 
 //mock alert function 
@@ -69,6 +67,7 @@ jest.mock('firebase/firestore', () => ({
     arrayUnion: jest.fn(),
     where: jest.fn(),
     query: jest.fn(),
+    onSnapshot: jest.fn(),
 }));
 
 describe('Favourites Page: render test', () => {  
@@ -76,7 +75,6 @@ describe('Favourites Page: render test', () => {
         jest.clearAllMocks(); //clear all mocks before each test case
         cleanup();
         fetchFood.mockClear();
-        fetchFavs.mockClear();
     });
 
     it('Favourite Screen renders with fetchFood and fetchFavs called', async () => {
@@ -85,8 +83,6 @@ describe('Favourites Page: render test', () => {
             {id: '2', Name: 'egg tart', Price: '0.5', Nutrients: []},
             {id: '3', Name: 'chicken soup', Price: '3.2', Nutrients: []}
         ])
-    
-        fetchFavs.mockResolvedValueOnce(['1', '2'])
 
         fetchUsers.mockResolvedValueOnce([
             {email: "penguin@email.com", id: "T4GB1qZWRx0LhR5jcYxR", uid: "7RtlMenRKtO4HKzV4JDoLix866l1", username: "penguin"}, 
@@ -94,15 +90,25 @@ describe('Favourites Page: render test', () => {
             {email: "ninja@email.com", id: "9KS33xjDU0ZhAeRNOqZ8", uid: "xRXQnNDT9KgGXGCGV7dP6WpAyi13", username: "ninja"}
         ])
 
+        const mockOnSnapshot = jest.fn((docRef, callback) => {
+            const mockData = { favourites: ["1", "2"] };
+            callback({ data: () => mockData });
+        });
+        onSnapshot.mockImplementation(mockOnSnapshot);
+
         const page = render(<FavouritesScreen />);
         
         await waitFor(() => {
             expect(fetchFood).toHaveBeenCalledTimes(1);
-            expect(fetchFavs).toHaveBeenCalledTimes(1);
             expect(fetchUsers).toHaveBeenCalledTimes(1);
+            expect(onSnapshot).toHaveBeenCalledTimes(1);
+        })
+        
+        await waitFor(() => {
             expect(page.queryByText('boiled egg')).toBeTruthy();
             expect(page.queryByText('egg tart')).toBeTruthy();
             expect(page.queryByText('chicken soup')).toBeFalsy();
-        })
+        });
+        
     })
 });

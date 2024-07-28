@@ -1,7 +1,7 @@
 import React from "react";
 import {useEffect, useState } from "react";
 import { useNavigation } from '@react-navigation/native';
-import { auth, db } from '../../../../firebase.js';
+import { auth, db, db2 } from '../../../../firebase.js';
 import { doc, updateDoc, arrayUnion, getDoc, arrayRemove, onSnapshot } from "firebase/firestore";
 import { View, Text, ScrollView, FlatList, TouchableOpacity, StyleSheet, Image, SafeAreaView, TextInput } from "react-native";
 import ButtonTemplate from "../../../components/buttonTemplate";
@@ -10,7 +10,7 @@ import { fetchFavs } from "./favourites";
 import Icon from "react-native-vector-icons/AntDesign"; 
 import Entypo from "react-native-vector-icons/Entypo"; 
 import PopUp from "./popup";
-import { set } from "firebase/database";
+import { ref, set, get, onValue, snapshot, child, remove } from "firebase/database";
 import tw from 'twrnc';
 
 const Filter = ({input, setSearchText}) => {
@@ -126,8 +126,7 @@ const Filter = ({input, setSearchText}) => {
             setFav([...fav, id]);
             await updateDoc(userRef, {
                 favourites: arrayUnion(id)
-            }); 
-            
+            });  
         }  
     }
 
