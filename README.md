@@ -11,8 +11,18 @@ In the CLI, run the following code to launch the app on Expo Go:
 ```
 npx expo start
 ```
+### Unit & Integration Testing with Jest
+To conduct unit and integration testing with Jest, change the root directory in the package.json file ("jest" > "setupFiles", "jest" > "resolver"), then you can run the following code in your CLI:
+```
+npm run test
+```
 
-### Testing
+If you would like to run the test by folders, you can run the following code in your CLI:
+```
+npx jest <path to the __tests__ file>
+```
+Replace the <path to the tests file> with your path to the tests file you want to test for. 
+### System Testing
 After launching Taste Buddy on Expo Go, the following test cases can be used to check if the current implementation of the app is working well (each bullet point describes a "test > expected outcome"):
 #### Welcome Page
 1. Click on the Login Button > User is redirected to Login Page and can key in Login credentials
@@ -39,7 +49,11 @@ After launching Taste Buddy on Expo Go, the following test cases can be used to 
 5. Click on the profile icon > User is redirected to the Profile Page
 #### Favourites Page
 1. Click on the heart icon in the navigation bar > User is redirected to the Favourites Page which shows the list of all items which the user liked
-2. Press on the heart icon to unlike the food item > The food item is removed from the page and is removed from the "favourites" field in the current user's document in the "Users" collection in Firebase. 
+2. Press on the heart icon to unlike the food item > The food item is removed from the page and is removed from the "favourites" field in the current user's document in the "Users" collection in Firebase.
+3. Press on the 'post' button next to a liked food item > Review Popup appears
+4. Type text into the review Text Input and click on 'post' button on Pop up > review is added to users' reviews and users' followers' feed (in realtime database), Pop up disappears, 'post' button changes to 'posted'
+5. Click on the cross button (top right) on the Review Popup > Pop up is closed
+6. Click on the 'posted' button > nothing happens 
 #### Calendar Page
 1. Click on the calendar icon in the navigation bar > User is redirected to the calendar page with a list of habits scheduled, if any
 2. Click on button to create new habits > User is redirected to the page to create a new habit, fieds can be filled in and the created habits are stored in Firebase
@@ -64,7 +78,7 @@ After launching Taste Buddy on Expo Go, the following test cases can be used to 
 14. Click on the heart icon next to the food item > Food item is displayed in the favourites page and is added to the "favourites" field in the current user's document in the "Users" collection in Firebase
 15. Click on the heart icon next to the food item again (to unlike) > Filled heart changes to heart outline, food item is removed from the favourites page and is removed from the "favourites" field in the current user's document in the "Users" collection in Firebase
 #### Feeds Page 
-1. Click on the bell icon in the navigation bar > User is redirected to the feeds page
+1. Click on the bell icon in the navigation bar > User is redirected to the feeds page which displays feed data fetched from realtime database
 #### Profile Page
 1. Click on the Log Out button > User is redirected to the Welcome Page
 2. Click on the "Add Friends" button > User is redirected to a page with a list of all users 
