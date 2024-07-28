@@ -39,7 +39,7 @@ jest.mock('firebase/firestore', () => ({
     })),
     getFirestore: jest.fn(),
     onSnapshot: jest.fn(),
-    where: jest.fn(),
+    where: jest.fn(), 
     query: jest.fn(),
 }));
 
