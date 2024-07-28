@@ -38,7 +38,9 @@ jest.mock('firebase/firestore', () => ({
         {id: '2', date: '2024-08-02', name: 'eat salad', frequency: '1x a week', period: 'august 2024'}]
     })),
     getFirestore: jest.fn(),
-    onSnapshot: jest.fn()
+    onSnapshot: jest.fn(),
+    where: jest.fn(), 
+    query: jest.fn()
 }));
 
   

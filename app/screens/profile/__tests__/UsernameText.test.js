@@ -34,8 +34,8 @@ jest.mock('firebase/firestore', () => ({
     getFirestore: jest.fn(() => ({})),
 }));
 
-describe('Home Screen', () => {  
-  it('Home Screen shows current users username', async () => {
+describe('Profile page', () => {  
+  it('profile page shows current users username', async () => {
     const { getByTestId } = render(<UsernameText />);
     const usernameText = await waitFor(() => getByTestId('usernameText')); //use waitFor to wait for async updating of useState in username.jsx
 

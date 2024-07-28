@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import tw from 'twrnc';
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import ProfilePic from "./pfp";
 import UsernameText from "../../../components/username";
 import ButtonTemplate from "@/app/components/buttonTemplate";
